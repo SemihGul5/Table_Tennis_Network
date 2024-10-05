@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "835173884538",
+    "project_id": "table-tennis-hub",
+    "storage_bucket": "table-tennis-hub.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:835173884538:android:b8b2855e430adcc18691c3",
+        "android_client_info": {
+          "package_name": "com.abrebo.tabletennishub"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCJt7FAOfk81_8-ujlQ9TCAVmo3dRuYCPI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
