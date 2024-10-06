@@ -2,34 +2,53 @@ package com.abrebo.tabletennishub.di
 
 import com.abrebo.tabletennishub.data.datasource.DataSource
 import com.abrebo.tabletennishub.data.repo.Repository
-import com.google.firebase.Firebase
 import com.google.firebase.firestore.CollectionReference
-import com.google.firebase.firestore.firestore
+import com.google.firebase.firestore.FirebaseFirestore
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import javax.inject.Qualifier
 import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
 class AppModule {
+    @Qualifier
+    @Retention(AnnotationRetention.BINARY)
+    annotation class UsersCollection
+
+
+    @Qualifier
+    @Retention(AnnotationRetention.BINARY)
+    annotation class UserFriendsCollection
+
     @Provides
     @Singleton
-    fun provideDataSource(collectionReference: CollectionReference):DataSource{
-        return DataSource(collectionReference)
+    fun provideDataSource(
+        @UsersCollection usersCollection: CollectionReference,
+        @UserFriendsCollection userFriendsCollection: CollectionReference
+    ): DataSource {
+        return DataSource(usersCollection, userFriendsCollection)
     }
 
     @Provides
     @Singleton
-    fun provideRepository(dataSource: DataSource):Repository{
+    fun provideRepository(dataSource: DataSource): Repository {
         return Repository(dataSource)
     }
 
     @Provides
     @Singleton
-    fun provideCollectionReference():CollectionReference{
-        return Firebase.firestore.collection("Kullanıcılar")
+    @UsersCollection
+    fun provideUsersCollection(): CollectionReference {
+        return FirebaseFirestore.getInstance().collection("Kullanıcılar")
     }
 
+    @Provides
+    @Singleton
+    @UserFriendsCollection
+    fun provideUserFriendsCollection(): CollectionReference {
+        return FirebaseFirestore.getInstance().collection("KullanıcıArkadaşları")
+    }
 }

@@ -14,10 +14,27 @@
         android:id="@+id/profileFragment"
         android:name="com.abrebo.tabletennishub.ui.fragment.ProfileFragment"
         android:label="fragment_profile"
-        tools:layout="@layout/fragment_profile" />
+        tools:layout="@layout/fragment_profile" >
+        <action
+            android:id="@+id/action_profileFragment_to_addFriendFragment"
+            app:destination="@id/addFriendFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_requestsFragment"
+            app:destination="@id/requestsFragment" />
+    </fragment>
     <fragment
         android:id="@+id/statisticsFragment"
         android:name="com.abrebo.tabletennishub.ui.fragment.StatisticsFragment"
         android:label="fragment_statistics"
         tools:layout="@layout/fragment_statistics" />
+    <fragment
+        android:id="@+id/addFriendFragment"
+        android:name="com.abrebo.tabletennishub.ui.fragment.AddFriendFragment"
+        android:label="fragment_add_friend"
+        tools:layout="@layout/fragment_add_friend" />
+    <fragment
+        android:id="@+id/requestsFragment"
+        android:name="com.abrebo.tabletennishub.ui.fragment.RequestsFragment"
+        android:label="fragment_requests"
+        tools:layout="@layout/fragment_requests" />
 </navigation>

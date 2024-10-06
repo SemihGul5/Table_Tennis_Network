@@ -6,27 +6,24 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.abrebo.tabletennishub.R
-import com.abrebo.tabletennishub.databinding.FragmentMainBinding
-import com.abrebo.tabletennishub.utils.BackPressUtils
+import com.abrebo.tabletennishub.databinding.FragmentReceivedRequestsBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MainFragment : Fragment() {
-    private lateinit var binding:FragmentMainBinding
+class ReceivedRequestsFragment : Fragment() {
+    private lateinit var binding:FragmentReceivedRequestsBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
-        binding= FragmentMainBinding.inflate(inflater, container, false)
+        binding=FragmentReceivedRequestsBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        BackPressUtils.setBackPressCallback(this, viewLifecycleOwner)
-
     }
 
 }

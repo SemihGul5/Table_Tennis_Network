@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.abrebo.tabletennishub.R
 import com.abrebo.tabletennishub.databinding.FragmentStatisticsBinding
+import com.abrebo.tabletennishub.utils.BackPressUtils
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -24,7 +25,7 @@ class StatisticsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        BackPressUtils.setBackPressCallback(this, viewLifecycleOwner)
     }
 
 }

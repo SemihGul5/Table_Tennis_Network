@@ -209,17 +209,17 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:text="Şifre"
+                                android:text="Arkadaşlarım"
                                 android:textStyle="bold"
                                 android:textColor="@color/main_color"
                                 android:textSize="18sp" />
 
                             <TextView
-                                android:id="@+id/textViewPasswordChange"
+                                android:id="@+id/textViewFriends"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:text="Değiştir"
+                                android:text="Göster"
                                 android:textAlignment="viewEnd"
                                 android:textColor="#5b5b5b"
                                 android:textSize="16sp" />
@@ -246,17 +246,17 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:text="Kullanıcı Adı"
+                                android:text="İstekler"
                                 android:textColor="@color/main_color"
                                 android:textSize="18sp"
                                 android:textStyle="bold" />
 
                             <TextView
-                                android:id="@+id/textViewUserName"
+                                android:id="@+id/textViewRequest"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:text="ABREBO"
+                                android:text="Göster"
                                 android:textAlignment="viewEnd"
                                 android:textColor="#5b5b5b"
                                 android:textSize="16sp" />

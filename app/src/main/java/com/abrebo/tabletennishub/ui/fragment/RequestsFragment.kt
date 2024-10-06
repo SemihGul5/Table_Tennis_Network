@@ -6,27 +6,35 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.abrebo.tabletennishub.R
-import com.abrebo.tabletennishub.databinding.FragmentMainBinding
-import com.abrebo.tabletennishub.utils.BackPressUtils
+import com.abrebo.tabletennishub.databinding.FragmentRequestsBinding
+import com.abrebo.tabletennishub.ui.adapter.RequestsPagerAdapter
+import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MainFragment : Fragment() {
-    private lateinit var binding:FragmentMainBinding
+class RequestsFragment : Fragment() {
+    private lateinit var binding:FragmentRequestsBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
-        binding= FragmentMainBinding.inflate(inflater, container, false)
+        binding=FragmentRequestsBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        BackPressUtils.setBackPressCallback(this, viewLifecycleOwner)
 
+        val adapter = RequestsPagerAdapter(requireActivity())
+        binding.viewPager.adapter = adapter
+
+        // TabLayout ve ViewPager arasında bağ kur
+        TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
+            tab.text = if (position == 0) "Gelen İstekler" else "Gönderilen İstekler"
+        }.attach()
     }
 
 }
