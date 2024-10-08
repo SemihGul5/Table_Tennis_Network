@@ -9,7 +9,11 @@
         android:id="@+id/mainFragment"
         android:name="com.abrebo.tabletennishub.ui.fragment.MainFragment"
         android:label="fragment_main"
-        tools:layout="@layout/fragment_main" />
+        tools:layout="@layout/fragment_main" >
+        <action
+            android:id="@+id/action_mainFragment_to_addMatchFragment"
+            app:destination="@id/addMatchFragment" />
+    </fragment>
     <fragment
         android:id="@+id/profileFragment"
         android:name="com.abrebo.tabletennishub.ui.fragment.ProfileFragment"
@@ -45,4 +49,9 @@
         android:name="com.abrebo.tabletennishub.ui.fragment.FriendsFragment"
         android:label="fragment_friends"
         tools:layout="@layout/fragment_friends" />
+    <fragment
+        android:id="@+id/addMatchFragment"
+        android:name="com.abrebo.tabletennishub.ui.fragment.AddMatchFragment"
+        android:label="fragment_add_match"
+        tools:layout="@layout/fragment_add_match" />
 </navigation>

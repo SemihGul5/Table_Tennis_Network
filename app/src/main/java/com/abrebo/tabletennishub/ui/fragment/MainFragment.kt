@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.Navigation
 import com.abrebo.tabletennishub.R
 import com.abrebo.tabletennishub.databinding.FragmentMainBinding
 import com.abrebo.tabletennishub.utils.BackPressUtils
@@ -26,6 +27,10 @@ class MainFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         BackPressUtils.setBackPressCallback(this, viewLifecycleOwner)
+
+        binding.floatingActionButton.setOnClickListener {
+            Navigation.findNavController(it).navigate(R.id.action_mainFragment_to_addMatchFragment)
+        }
 
     }
 
