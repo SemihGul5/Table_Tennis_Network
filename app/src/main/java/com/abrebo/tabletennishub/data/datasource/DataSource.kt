@@ -8,16 +8,18 @@ import com.abrebo.tabletennishub.data.model.User
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.CollectionReference
+import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
 import kotlinx.coroutines.tasks.await
+import kotlin.math.log
 
 class DataSource(var collectionReference: CollectionReference,
                  var collectionReferenceUserFriends: CollectionReference) {
     var userList = MutableLiveData<List<User>>()
     var userFriendsList = MutableLiveData<List<User>>()
-
+    val firestore = FirebaseFirestore.getInstance()
     fun uploadUser(): MutableLiveData<List<User>> {
         collectionReference.addSnapshotListener { value, error ->
             if (value != null) {
@@ -85,27 +87,40 @@ class DataSource(var collectionReference: CollectionReference,
         }
     }
 
+    suspend fun getUserNameByEmail(userEmail: String): String? {
+        return try {
+            val querySnapshot = firestore.collection("Kullanıcılar")
+                .whereEqualTo("email", userEmail)
+                .get()
+                .await()
+
+            if (!querySnapshot.isEmpty) {
+                val document = querySnapshot.documents.first()
+                document.getString("userName")
+            } else {
+                Log.e("User", "Kullanıcı belgesi bulunamadı")
+                null
+            }
+        } catch (e: Exception) {
+            Log.e("User", "Error getting displayName: ${e.message}")
+            null
+        }
+    }
+
     //userFriend
-    fun sendFriendRequest(context: Context, currentUserEmail: String, friendUserEmail: String) {
-        val firestore = FirebaseFirestore.getInstance()
-        val usersCollection = firestore.collection("KullanıcıArkadaşları")
+    fun sendFriendRequest(context: Context, currentUserName: String, friendUserName: String) {
+        val currentUserDocRef = collectionReferenceUserFriends.document(currentUserName)
+        val friendUserDocRef = collectionReferenceUserFriends.document(friendUserName)
 
-        val currentUserDocRef = usersCollection.document(currentUserEmail)
-        val friendUserDocRef = usersCollection.document(friendUserEmail)
-
-        // Arkadaşlık isteği gönderme işlemi
         firestore.runBatch { batch ->
-            // Mevcut kullanıcının 'gönderilen' listesine ekle
             batch.set(
                 currentUserDocRef,
-                mapOf("istekler.gönderilen" to FieldValue.arrayUnion(friendUserEmail)),
+                mapOf("istekler.gönderilen" to FieldValue.arrayUnion(friendUserName)),
                 SetOptions.merge()
             )
-
-            // Arkadaşın 'alınan' listesine ekle
             batch.set(
                 friendUserDocRef,
-                mapOf("istekler.alınan" to FieldValue.arrayUnion(currentUserEmail)),
+                mapOf("istekler.alınan" to FieldValue.arrayUnion(currentUserName)),
                 SetOptions.merge()
             )
         }.addOnSuccessListener {
@@ -115,12 +130,35 @@ class DataSource(var collectionReference: CollectionReference,
         }
     }
 
+    fun getReceivedRequests(currentUserName: String, callback: (List<String>) -> Unit) {
+        getRequests(currentUserName, "istekler.alınan", callback)
+    }
 
+    fun getSentRequests(currentUserName: String, callback: (List<String>) -> Unit) {
+        getRequests(currentUserName, "istekler.gönderilen", callback)
+    }
 
-
-
-
-
-
+    private fun getRequests(currentUserName: String, field: String, callback: (List<String>) -> Unit) {
+        val documentRef: DocumentReference = collectionReferenceUserFriends.document(currentUserName)
+        documentRef.get()
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    val documentSnapshot = task.result
+                    if (documentSnapshot != null && documentSnapshot.exists()) {
+                        // Belge verisini Map olarak al
+                        val data = documentSnapshot.data
+                        // Belirtilen alana erişim
+                        val requests = (data?.get(field) as? List<String>) ?: emptyList()
+                        callback(requests)
+                    } else {
+                        Log.e("Firestore Error", "Belge mevcut değil")
+                        callback(emptyList())
+                    }
+                } else {
+                    Log.e("Request Error", task.exception?.message.toString())
+                    callback(emptyList())
+                }
+            }
+    }
 
 }

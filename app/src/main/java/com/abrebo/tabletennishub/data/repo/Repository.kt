@@ -12,8 +12,11 @@ class Repository(var dataSource: DataSource) {
     fun deleteUser(userId:String) = dataSource.deleteUser(userId)
     fun updateUser(user:User) = dataSource.updateUser(user)
     suspend fun checkUserNameAvailability(userName: String): Boolean = dataSource.checkUserNameAvailability(userName)
-    fun sendFriendRequest(context: Context, currentUserEmail: String, friendUserEmail: String)
-    =dataSource.sendFriendRequest(context, currentUserEmail, friendUserEmail)
-
-
+    fun sendFriendRequest(context: Context, currentUserName: String, friendUserName: String)=
+        dataSource.sendFriendRequest(context, currentUserName, friendUserName)
+    fun getReceivedRequests(currentUserName: String, callback: (List<String>) -> Unit) =
+        dataSource.getReceivedRequests(currentUserName, callback)
+    fun getSentRequests(currentUserName: String, callback: (List<String>) -> Unit)=
+        dataSource.getSentRequests(currentUserName, callback)
+    suspend fun getUserNameByEmail(userEmail: String): String? = dataSource.getUserNameByEmail(userEmail)
 }

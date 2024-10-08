@@ -33,8 +33,16 @@ class AddFriendAdapter(var context: Context,
         val binding=holder.binding
 
         binding.userNameText.text=user.userName
+        val email=auth.currentUser?.email
         binding.addFriendButton.setOnClickListener {
-            viewModel.sendFriendRequest(context,auth.currentUser!!.email!!,user.email!!)
+            if (email!=null) {
+                viewModel.getUserNameByEmail(email){
+                    if (it!=null){
+                        viewModel.sendFriendRequest(context,it,user.userName!!)
+                    }
+                }
+            }
+
         }
     }
 }
