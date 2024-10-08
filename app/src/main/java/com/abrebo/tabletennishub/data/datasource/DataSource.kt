@@ -18,8 +18,8 @@ import kotlin.math.log
 class DataSource(var collectionReference: CollectionReference,
                  var collectionReferenceUserFriends: CollectionReference) {
     var userList = MutableLiveData<List<User>>()
-    var userFriendsList = MutableLiveData<List<User>>()
     val firestore = FirebaseFirestore.getInstance()
+
     fun uploadUser(): MutableLiveData<List<User>> {
         collectionReference.addSnapshotListener { value, error ->
             if (value != null) {
@@ -106,6 +106,41 @@ class DataSource(var collectionReference: CollectionReference,
             null
         }
     }
+    suspend fun getUserInfo(userEmail: String): Map<String, Any>? {
+        return try {
+            val querySnapshot = firestore.collection("Kullanıcılar")
+                .whereEqualTo("email", userEmail)
+                .get()
+                .await()
+
+            if (!querySnapshot.isEmpty) {
+                val document = querySnapshot.documents.first()
+                val map = HashMap<String, Any>()
+
+                val email = document.getString("email")
+                val nameFamily = document.getString("nameFamily")
+                val userName = document.getString("userName")
+
+                if (email != null && nameFamily != null && userName != null) {
+                    map["id"] = document.id
+                    map["email"] = email
+                    map["nameFamily"] = nameFamily
+                    map["userName"] = userName
+                    map
+                } else {
+                    Log.e("User", "Kullanıcı bilgileri eksik.")
+                    null
+                }
+            } else {
+                Log.e("User", "Kullanıcı belgesi bulunamadı")
+                null
+            }
+        } catch (e: Exception) {
+            Log.e("User", "Kullanıcı bilgileri alınırken hata oluştu: ${e.message}")
+            null
+        }
+    }
+
 
     //userFriend
     fun sendFriendRequest(context: Context, currentUserName: String, friendUserName: String) {
@@ -137,6 +172,9 @@ class DataSource(var collectionReference: CollectionReference,
     fun getSentRequests(currentUserName: String, callback: (List<String>) -> Unit) {
         getRequests(currentUserName, "istekler.gönderilen", callback)
     }
+    fun getfriends(currentUserName: String, callback: (List<String>) -> Unit) {
+        getRequests(currentUserName, "arkadaşlar", callback)
+    }
 
     private fun getRequests(currentUserName: String, field: String, callback: (List<String>) -> Unit) {
         val documentRef: DocumentReference = collectionReferenceUserFriends.document(currentUserName)
@@ -160,5 +198,100 @@ class DataSource(var collectionReference: CollectionReference,
                 }
             }
     }
+    fun withdrawFriendRequest(context: Context, currentUserName: String, receiverUserName: String) {
+        val currentUserDocRef = collectionReferenceUserFriends.document(currentUserName)
+        val receiverUserDocRef = collectionReferenceUserFriends.document(receiverUserName)
+
+        firestore.runBatch { batch ->
+            batch.set(
+                currentUserDocRef,
+                mapOf("istekler.gönderilen" to FieldValue.arrayRemove(receiverUserName)),
+                SetOptions.merge()
+            )
+            batch.set(
+                receiverUserDocRef,
+                mapOf("istekler.alınan" to FieldValue.arrayRemove(currentUserName)),
+                SetOptions.merge()
+            )
+        }.addOnSuccessListener {
+            Toast.makeText(context, "Arkadaşlık isteği geri çekildi.", Toast.LENGTH_SHORT).show()
+        }.addOnFailureListener { e ->
+            Toast.makeText(context, "İstek geri çekilirken hata oluştu: ${e.message}", Toast.LENGTH_SHORT).show()
+        }
+    }
+    fun removeFriend(context: Context, currentUserName: String, friendUserName: String) {
+        val currentUserDocRef = collectionReferenceUserFriends.document(currentUserName)
+        val friendUserDocRef = collectionReferenceUserFriends.document(friendUserName)
+
+        firestore.runBatch { batch ->
+            // Kullanıcıların arkadaş listesinden birbirlerini sil
+            batch.set(
+                currentUserDocRef,
+                mapOf("arkadaşlar" to FieldValue.arrayRemove(friendUserName)),
+                SetOptions.merge()
+            )
+            batch.set(
+                friendUserDocRef,
+                mapOf("arkadaşlar" to FieldValue.arrayRemove(currentUserName)),
+                SetOptions.merge()
+            )
+        }.addOnSuccessListener {
+            Toast.makeText(context, "Arkadaş başarıyla silindi.", Toast.LENGTH_SHORT).show()
+        }.addOnFailureListener { e ->
+            Toast.makeText(context, "Arkadaş silinirken hata oluştu: ${e.message}", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    fun acceptFriendRequest(context: Context, currentUserName: String, senderUserName: String) {
+        val currentUserDocRef = collectionReferenceUserFriends.document(currentUserName)
+        val senderUserDocRef = collectionReferenceUserFriends.document(senderUserName)
+
+        firestore.runBatch { batch ->
+            batch.set(
+                currentUserDocRef,
+                mapOf(
+                    "istekler.alınan" to FieldValue.arrayRemove(senderUserName),
+                    "arkadaşlar" to FieldValue.arrayUnion(senderUserName)
+                ),
+                SetOptions.merge()
+            )
+
+            batch.set(
+                senderUserDocRef,
+                mapOf(
+                    "istekler.gönderilen" to FieldValue.arrayRemove(currentUserName),
+                    "arkadaşlar" to FieldValue.arrayUnion(currentUserName)
+                ),
+                SetOptions.merge()
+            )
+        }.addOnSuccessListener {
+            Toast.makeText(context, "Arkadaşlık isteği kabul edildi.", Toast.LENGTH_SHORT).show()
+        }.addOnFailureListener { e ->
+            Toast.makeText(context, "İstek kabul edilirken hata oluştu: ${e.message}", Toast.LENGTH_SHORT).show()
+        }
+    }
+    fun declineFriendRequest(context: Context, currentUserName: String, senderUserName: String) {
+        val currentUserDocRef = collectionReferenceUserFriends.document(currentUserName)
+        val senderUserDocRef = collectionReferenceUserFriends.document(senderUserName)
+
+        firestore.runBatch { batch ->
+            batch.set(
+                currentUserDocRef,
+                mapOf("istekler.alınan" to FieldValue.arrayRemove(senderUserName)),
+                SetOptions.merge()
+            )
+
+            batch.set(
+                senderUserDocRef,
+                mapOf("istekler.gönderilen" to FieldValue.arrayRemove(currentUserName)),
+                SetOptions.merge()
+            )
+        }.addOnSuccessListener {
+            Toast.makeText(context, "Arkadaşlık isteği reddedildi.", Toast.LENGTH_SHORT).show()
+        }.addOnFailureListener { e ->
+            Toast.makeText(context, "İstek reddedilirken hata oluştu: ${e.message}", Toast.LENGTH_SHORT).show()
+        }
+    }
+
 
 }

@@ -19,4 +19,16 @@ class Repository(var dataSource: DataSource) {
     fun getSentRequests(currentUserName: String, callback: (List<String>) -> Unit)=
         dataSource.getSentRequests(currentUserName, callback)
     suspend fun getUserNameByEmail(userEmail: String): String? = dataSource.getUserNameByEmail(userEmail)
+    fun withdrawFriendRequest(context: Context, currentUserName: String, receiverUserName: String) =
+        dataSource.withdrawFriendRequest(context,currentUserName, receiverUserName)
+    fun acceptFriendRequest(context: Context, currentUserName: String, senderUserName: String) =
+        dataSource.acceptFriendRequest(context, currentUserName, senderUserName)
+    fun declineFriendRequest(context: Context, currentUserName: String, senderUserName: String) =
+        dataSource.declineFriendRequest(context, currentUserName, senderUserName)
+    fun getfriends(currentUserName: String, callback: (List<String>) -> Unit)=
+        dataSource.getfriends(currentUserName, callback)
+    fun removeFriend(context: Context, currentUserName: String, friendUserName: String)=
+        dataSource.removeFriend(context, currentUserName, friendUserName)
+    suspend fun getUserInfo(userEmail: String): Map<String,Any>? =
+        dataSource.getUserInfo(userEmail)
 }

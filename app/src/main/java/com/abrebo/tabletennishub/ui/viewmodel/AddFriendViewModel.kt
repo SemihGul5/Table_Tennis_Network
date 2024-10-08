@@ -38,4 +38,5 @@ class AddFriendViewModel  @Inject constructor (var repository: Repository): View
     }
 
 
+
 }

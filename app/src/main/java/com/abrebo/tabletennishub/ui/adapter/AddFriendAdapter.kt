@@ -42,7 +42,10 @@ class AddFriendAdapter(var context: Context,
                     }
                 }
             }
-
         }
+
+
+
+
     }
 }

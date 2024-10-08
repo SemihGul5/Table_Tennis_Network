@@ -21,6 +21,9 @@
         <action
             android:id="@+id/action_profileFragment_to_requestsFragment"
             app:destination="@id/requestsFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_friendsFragment"
+            app:destination="@id/friendsFragment" />
     </fragment>
     <fragment
         android:id="@+id/statisticsFragment"
@@ -37,4 +40,9 @@
         android:name="com.abrebo.tabletennishub.ui.fragment.RequestsFragment"
         android:label="fragment_requests"
         tools:layout="@layout/fragment_requests" />
+    <fragment
+        android:id="@+id/friendsFragment"
+        android:name="com.abrebo.tabletennishub.ui.fragment.FriendsFragment"
+        android:label="fragment_friends"
+        tools:layout="@layout/fragment_friends" />
 </navigation>

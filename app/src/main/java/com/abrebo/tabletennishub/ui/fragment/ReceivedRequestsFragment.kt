@@ -40,7 +40,7 @@ class ReceivedRequestsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel.receivedRequests.observe(viewLifecycleOwner){
-            val adapter=RequestsAdapter(requireContext(),it,viewModel,PageType.RECEIVED_REQUESTS)
+            val adapter=RequestsAdapter(requireContext(),it,viewModel,PageType.RECEIVED_REQUESTS,auth)
             binding.receivedRequestsRecyclerView.adapter=adapter
         }
 
