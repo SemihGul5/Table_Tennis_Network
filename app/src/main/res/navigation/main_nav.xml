@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_mainFragment_to_addMatchFragment"
             app:destination="@id/addMatchFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_updateMatchFragment"
+            app:destination="@id/updateMatchFragment" />
     </fragment>
     <fragment
         android:id="@+id/profileFragment"
@@ -54,4 +57,13 @@
         android:name="com.abrebo.tabletennishub.ui.fragment.AddMatchFragment"
         android:label="fragment_add_match"
         tools:layout="@layout/fragment_add_match" />
+    <fragment
+        android:id="@+id/updateMatchFragment"
+        android:name="com.abrebo.tabletennishub.ui.fragment.UpdateMatchFragment"
+        android:label="fragment_update_match"
+        tools:layout="@layout/fragment_update_match" >
+        <argument
+            android:name="match"
+            app:argType="com.abrebo.tabletennishub.data.model.Match" />
+    </fragment>
 </navigation>

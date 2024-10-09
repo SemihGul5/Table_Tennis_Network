@@ -4,19 +4,26 @@ import android.content.Context
 import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
+import com.abrebo.tabletennishub.data.model.Match
 import com.abrebo.tabletennishub.data.model.User
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.SetOptions
 import kotlinx.coroutines.tasks.await
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 import kotlin.math.log
 
 class DataSource(var collectionReference: CollectionReference,
-                 var collectionReferenceUserFriends: CollectionReference) {
+                 var collectionReferenceUserFriends: CollectionReference,
+                 var collectionReferenceMatches: CollectionReference) {
     var userList = MutableLiveData<List<User>>()
     val firestore = FirebaseFirestore.getInstance()
 
@@ -291,6 +298,68 @@ class DataSource(var collectionReference: CollectionReference,
         }.addOnFailureListener { e ->
             Toast.makeText(context, "İstek reddedilirken hata oluştu: ${e.message}", Toast.LENGTH_SHORT).show()
         }
+    }
+
+    //maçlar
+
+    fun saveMatch(match: Match, onComplete: (Boolean) -> Unit) {
+        collectionReferenceMatches
+            .add(match.copy(date = getCurrentDateFormatted()))
+            .addOnSuccessListener {
+                onComplete(true)
+            }
+            .addOnFailureListener { e ->
+                Log.e("Repository", "Maç kaydedilemedi: ${e.message}")
+                onComplete(false)
+            }
+    }
+    fun getMatchesByUserName(currentUserName: String, onResult: (List<Match>) -> Unit) {
+        collectionReferenceMatches
+            .whereEqualTo("userHome", currentUserName)
+            .orderBy("timestamp",Query.Direction.ASCENDING)
+            .get()
+            .addOnSuccessListener { querySnapshot ->
+                val matches = querySnapshot.documents.mapNotNull { document ->
+                    document.toObject(Match::class.java)
+                }
+                onResult(matches)
+            }
+            .addOnFailureListener { e ->
+                Log.e("Repository", "Maçlar alınamadı: ${e.message}")
+                onResult(emptyList())
+            }
+    }
+    fun getCurrentDateFormatted(): String {
+        val dateFormat = SimpleDateFormat("M/d/yy", Locale.getDefault())
+        return dateFormat.format(Date())
+    }
+    fun updateMatch(match: Match, onComplete: (Boolean) -> Unit) {
+        collectionReferenceMatches
+            .whereEqualTo("timestamp", match.timestamp)
+            .get()
+            .addOnSuccessListener { querySnapshot ->
+                if (querySnapshot.isEmpty) {
+                    Log.e("Repository", "Maç bulunamadı")
+                    onComplete(false)
+                    return@addOnSuccessListener
+                }
+
+                for (document in querySnapshot.documents) {
+                    document.reference
+                        .set(match)
+                        .addOnSuccessListener {
+                            onComplete(true)
+                        }
+                        .addOnFailureListener { e ->
+                            Log.e("Repository", "Maç güncellenemedi: ${e.message}")
+                            onComplete(false)
+                        }
+                }
+            }
+            .addOnFailureListener { e ->
+                Log.e("Repository", "Maç bulunamadı: ${e.message}")
+                onComplete(false)
+            }
     }
 
 

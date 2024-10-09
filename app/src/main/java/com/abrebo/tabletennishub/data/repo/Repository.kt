@@ -3,6 +3,7 @@ package com.abrebo.tabletennishub.data.repo
 import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import com.abrebo.tabletennishub.data.datasource.DataSource
+import com.abrebo.tabletennishub.data.model.Match
 import com.abrebo.tabletennishub.data.model.User
 
 class Repository(var dataSource: DataSource) {
@@ -31,4 +32,11 @@ class Repository(var dataSource: DataSource) {
         dataSource.removeFriend(context, currentUserName, friendUserName)
     suspend fun getUserInfo(userEmail: String): Map<String,Any>? =
         dataSource.getUserInfo(userEmail)
+
+    fun saveMatch(match: Match, onComplete: (Boolean) -> Unit) =
+        dataSource.saveMatch(match, onComplete)
+    fun getMatchesByUserName(currentUserName: String, onResult: (List<Match>) -> Unit)=
+        dataSource.getMatchesByUserName(currentUserName, onResult)
+    fun updateMatch(match: Match, onComplete: (Boolean) -> Unit) =
+        dataSource.updateMatch(match, onComplete)
 }

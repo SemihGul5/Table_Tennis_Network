@@ -23,13 +23,18 @@ class AppModule {
     @Retention(AnnotationRetention.BINARY)
     annotation class UserFriendsCollection
 
+    @Qualifier
+    @Retention(AnnotationRetention.BINARY)
+    annotation class MatchesCollection
+
     @Provides
     @Singleton
     fun provideDataSource(
         @UsersCollection usersCollection: CollectionReference,
-        @UserFriendsCollection userFriendsCollection: CollectionReference
+        @UserFriendsCollection userFriendsCollection: CollectionReference,
+        @MatchesCollection matchesCollection: CollectionReference
     ): DataSource {
-        return DataSource(usersCollection, userFriendsCollection)
+        return DataSource(usersCollection, userFriendsCollection,matchesCollection)
     }
 
     @Provides
@@ -50,5 +55,12 @@ class AppModule {
     @UserFriendsCollection
     fun provideUserFriendsCollection(): CollectionReference {
         return FirebaseFirestore.getInstance().collection("KullanıcıArkadaşları")
+    }
+
+    @Provides
+    @Singleton
+    @MatchesCollection
+    fun provideMatchesCollection(): CollectionReference {
+        return FirebaseFirestore.getInstance().collection("Maçlar")
     }
 }
