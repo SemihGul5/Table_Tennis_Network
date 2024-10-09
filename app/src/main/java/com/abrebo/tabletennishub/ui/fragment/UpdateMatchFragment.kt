@@ -46,14 +46,13 @@ class UpdateMatchFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val match = arguments?.getSerializable("match") as Match
+        val match = UpdateMatchFragmentArgs.fromBundle(requireArguments()).match
         populateMatchData(match)
 
         binding.submitButton.setOnClickListener {
             updateMatch(match)
         }
 
-        // Set ekleme butonları için dinleyiciler
         setupSetButtons()
     }
 
@@ -170,7 +169,6 @@ class UpdateMatchFragment : Fragment() {
         }
     }
 
-    // Maçı güncelleme
     private fun updateMatch(match: Match) {
         val opponentUserName = binding.autoCompleteTextView.text.toString()
 

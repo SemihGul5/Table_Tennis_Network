@@ -19,6 +19,7 @@ import kotlinx.coroutines.tasks.await
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
+import java.util.UUID
 import kotlin.math.log
 
 class DataSource(var collectionReference: CollectionReference,
@@ -304,7 +305,7 @@ class DataSource(var collectionReference: CollectionReference,
 
     fun saveMatch(match: Match, onComplete: (Boolean) -> Unit) {
         collectionReferenceMatches
-            .add(match.copy(date = getCurrentDateFormatted()))
+            .add(match.copy(date = getCurrentDateFormatted(), id = UUID.randomUUID().toString()))
             .addOnSuccessListener {
                 onComplete(true)
             }
@@ -314,28 +315,49 @@ class DataSource(var collectionReference: CollectionReference,
             }
     }
     fun getMatchesByUserName(currentUserName: String, onResult: (List<Match>) -> Unit) {
-        collectionReferenceMatches
+        val matchesList = mutableListOf<Match>()
+
+        val homeMatchesQuery = collectionReferenceMatches
             .whereEqualTo("userHome", currentUserName)
-            .orderBy("timestamp",Query.Direction.ASCENDING)
-            .get()
-            .addOnSuccessListener { querySnapshot ->
-                val matches = querySnapshot.documents.mapNotNull { document ->
+            .orderBy("timestamp", Query.Direction.ASCENDING)
+
+        val awayMatchesQuery = collectionReferenceMatches
+            .whereEqualTo("userAway", currentUserName)
+            .orderBy("timestamp", Query.Direction.ASCENDING)
+
+        homeMatchesQuery.get()
+            .addOnSuccessListener { homeQuerySnapshot ->
+                matchesList.addAll(homeQuerySnapshot.documents.mapNotNull { document ->
                     document.toObject(Match::class.java)
-                }
-                onResult(matches)
+                })
+
+                awayMatchesQuery.get()
+                    .addOnSuccessListener { awayQuerySnapshot ->
+                        matchesList.addAll(awayQuerySnapshot.documents.mapNotNull { document ->
+                            document.toObject(Match::class.java)
+                        })
+
+                        val sortedMatches = matchesList.sortedBy { it.timestamp }
+                        onResult(sortedMatches)
+                    }
+                    .addOnFailureListener { e ->
+                        Log.e("Repository", "Away maçlar alınamadı: ${e.message}")
+                        onResult(matchesList.sortedBy { it.timestamp })
+                    }
             }
             .addOnFailureListener { e ->
-                Log.e("Repository", "Maçlar alınamadı: ${e.message}")
+                Log.e("Repository", "Home maçlar alınamadı: ${e.message}")
                 onResult(emptyList())
             }
     }
+
     fun getCurrentDateFormatted(): String {
         val dateFormat = SimpleDateFormat("M/d/yy", Locale.getDefault())
         return dateFormat.format(Date())
     }
     fun updateMatch(match: Match, onComplete: (Boolean) -> Unit) {
         collectionReferenceMatches
-            .whereEqualTo("timestamp", match.timestamp)
+            .whereEqualTo("id", match.id)
             .get()
             .addOnSuccessListener { querySnapshot ->
                 if (querySnapshot.isEmpty) {

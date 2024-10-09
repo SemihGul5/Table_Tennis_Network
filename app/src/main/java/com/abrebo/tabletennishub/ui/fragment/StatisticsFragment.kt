@@ -5,9 +5,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import com.abrebo.tabletennishub.R
 import com.abrebo.tabletennishub.databinding.FragmentStatisticsBinding
+import com.abrebo.tabletennishub.ui.adapter.StatisticsPagerAdapter
+import com.abrebo.tabletennishub.ui.viewmodel.StatisticsViewModel
 import com.abrebo.tabletennishub.utils.BackPressUtils
+import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -26,6 +30,16 @@ class StatisticsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         BackPressUtils.setBackPressCallback(this, viewLifecycleOwner)
+
+        val adapter=StatisticsPagerAdapter(requireActivity())
+        binding.viewPager.adapter=adapter
+
+        TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
+            tab.text = if (position == 0) "İstatistiklerim" else "Rakiple Karşılaştır"
+        }.attach()
+
+
+
     }
 
 }

@@ -11,5 +11,6 @@ data class Match(
     val userHomeScore: Int = 0,
     val userAwayScore: Int = 0,
     val timestamp: Timestamp = Timestamp.now(),
-    val date:String=""
+    val date:String="",
+    val winner:String=""
 ):Serializable

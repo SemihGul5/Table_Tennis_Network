@@ -49,7 +49,7 @@ class MainFragment : Fragment() {
         }
 
         viewModel.matches.observe(viewLifecycleOwner){
-            val adapter=MatchAdapter(requireContext(),it)
+            val adapter=MatchAdapter(requireContext(),it,viewModel,auth)
             binding.matchRecyclerView.adapter=adapter
         }
 

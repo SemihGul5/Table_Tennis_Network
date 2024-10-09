@@ -27,6 +27,17 @@ class AddMatchViewModel @Inject constructor (var repository: Repository,applicat
     fun saveMatch(currentUserName: String, opponentUserName: String, setScores: List<Pair<Int, Int>>) {
         val user1Score = setScores.count { it.first > it.second }
         val user2Score = setScores.count { it.second > it.first }
+        val winner = when {
+            user1Score == 3 || user2Score == 3 -> {
+                when {
+                    user1Score > user2Score -> currentUserName
+                    user1Score < user2Score -> opponentUserName
+                    else -> "Berabere"
+                }
+            }
+            else -> "Maç daha bitmedi"
+        }
+
 
         val match = Match(
             userHome = currentUserName,
@@ -34,7 +45,8 @@ class AddMatchViewModel @Inject constructor (var repository: Repository,applicat
             setScores = setScores.map { SetScore(it.first, it.second) },
             userHomeScore = user1Score,
             userAwayScore = user2Score,
-            timestamp = Timestamp.now()
+            timestamp = Timestamp.now(),
+            winner = winner
         )
 
         repository.saveMatch(match) { success ->

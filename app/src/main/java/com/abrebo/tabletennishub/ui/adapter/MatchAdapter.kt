@@ -10,9 +10,14 @@ import com.abrebo.tabletennishub.R
 import com.abrebo.tabletennishub.data.model.Match
 import com.abrebo.tabletennishub.databinding.MatchItemBinding
 import com.abrebo.tabletennishub.ui.fragment.MainFragmentDirections
+import com.abrebo.tabletennishub.ui.viewmodel.AddMatchViewModel
+import com.abrebo.tabletennishub.ui.viewmodel.MainViewModel
+import com.google.firebase.auth.FirebaseAuth
 
 class MatchAdapter(var context:Context,
-                   var matchlist:List<Match>
+                   var matchlist:List<Match>,
+                   var viewModel:MainViewModel,
+                   var auth:FirebaseAuth
 ):RecyclerView.Adapter<MatchAdapter.MatchItemHolder>() {
     inner class MatchItemHolder(var binding:MatchItemBinding):RecyclerView.ViewHolder(binding.root)
 
@@ -36,12 +41,33 @@ class MatchAdapter(var context:Context,
         binding.homeScoreTextView.text=match.userHomeScore.toString()
         binding.awayScoreTextView.text=match.userAwayScore.toString()
         binding.awayTeamTextView.text=match.userAway
-
-        if (match.userHomeScore>=match.userAwayScore){
-            binding.winImageView.setImageDrawable(context.getDrawable(R.drawable.check))
-        }else{
-            binding.winImageView.setImageDrawable(context.getDrawable(R.drawable.delete))
+        var userName=""
+        viewModel.getUserNameByEmail(auth.currentUser?.email!!){
+            if (it != null) {
+                userName=it
+            }
         }
+        if (userName==match.userHome){
+            if (match.userHomeScore>match.userAwayScore){
+                binding.winImageView.setImageDrawable(context.getDrawable(R.drawable.baseline_check_circle_24))
+            }else if(match.userHomeScore==match.userAwayScore){
+                binding.winImageView.setImageDrawable(context.getDrawable(R.drawable.baseline_remove_circle_24))
+            }else{
+                binding.winImageView.setImageDrawable(context.getDrawable(R.drawable.delete))
+            }
+        }else{
+            if (match.userHomeScore>match.userAwayScore){
+                binding.winImageView.setImageDrawable(context.getDrawable(R.drawable.delete))
+            }else if(match.userHomeScore==match.userAwayScore){
+                binding.winImageView.setImageDrawable(context.getDrawable(R.drawable.baseline_remove_circle_24))
+            }else{
+                binding.winImageView.setImageDrawable(context.getDrawable(R.drawable.baseline_check_circle_24))
+            }
+        }
+
+
+
+
         if (position%2==0){
             binding.linearLayoutMatchItem.setBackgroundColor(context.getColor(R.color.white))
         }else{
