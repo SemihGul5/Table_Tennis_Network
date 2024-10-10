@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
 import com.abrebo.tabletennishub.R
@@ -23,16 +24,20 @@ class MainFragment : Fragment() {
     private var currentUserName:String=""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        auth=FirebaseAuth.getInstance()
-        val temp:MainViewModel by viewModels()
-        viewModel=temp
-        viewModel.getUserNameByEmail(auth.currentUser?.email!!){
-            if (it!=null){
-                currentUserName=it
-                viewModel.getMatchesByUserName(it)
+        auth = FirebaseAuth.getInstance()
+        val temp: MainViewModel by viewModels()
+        viewModel = temp
+        val currentUserEmail = auth.currentUser?.email
+        if (currentUserEmail != null) {
+            viewModel.getUserNameByEmail(currentUserEmail) { userName ->
+                if (userName != null) {
+                    currentUserName = userName
+                    viewModel.getMatchesByUserName(currentUserName)
+                }
             }
         }
     }
+
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment

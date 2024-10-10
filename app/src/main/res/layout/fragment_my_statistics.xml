@@ -1,8 +1,7 @@
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    >
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -15,115 +14,543 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
-            android:cardElevation="4dp"
-            android:background="@color/main_color">
+            android:layout_margin="4dp"
+            app:cardCornerRadius="5dp"
+            android:elevation="4dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="16dp">
+                >
 
-                <TextView
-                    android:id="@+id/statistic_name"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Kazanan Maç Sayısı"
-                    android:textSize="18sp"
-                    android:textStyle="bold"/>
+                    android:orientation="horizontal"
+                    android:weightSum="4">
 
-                <TextView
-                    android:id="@+id/statistic_value"
-                    android:layout_width="wrap_content"
+                    <TextView
+                        android:id="@+id/total_match_text"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Toplam Maç"
+                        android:textColor="@color/main_color_dark"
+                        android:textSize="17sp"
+                        android:textStyle="bold"
+                        android:gravity="center"/>
+
+                    <TextView
+                        android:id="@+id/won_match_text"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Kazanılan"
+                        android:textColor="@color/main_color_dark"
+                        android:textSize="17sp"
+                        android:textStyle="bold"
+                        android:gravity="center"/>
+                    <TextView
+                        android:id="@+id/lost_match_text"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Kaybedilen"
+                        android:textColor="@color/main_color_dark"
+                        android:textSize="17sp"
+                        android:textStyle="bold"
+                        android:gravity="center"/>
+                    <TextView
+                        android:id="@+id/win_percentage_match_text"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Kazanma Yüzdesi"
+                        android:textColor="@color/main_color_dark"
+                        android:textSize="17sp"
+                        android:textStyle="bold"
+                        android:gravity="center"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="15"
-                    android:textSize="36sp"
-                    android:textStyle="bold"/>
+                    android:orientation="horizontal"
+                    android:weightSum="4"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="8dp">
+
+                    <TextView
+                        android:id="@+id/total_match_value"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="30"
+                        android:textSize="25sp"
+                        android:textStyle="bold"
+                        android:gravity="center"/>
+
+                    <TextView
+                        android:id="@+id/won_match_value"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="15"
+                        android:textSize="25sp"
+                        android:textStyle="bold"
+                        android:gravity="center"/>
+
+                    <TextView
+                        android:id="@+id/lost_match_value"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="10"
+                        android:textSize="25sp"
+                        android:textStyle="bold"
+                        android:gravity="center"/>
+                    <TextView
+                        android:id="@+id/win_percentage_match_value"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="%50"
+                        android:textSize="25sp"
+                        android:textStyle="bold"
+                        android:gravity="center"/>
+                </LinearLayout>
 
                 <ProgressBar
                     android:id="@+id/statistic_progress"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:progress="75"
+                    android:progress="50"
                     android:max="100"
                     style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_marginTop="16dp"
                     android:backgroundTint="@color/grey"
                     android:progressTint="@color/green"/>
 
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Performans Grafiği"
-            android:textColor="@color/main_color"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            android:layout_marginBottom="8dp"/>
-
-        <com.github.mikephil.charting.charts.BarChart
+        <com.github.mikephil.charting.charts.RadarChart
             android:id="@+id/performance_chart"
+            android:layout_marginTop="24dp"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_height="300dp"
             android:background="@color/white"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Detaylı İstatistikler"
-            android:textColor="@color/main_color"
+            android:textColor="@color/main_color_dark"
             android:textSize="24sp"
             android:textStyle="bold"
             android:layout_marginTop="16dp"
-            android:layout_marginBottom="8dp"/>
+            android:layout_marginBottom="8dp" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <LinearLayout
+
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginBottom="8dp">
+                android:layout_marginBottom="16dp"
+                android:elevation="4dp"
+                android:layout_margin="4dp"
+                app:cardCornerRadius="5dp"
+                >
 
-                <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@drawable/baseline_person_125_siyah" />
-
-                <TextView
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="En Fazla Oynanan Rakip: XYZ"
-                    android:layout_marginStart="8dp"
-                    android:textSize="16sp"
-                    android:textColor="@color/main_color"/>
-            </LinearLayout>
+                    android:orientation="vertical"
 
+                    android:padding="16dp">
 
-            <LinearLayout
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Maç Başına Ortalama Set Skor"
+                        android:textSize="18sp"
+                        android:textColor="@color/main_color_dark"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/averageScorePerMatch"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="7.5"
+                        android:textSize="16sp"
+                        android:layout_marginTop="4dp"
+                        android:textColor="@color/main_color" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginBottom="8dp">
+                android:layout_marginBottom="16dp"
+                android:layout_margin="4dp"
+                app:cardCornerRadius="5dp"
+                android:elevation="4dp">
 
-                <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@drawable/baseline_edit_note_60" />
-
-                <TextView
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Bir Maçta Alınan En Çok Sayı: 10"
-                    android:layout_marginStart="8dp"
-                    android:textSize="16sp"
-                    android:textColor="@color/main_color"/>
-            </LinearLayout>
+                    android:orientation="vertical"
+                    android:padding="16dp">
 
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Set Başına Kazanma Oranı"
+                        android:textSize="18sp"
+                        android:textColor="@color/main_color_dark"
+                        android:textStyle="bold" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:weightSum="5"
+                        android:padding="8dp">
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="1. Set"
+                            android:textColor="@color/main_color_dark"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            android:gravity="center"/>
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="2. Set"
+                            android:textColor="@color/main_color_dark"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            android:gravity="center"/>
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="3. Set"
+                            android:textColor="@color/main_color_dark"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            android:gravity="center"/>
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="4. Set"
+                            android:textColor="@color/main_color_dark"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            android:gravity="center"/>
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="5. Set"
+                            android:textColor="@color/main_color_dark"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            android:gravity="center"/>
+
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:weightSum="5"
+                        android:padding="8dp">
+                        <TextView
+                            android:id="@+id/set1_win_text"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="%60"
+                            android:textColor="@color/main_color"
+                            android:textSize="16sp"
+                            android:gravity="center"/>
+                        <TextView
+                            android:id="@+id/set2_win_text"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="%35"
+                            android:textColor="@color/main_color"
+                            android:textSize="16sp"
+                            android:gravity="center"/>
+                        <TextView
+                            android:id="@+id/set3_win_text"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="%49"
+                            android:textColor="@color/main_color"
+                            android:textSize="16sp"
+                            android:gravity="center"/>
+                        <TextView
+                            android:id="@+id/set4_win_text"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="%50"
+                            android:textColor="@color/main_color"
+                            android:textSize="16sp"
+                            android:gravity="center"/>
+                        <TextView
+                            android:id="@+id/set5_win_text"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="% 75"
+                            android:textColor="@color/main_color"
+                            android:textSize="16sp"
+                            android:gravity="center"/>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:layout_margin="4dp"
+                app:cardCornerRadius="5dp"
+                android:elevation="4dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Set Başına Kazanılan Sayı Ortalaması"
+                        android:textSize="18sp"
+                        android:textColor="@color/main_color_dark"
+                        android:textStyle="bold" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:weightSum="5"
+                        android:padding="8dp">
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="1. Set"
+                            android:textColor="@color/main_color_dark"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            android:gravity="center"/>
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="2. Set"
+                            android:textColor="@color/main_color_dark"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            android:gravity="center"/>
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="3. Set"
+                            android:textColor="@color/main_color_dark"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            android:gravity="center"/>
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="4. Set"
+                            android:textColor="@color/main_color_dark"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            android:gravity="center"/>
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="5. Set"
+                            android:textColor="@color/main_color_dark"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            android:gravity="center"/>
+
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:weightSum="5"
+                        android:padding="8dp">
+                        <TextView
+                            android:id="@+id/set1_avg_score_text"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="6"
+                            android:textColor="@color/main_color"
+                            android:textSize="16sp"
+                            android:gravity="center"/>
+                        <TextView
+                            android:id="@+id/set2_avg_score_text"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="5"
+                            android:textColor="@color/main_color"
+                            android:textSize="16sp"
+                            android:gravity="center"/>
+                        <TextView
+                            android:id="@+id/set3_avg_score_text"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="9"
+                            android:textColor="@color/main_color"
+                            android:textSize="16sp"
+                            android:gravity="center"/>
+                        <TextView
+                            android:id="@+id/set4_avg_score_text"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="5"
+                            android:textColor="@color/main_color"
+                            android:textSize="16sp"
+                            android:gravity="center"/>
+                        <TextView
+                            android:id="@+id/set5_avg_score_text"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="5"
+                            android:textColor="@color/main_color"
+                            android:textSize="16sp"
+                            android:gravity="center"/>
+
+                        </LinearLayout>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:layout_margin="4dp"
+                app:cardCornerRadius="5dp"
+                android:elevation="4dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Maç Başı Kazanılan Sayı Ortalaması"
+                        android:textSize="18sp"
+                        android:textColor="@color/main_color_dark"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/match_per_score_avg_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="9"
+                        android:textSize="16sp"
+                        android:layout_marginTop="4dp"
+                        android:textColor="@color/main_color" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:layout_margin="4dp"
+                app:cardCornerRadius="5dp"
+                android:elevation="4dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Oynanan Set Sayısı"
+                        android:textSize="18sp"
+                        android:textColor="@color/main_color_dark"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/total_set"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="25"
+                        android:textSize="16sp"
+                        android:layout_marginTop="4dp"
+                        android:textColor="@color/main_color" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:layout_margin="4dp"
+                app:cardCornerRadius="5dp"
+                android:elevation="4dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Toplam Kazanılan Sayı"
+                        android:textSize="18sp"
+                        android:textColor="@color/main_color_dark"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="150"
+                        android:textSize="16sp"
+                        android:layout_marginTop="4dp"
+                        android:textColor="@color/main_color" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
 
         </LinearLayout>
     </LinearLayout>

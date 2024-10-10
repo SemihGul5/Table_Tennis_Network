@@ -39,4 +39,18 @@ class Repository(var dataSource: DataSource) {
         dataSource.getMatchesByUserName(currentUserName, onResult)
     fun updateMatch(match: Match, onComplete: (Boolean) -> Unit) =
         dataSource.updateMatch(match, onComplete)
+    fun getAverageScorePerMatch(currentUserName: String, onResult: (Double) -> Unit) =
+        dataSource.getAverageScorePerMatch(currentUserName, onResult)
+    fun getSetWinRates(currentUserName: String, onResult: (Map<Int, Double>) -> Unit)=
+        dataSource.getSetWinRates(currentUserName,onResult)
+    fun getTotalMatchesByUser(currentUserName: String, onResult: (Int) -> Unit) =
+        dataSource.getTotalMatchesByUser(currentUserName, onResult)
+    fun getMatchResultsByUser(currentUserName: String, onResult: (Int, Int) -> Unit) =
+        dataSource.getMatchResultsByUser(currentUserName, onResult)
+    fun getSetAverageScores(currentUserName: String, onResult: (Map<Int, Double>) -> Unit)=
+        dataSource.getSetAverageScores(currentUserName, onResult)
+    fun getMatchAverageScore(currentUserName: String, onResult: (Double) -> Unit)=
+        dataSource.getMatchAverageScore(currentUserName, onResult)
+    fun getTotalSetsPlayed(currentUserName: String, onResult: (Int) -> Unit)=
+        dataSource.getTotalSetsPlayed(currentUserName,onResult)
 }

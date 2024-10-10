@@ -214,7 +214,7 @@ class UpdateMatchFragment : Fragment() {
             setScores = setScores
         )
 
-        viewModel.updateMatch(updatedMatch, opponentUserName, setScores)
+        viewModel.updateMatch(updatedMatch,currentUserName, opponentUserName, setScores)
     }
 
 }

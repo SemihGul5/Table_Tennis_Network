@@ -69,19 +69,25 @@ class AddMatchViewModel @Inject constructor (var repository: Repository,applicat
             friends.postValue(it)
         }
     }
-    fun updateMatch(
-        existingMatch: Match,
-        opponentUserName: String,
-        setScores: List<SetScore>
-    ) {
+    fun updateMatch(existingMatch: Match, currentUserName:String, opponentUserName: String, setScores: List<SetScore>) {
         val user1Score = setScores.count { it.userScore > it.opponentScore }
         val user2Score = setScores.count { it.opponentScore > it.userScore }
-
+        val winner = when {
+            user1Score == 3 || user2Score == 3 -> {
+                when {
+                    user1Score > user2Score -> currentUserName
+                    user1Score < user2Score -> opponentUserName
+                    else -> "Berabere"
+                }
+            }
+            else -> "Maç daha bitmedi"
+        }
         val updatedMatch = existingMatch.copy(
             userAway = opponentUserName,
             setScores = setScores,
             userHomeScore = user1Score,
-            userAwayScore = user2Score
+            userAwayScore = user2Score,
+            winner = winner
 
         )
 

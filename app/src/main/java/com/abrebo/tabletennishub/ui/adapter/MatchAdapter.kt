@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.abrebo.tabletennishub.R
@@ -30,8 +31,6 @@ class MatchAdapter(var context:Context,
         return matchlist.size
     }
 
-
-    @SuppressLint("UseCompatLoadingForDrawables")
     override fun onBindViewHolder(holder: MatchItemHolder, position: Int) {
         val match=matchlist.get(position)
         val binding=holder.binding
@@ -41,32 +40,12 @@ class MatchAdapter(var context:Context,
         binding.homeScoreTextView.text=match.userHomeScore.toString()
         binding.awayScoreTextView.text=match.userAwayScore.toString()
         binding.awayTeamTextView.text=match.userAway
-        var userName=""
+
         viewModel.getUserNameByEmail(auth.currentUser?.email!!){
             if (it != null) {
-                userName=it
+                bind(match,binding,it)
             }
         }
-        if (userName==match.userHome){
-            if (match.userHomeScore>match.userAwayScore){
-                binding.winImageView.setImageDrawable(context.getDrawable(R.drawable.baseline_check_circle_24))
-            }else if(match.userHomeScore==match.userAwayScore){
-                binding.winImageView.setImageDrawable(context.getDrawable(R.drawable.baseline_remove_circle_24))
-            }else{
-                binding.winImageView.setImageDrawable(context.getDrawable(R.drawable.delete))
-            }
-        }else{
-            if (match.userHomeScore>match.userAwayScore){
-                binding.winImageView.setImageDrawable(context.getDrawable(R.drawable.delete))
-            }else if(match.userHomeScore==match.userAwayScore){
-                binding.winImageView.setImageDrawable(context.getDrawable(R.drawable.baseline_remove_circle_24))
-            }else{
-                binding.winImageView.setImageDrawable(context.getDrawable(R.drawable.baseline_check_circle_24))
-            }
-        }
-
-
-
 
         if (position%2==0){
             binding.linearLayoutMatchItem.setBackgroundColor(context.getColor(R.color.white))
@@ -79,8 +58,25 @@ class MatchAdapter(var context:Context,
             Navigation.findNavController(it).navigate(navDirections)
         }
 
-
-
-
+    }
+    @SuppressLint("UseCompatLoadingForDrawables")
+    fun bind(match: Match, binding: MatchItemBinding, userName:String) {
+        if (userName == match.userHome) {
+            if (match.userHomeScore > match.userAwayScore) {
+                binding.winImageView.setImageDrawable(context.getDrawable(R.drawable.baseline_check_circle_24))
+            } else if (match.userHomeScore == match.userAwayScore) {
+                binding.winImageView.setImageDrawable(context.getDrawable(R.drawable.baseline_remove_circle_24))
+            } else {
+                binding.winImageView.setImageDrawable(context.getDrawable(R.drawable.delete))
+            }
+        } else {
+            if (match.userHomeScore > match.userAwayScore) {
+                binding.winImageView.setImageDrawable(context.getDrawable(R.drawable.delete))
+            } else if (match.userHomeScore == match.userAwayScore) {
+                binding.winImageView.setImageDrawable(context.getDrawable(R.drawable.baseline_remove_circle_24))
+            } else {
+                binding.winImageView.setImageDrawable(context.getDrawable(R.drawable.baseline_check_circle_24))
+            }
+        }
     }
 }

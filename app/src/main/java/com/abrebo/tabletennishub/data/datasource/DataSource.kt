@@ -384,5 +384,170 @@ class DataSource(var collectionReference: CollectionReference,
             }
     }
 
+    fun getAverageScorePerMatch(currentUserName: String, onResult: (Double) -> Unit) {
+        getMatchesByUserName(currentUserName) { matches ->
+            if (matches.isEmpty()) {
+                onResult(0.0)
+                return@getMatchesByUserName
+            }
+
+            var totalScore = 0
+            var totalMatches = 0
+
+            matches.forEach { match ->
+                if (match.userHome == currentUserName) {
+                    totalScore += match.userHomeScore
+                } else if (match.userAway == currentUserName) {
+                    totalScore += match.userAwayScore
+                }
+                totalMatches++
+            }
+            val averageScore = if (totalMatches > 0) {
+                totalScore.toDouble() / totalMatches
+            } else {
+                0.0
+            }
+
+            onResult(averageScore)
+        }
+    }
+    fun getSetWinRates(currentUserName: String, onResult: (Map<Int, Double>) -> Unit) {
+        getMatchesByUserName(currentUserName) { matches ->
+            val winRates = mutableMapOf<Int, Double>()
+
+            val totalSetsPlayed = IntArray(5) { 0 }
+            val setsWon = IntArray(5) { 0 }
+
+            for (match in matches) {
+                for (setIndex in 0 until match.setScores.size) {
+                    if (setIndex < 5) {
+                        totalSetsPlayed[setIndex]++
+
+                        val setScore = match.setScores[setIndex]
+
+                        if (match.userHome == currentUserName && setScore.userScore > setScore.opponentScore) {
+                            setsWon[setIndex]++
+                        }
+
+                        if (match.userAway == currentUserName &&setScore.opponentScore > setScore.userScore) {
+                            setsWon[setIndex]++
+                        }
+                    }
+                }
+            }
+            for (setNumber in 0 until 5) {
+                val winRate = if (totalSetsPlayed[setNumber] > 0) {
+                    setsWon[setNumber].toDouble() / totalSetsPlayed[setNumber]
+                } else {
+                    0.0
+                }
+                winRates[setNumber + 1] = winRate
+            }
+
+            onResult(winRates)
+        }
+    }
+    fun getSetAverageScores(currentUserName: String, onResult: (Map<Int, Double>) -> Unit) {
+        getMatchesByUserName(currentUserName) { matches ->
+            val averageScores = mutableMapOf<Int, Double>()
+
+            val totalSetsPlayed = IntArray(5) { 0 }
+            val totalScores = DoubleArray(5) { 0.0 }
+
+            for (match in matches) {
+                for (setIndex in 0 until match.setScores.size) {
+                    if (setIndex < 5) {
+                        totalSetsPlayed[setIndex]++
+
+                        val setScore = match.setScores[setIndex]
+
+                        if (match.userHome == currentUserName) {
+                            totalScores[setIndex] += setScore.userScore.toDouble()
+                        }
+
+                        if (match.userAway == currentUserName) {
+                            totalScores[setIndex] += setScore.opponentScore.toDouble()
+                        }
+                    }
+                }
+            }
+            for (setNumber in 0 until 5) {
+                val averageScore = if (totalSetsPlayed[setNumber] > 0) {
+                    totalScores[setNumber] / totalSetsPlayed[setNumber]
+                } else {
+                    0.0
+                }
+                averageScores[setNumber + 1] = averageScore
+            }
+
+            onResult(averageScores)
+        }
+    }
+
+    fun getTotalMatchesByUser(currentUserName: String, onResult: (Int) -> Unit) {
+        getMatchesByUserName(currentUserName) { matches ->
+            onResult(matches.size)
+        }
+    }
+    fun getMatchResultsByUser(currentUserName: String, onResult: (Int, Int) -> Unit) {
+        getMatchesByUserName(currentUserName) { matches ->
+            var wins = 0
+            var losses = 0
+
+            for (match in matches) {
+                if (match.winner == currentUserName) {
+                    wins++
+                } else if (match.winner!="Berabere"&&match.winner!="Maç daha bitmedi") {
+                    losses++
+                }
+            }
+            onResult(wins, losses)
+        }
+    }
+    fun getMatchAverageScore(currentUserName: String, onResult: (Double) -> Unit) {
+        getMatchesByUserName(currentUserName) { matches ->
+            var totalMatchesPlayed = 0
+            var totalScores = 0.0
+
+            for (match in matches) {
+                totalMatchesPlayed++
+
+                var matchScore = 0.0
+                for (setScore in match.setScores) {
+                    if (match.userHome == currentUserName) {
+                        matchScore += setScore.userScore.toDouble()
+                    } else if (match.userAway == currentUserName) {
+                        matchScore += setScore.opponentScore.toDouble()
+                    }
+                }
+
+                totalScores += matchScore
+            }
+
+            val averageScore = if (totalMatchesPlayed > 0) {
+                totalScores / totalMatchesPlayed
+            } else {
+                0.0
+            }
+
+            onResult(averageScore)
+        }
+    }
+    fun getTotalSetsPlayed(currentUserName: String, onResult: (Int) -> Unit) {
+        getMatchesByUserName(currentUserName) { matches ->
+            var totalSetsPlayed = 0
+            for (match in matches) {
+                for (setScore in match.setScores) {
+                    if (match.userHome == currentUserName || match.userAway == currentUserName) {
+                        totalSetsPlayed++
+                    }
+                }
+            }
+            onResult(totalSetsPlayed)
+        }
+    }
+
+
+
 
 }
