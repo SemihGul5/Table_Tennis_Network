@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import com.abrebo.tabletennishub.R
 import com.abrebo.tabletennishub.databinding.FragmentMyStatisticsBinding
@@ -42,6 +43,7 @@ class MyStatisticsFragment : Fragment() {
                 viewModel.getAverageScorePerMatch(it)
                 viewModel.getSetAverageScores(it)
                 viewModel.getTotalSetsPlayed(it)
+                viewModel.getTotalPointsWon(it)
             }
         }
 
@@ -68,78 +70,94 @@ class MyStatisticsFragment : Fragment() {
                 }
             }
         }
-        viewModel.averageScorePerMatch.observe(viewLifecycleOwner) { averageScore ->
-            binding.averageScorePerMatch.text = averageScore.toString()
-        }
 
-        viewModel.totalMatches.observe(viewLifecycleOwner){
-            totalMatch=it
-            binding.totalMatchValue.text=it.toString()
-        }
-        viewModel.matchResults.observe(viewLifecycleOwner){(wins, losses) ->
-            binding.wonMatchValue.text=wins.toString()
-            binding.lostMatchValue.text=losses.toString()
+
+
+        viewModel.matchResults.observe(viewLifecycleOwner) { (wins, losses) ->
+            binding.wonMatchValue.text = wins.toString()
+            binding.lostMatchValue.text = losses.toString()
+            totalMatch = wins + losses
             val percentage: Double = if (totalMatch > 0) {
                 (wins.toDouble() / totalMatch) * 100
             } else {
                 0.0
             }
-            binding.winPercentageMatchValue.text=String.format("%.2f", percentage) + "%"
-            binding.statisticProgress.progress=percentage.toInt()
-        }
-        viewModel.setAvgScores.observe(viewLifecycleOwner){
-            for (setNumber in 0..4) {
-                val avgRate = it[setNumber] ?: 0.0
-                when (setNumber) {
-                    0 -> binding.set1AvgScoreText.text = String.format("%.2f%%", avgRate)
-                    1 -> binding.set2AvgScoreText.text = String.format("%.2f%%", avgRate)
-                    2 -> binding.set3AvgScoreText.text = String.format("%.2f%%", avgRate)
-                    3 -> binding.set4AvgScoreText.text = String.format("%.2f%%", avgRate)
-                    4 -> binding.set5AvgScoreText.text = String.format("%.2f%%", avgRate)
-                }
-            }
-        }
-        viewModel.averageSetScoreMatch.observe(viewLifecycleOwner){
-            binding.matchPerScoreAvgText.text=String.format("%.2f%%", it)
+            binding.winPercentageMatchValue.text = String.format("%.2f", percentage) + "%"
+            binding.statisticProgress.progress = percentage.toInt()
         }
 
-        viewModel.totalSet.observe(viewLifecycleOwner){
-            binding.totalSet.text=String.format("%.2f%%", it)
+
+        viewModel.setAvgScores.observe(viewLifecycleOwner) { avgScoresMap ->
+
+            val set1AvgScore = avgScoresMap[0]?.toFloat() ?: 0.0f
+            val set2AvgScore = avgScoresMap[1]?.toFloat() ?: 0.0f
+            val set3AvgScore = avgScoresMap[2]?.toFloat() ?: 0.0f
+            val set4AvgScore = avgScoresMap[3]?.toFloat() ?: 0.0f
+            val set5AvgScore = avgScoresMap[4]?.toFloat() ?: 0.0f
+
+            binding.set1AvgScoreText.text = String.format("%.2f", set1AvgScore)
+            binding.set2AvgScoreText.text = String.format("%.2f", set2AvgScore)
+            binding.set3AvgScoreText.text = String.format("%.2f", set3AvgScore)
+            binding.set4AvgScoreText.text = String.format("%.2f", set4AvgScore)
+            binding.set5AvgScoreText.text = String.format("%.2f", set5AvgScore)
+            viewModel.totalMatches.observe(viewLifecycleOwner){totalMatches->
+                totalMatch=totalMatches
+                binding.totalMatchValue.text=totalMatches.toString()
+                viewModel.totalScore.observe(viewLifecycleOwner){totalScore->
+                    binding.totalScore.text=totalScore.toString()
+                    binding.matchPerScoreAvgText.text=String.format("%.2f", (totalScore.toDouble()/totalMatch.toDouble()))
+                    viewModel.totalSet.observe(viewLifecycleOwner){totalSet->
+                        binding.totalSet.text=String.format(totalSet.toString())
+                        updateRadarChart(
+                            matchPerScoreAvg = (totalScore.toDouble()/totalSet.toDouble()).toFloat(),
+                            set1AvgScore = set1AvgScore,
+                            set2AvgScore = set2AvgScore,
+                            set3AvgScore = set3AvgScore,
+                            set4AvgScore = set4AvgScore,
+                            set5AvgScore = set5AvgScore
+                        )
+                    }
+                }
+
+            }
+
+        }
+        viewModel.averageScorePerMatch.observe(viewLifecycleOwner) { averageScorePerMatch ->
+            binding.averageScorePerMatch.text = String.format("%.2f", averageScorePerMatch)
         }
 
     }
 
     private fun updateRadarChart(
-        averageScore: Double,
-        set1WinRate: Double,
-        set2WinRate: Double,
-        set3WinRate: Double,
-        set4WinRate: Double,
-        set5WinRate: Double
+        matchPerScoreAvg: Float,
+        set1AvgScore: Float,
+        set2AvgScore: Float,
+        set3AvgScore: Float,
+        set4AvgScore: Float,
+        set5AvgScore: Float
     ) {
         val entries = ArrayList<RadarEntry>()
 
-        val normalizedAverageScore = (averageScore / 3) * 100
-        entries.add(RadarEntry(normalizedAverageScore.toFloat()))
-        entries.add(RadarEntry(set2WinRate.toFloat()))
-        entries.add(RadarEntry(set4WinRate.toFloat()))
-        entries.add(RadarEntry(set5WinRate.toFloat()))
-        entries.add(RadarEntry(set3WinRate.toFloat()))
-        entries.add(RadarEntry(set1WinRate.toFloat()))
+        entries.add(RadarEntry(matchPerScoreAvg))
+        entries.add(RadarEntry(set2AvgScore))
+        entries.add(RadarEntry(set4AvgScore))
+        entries.add(RadarEntry(set5AvgScore))
+        entries.add(RadarEntry(set3AvgScore))
+        entries.add(RadarEntry(set1AvgScore))
 
         val dataSet = RadarDataSet(entries, "Performans")
         dataSet.color = Color.BLUE
         dataSet.fillColor = Color.BLUE
-        dataSet.lineWidth = 2f
+        dataSet.lineWidth = 1.5f
         dataSet.setDrawFilled(true)
         dataSet.fillAlpha = 80
 
         val radarData = RadarData(dataSet)
         binding.performanceChart.data = radarData
-
         binding.performanceChart.xAxis.textSize = 10f
         binding.performanceChart.yAxis.textSize = 10f
-        binding.performanceChart.legend.textSize = 12f
+        binding.performanceChart.legend.textSize = 11f
+
 
         binding.performanceChart.xAxis.valueFormatter = object : ValueFormatter() {
             override fun getAxisLabel(value: Float, axis: AxisBase?): String {
@@ -155,9 +173,12 @@ class MyStatisticsFragment : Fragment() {
             }
         }
 
-        binding.performanceChart.yAxis.axisMaximum = 100f
+        binding.performanceChart.yAxis.axisMaximum = 11f
         binding.performanceChart.yAxis.axisMinimum = 0f
 
+
+        binding.performanceChart.xAxis.axisMaximum = 11f
+        binding.performanceChart.xAxis.axisMinimum = 0f
         binding.performanceChart.yAxis.setDrawLabels(false)
         binding.performanceChart.yAxis.setDrawGridLines(false)
         binding.performanceChart.xAxis.setDrawGridLines(false)

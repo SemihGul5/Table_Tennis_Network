@@ -99,6 +99,14 @@ class AddMatchViewModel @Inject constructor (var repository: Repository,applicat
             }
         }
     }
-
+    fun deleteMatchByField(id: String){
+        repository.deleteMatchByField(id){
+            if (it){
+                Toast.makeText(context,"Maç başarıyla silindi",Toast.LENGTH_SHORT).show()
+            }else{
+                Toast.makeText(context,"Maç silinirken hata",Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
 
 }

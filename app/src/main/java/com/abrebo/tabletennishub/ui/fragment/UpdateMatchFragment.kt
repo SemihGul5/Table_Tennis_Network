@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import androidx.fragment.app.viewModels
+import androidx.navigation.Navigation
 import com.abrebo.tabletennishub.R
 import com.abrebo.tabletennishub.data.model.Match
 import com.abrebo.tabletennishub.data.model.SetScore
@@ -54,7 +55,21 @@ class UpdateMatchFragment : Fragment() {
         }
 
         setupSetButtons()
+
+        binding.materialToolbar4.setOnMenuItemClickListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.delete_match -> {
+                    viewModel.deleteMatchByField(match.id)
+                    Navigation.findNavController(requireView()).navigate(R.id.action_updateMatchFragment_to_mainFragment)
+                    true 
+                }
+                else -> false
+            }
+        }
+
     }
+
+
 
     private fun setupSetButtons() {
         binding.addNewSet1Button.setOnClickListener {

@@ -232,7 +232,6 @@ class DataSource(var collectionReference: CollectionReference,
         val friendUserDocRef = collectionReferenceUserFriends.document(friendUserName)
 
         firestore.runBatch { batch ->
-            // Kullanıcıların arkadaş listesinden birbirlerini sil
             batch.set(
                 currentUserDocRef,
                 mapOf("arkadaşlar" to FieldValue.arrayRemove(friendUserName)),
@@ -314,6 +313,29 @@ class DataSource(var collectionReference: CollectionReference,
                 onComplete(false)
             }
     }
+    fun deleteMatchByField(id: String, onComplete: (Boolean) -> Unit) {
+        collectionReferenceMatches
+            .whereEqualTo("id", id)
+            .get()
+            .addOnSuccessListener { querySnapshot ->
+                if (!querySnapshot.isEmpty) {
+                    for (document in querySnapshot.documents) {
+                        document.reference.delete()
+                            .addOnSuccessListener {
+                            }
+                    }
+                    onComplete(true)
+                } else {
+                    onComplete(false)
+                }
+            }
+            .addOnFailureListener { e ->
+                Log.e("Repository", "Sorgu başarısız: ${e.message}")
+                onComplete(false)
+            }
+    }
+
+
     fun getMatchesByUserName(currentUserName: String, onResult: (List<Match>) -> Unit) {
         val matchesList = mutableListOf<Match>()
 
@@ -441,7 +463,7 @@ class DataSource(var collectionReference: CollectionReference,
                 } else {
                     0.0
                 }
-                winRates[setNumber + 1] = winRate
+                winRates[setNumber] = winRate
             }
 
             onResult(winRates)
@@ -460,29 +482,31 @@ class DataSource(var collectionReference: CollectionReference,
                         totalSetsPlayed[setIndex]++
 
                         val setScore = match.setScores[setIndex]
-
                         if (match.userHome == currentUserName) {
                             totalScores[setIndex] += setScore.userScore.toDouble()
-                        }
-
-                        if (match.userAway == currentUserName) {
+                        } else if (match.userAway == currentUserName) {
                             totalScores[setIndex] += setScore.opponentScore.toDouble()
                         }
                     }
                 }
             }
+
             for (setNumber in 0 until 5) {
                 val averageScore = if (totalSetsPlayed[setNumber] > 0) {
                     totalScores[setNumber] / totalSetsPlayed[setNumber]
                 } else {
                     0.0
                 }
-                averageScores[setNumber + 1] = averageScore
+                println("Average score for set ${setNumber + 1} is $averageScore")
+                averageScores[setNumber] = averageScore
             }
 
             onResult(averageScores)
         }
     }
+
+
+
 
     fun getTotalMatchesByUser(currentUserName: String, onResult: (Int) -> Unit) {
         getMatchesByUserName(currentUserName) { matches ->
@@ -544,6 +568,23 @@ class DataSource(var collectionReference: CollectionReference,
                 }
             }
             onResult(totalSetsPlayed)
+        }
+    }
+    fun getTotalPointsWon(currentUserName: String, onResult: (Int) -> Unit) {
+        getMatchesByUserName(currentUserName) { matches ->
+            var totalPointsWon = 0
+
+            for (match in matches) {
+                for (setScore in match.setScores) {
+                    if (match.userHome == currentUserName) {
+                        totalPointsWon += setScore.userScore
+                    } else if (match.userAway == currentUserName) {
+                        totalPointsWon += setScore.opponentScore
+                    }
+                }
+            }
+
+            onResult(totalPointsWon)
         }
     }
 

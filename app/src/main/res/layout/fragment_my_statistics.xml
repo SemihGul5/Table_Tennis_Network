@@ -138,9 +138,11 @@
 
         <com.github.mikephil.charting.charts.RadarChart
             android:id="@+id/performance_chart"
-            android:layout_marginTop="24dp"
-            android:layout_width="match_parent"
-            android:layout_height="300dp"
+            android:padding="16dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="8dp"
+            android:layout_width="250dp"
+            android:layout_height="250dp"
             android:background="@color/white"/>
 
         <TextView
@@ -543,6 +545,7 @@
                         android:textStyle="bold" />
 
                     <TextView
+                        android:id="@+id/totalScore"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="150"

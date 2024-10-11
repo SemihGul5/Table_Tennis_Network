@@ -25,7 +25,7 @@ class StatisticsViewModel @Inject constructor (var repository: Repository,
     var totalMatches = MutableLiveData<Int>()
     var matchResults = MutableLiveData<Pair<Int, Int>>()
     var totalSet=MutableLiveData<Int>()
-
+    var totalScore=MutableLiveData<Int>()
 
     fun getUserNameByEmail(userEmail: String, onResult: (String?) -> Unit){
         viewModelScope.launch {
@@ -72,6 +72,11 @@ class StatisticsViewModel @Inject constructor (var repository: Repository,
     fun getTotalSetsPlayed(currentUserName: String){
         repository.getTotalSetsPlayed(currentUserName){
             totalSet.value=it
+        }
+    }
+    fun getTotalPointsWon(currentUserName: String){
+        repository.getTotalPointsWon(currentUserName){
+            totalScore.value=it
         }
     }
 }

@@ -53,4 +53,8 @@ class Repository(var dataSource: DataSource) {
         dataSource.getMatchAverageScore(currentUserName, onResult)
     fun getTotalSetsPlayed(currentUserName: String, onResult: (Int) -> Unit)=
         dataSource.getTotalSetsPlayed(currentUserName,onResult)
+    fun getTotalPointsWon(currentUserName: String, onResult: (Int) -> Unit)=
+        dataSource.getTotalPointsWon(currentUserName, onResult)
+    fun deleteMatchByField(id: String, onComplete: (Boolean) -> Unit)=
+        dataSource.deleteMatchByField(id, onComplete)
 }

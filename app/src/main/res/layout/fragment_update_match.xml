@@ -22,6 +22,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:title="Maç Güncelle"
+        app:menu="@menu/update_menu"
         app:titleCentered="true"
         app:titleTextColor="@color/white" />
 

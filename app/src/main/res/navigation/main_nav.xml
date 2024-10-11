@@ -65,5 +65,8 @@
         <argument
             android:name="match"
             app:argType="com.abrebo.tabletennishub.data.model.Match" />
+        <action
+            android:id="@+id/action_updateMatchFragment_to_mainFragment"
+            app:destination="@id/mainFragment" />
     </fragment>
 </navigation>
