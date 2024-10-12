@@ -57,4 +57,22 @@ class Repository(var dataSource: DataSource) {
         dataSource.getTotalPointsWon(currentUserName, onResult)
     fun deleteMatchByField(id: String, onComplete: (Boolean) -> Unit)=
         dataSource.deleteMatchByField(id, onComplete)
+    fun getTotalMatchesAgainstOpponent(currentUserName: String, opponentUserName: String, onResult: (Int) -> Unit) =
+        dataSource.getTotalMatchesAgainstOpponent(currentUserName, opponentUserName, onResult)
+    fun getTotalWinsAgainstOpponent(currentUserName: String, opponentUserName: String, onResult: (Int) -> Unit)=
+        dataSource.getTotalWinsAgainstOpponent(currentUserName, opponentUserName, onResult)
+    fun getAverageScorePerMatch(currentUserName: String,opponentUserName:String, onResult: (Double,Double) -> Unit)=
+        dataSource.getAverageScorePerMatch(currentUserName, opponentUserName, onResult)
+    fun getCurrentUserSetWinRates(currentUserName: String, opponentUserName: String, onResult: (Map<Int, Double>) -> Unit)=
+        dataSource.getCurrentUserSetWinRates(currentUserName, opponentUserName, onResult)
+    fun getOpponentSetWinRates(currentUserName: String, opponentUserName: String, onResult: (Map<Int, Double>) -> Unit) =
+        dataSource.getOpponentSetWinRates(currentUserName, opponentUserName, onResult)
+    fun getSetAverageScoresAgainstOpponent(currentUserName: String, opponentUserName: String, onResult: (Map<Int, Double>) -> Unit) =
+        dataSource.getSetAverageScoresAgainstOpponent(currentUserName,opponentUserName,onResult)
+    fun getOpponentSetAverageScores(currentUserName: String, opponentUserName: String, onResult: (Map<Int, Double>) -> Unit)=
+        dataSource.getOpponentSetAverageScores(currentUserName, opponentUserName, onResult)
+    fun getTotalSetsPlayedWithOpponent(currentUserName: String, opponentUserName: String, onResult: (Int) -> Unit)=
+        dataSource.getTotalSetsPlayedWithOpponent(currentUserName, opponentUserName, onResult)
+    fun getTotalPointsWonAgainstOpponent(currentUserName: String, opponentUserName: String, onResult: (Int,Int) -> Unit) =
+        dataSource.getTotalPointsWonAgainstOpponent(currentUserName, opponentUserName, onResult)
 }

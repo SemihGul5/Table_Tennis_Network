@@ -26,6 +26,16 @@ class StatisticsViewModel @Inject constructor (var repository: Repository,
     var matchResults = MutableLiveData<Pair<Int, Int>>()
     var totalSet=MutableLiveData<Int>()
     var totalScore=MutableLiveData<Int>()
+    var totalMatchesAgainstOpponent=MutableLiveData<Int>()
+    var totalWinAgainstOpponent=MutableLiveData<Int>()
+    var averageScorePerMatchWithOpponen=MutableLiveData<Pair<Double, Double>>()
+    var setWinRatesCurrentWithOpponent = MutableLiveData<Map<Int, Double>>()
+    var setWinRatesOpponent = MutableLiveData<Map<Int, Double>>()
+    var setAvgScoresWithOpponent = MutableLiveData<Map<Int, Double>>()
+    var setAvgScoresOpponent = MutableLiveData<Map<Int, Double>>()
+    var totalSetWithOpponent=MutableLiveData<Int>()
+    var totalScoreCurrrentAndOpponent=MutableLiveData<Pair<Int, Int>>()
+
 
     fun getUserNameByEmail(userEmail: String, onResult: (String?) -> Unit){
         viewModelScope.launch {
@@ -77,6 +87,52 @@ class StatisticsViewModel @Inject constructor (var repository: Repository,
     fun getTotalPointsWon(currentUserName: String){
         repository.getTotalPointsWon(currentUserName){
             totalScore.value=it
+        }
+    }
+    fun getTotalMatchesAgainstOpponent(currentUserName: String, opponentUserName: String){
+        repository.getTotalMatchesAgainstOpponent(currentUserName,opponentUserName){
+            totalMatchesAgainstOpponent.value=it
+        }
+    }
+    fun getTotalWinsAgainstOpponent(currentUserName: String, opponentUserName: String){
+        repository.getTotalWinsAgainstOpponent(currentUserName,opponentUserName){
+            totalWinAgainstOpponent.value=it
+        }
+    }
+
+    fun getAverageScorePerMatch(currentUserName: String,opponentUserName:String){
+        repository.getAverageScorePerMatch(currentUserName,opponentUserName){user,opponent->
+            averageScorePerMatchWithOpponen.value = Pair(user,opponent)
+        }
+    }
+    fun getCurrentUserSetWinRates(currentUserName: String, opponentUserName: String){
+        repository.getCurrentUserSetWinRates(currentUserName,opponentUserName){
+            setWinRatesCurrentWithOpponent.value=it
+        }
+    }
+    fun getOpponentSetWinRates(currentUserName: String, opponentUserName: String){
+        repository.getOpponentSetWinRates(currentUserName,opponentUserName){
+            setWinRatesOpponent.value=it
+        }
+    }
+    fun getSetAverageScoresAgainstOpponent(currentUserName: String, opponentUserName: String){
+        repository.getSetAverageScoresAgainstOpponent(currentUserName,opponentUserName){
+            setAvgScoresWithOpponent.value=it
+        }
+    }
+    fun getOpponentSetAverageScores(currentUserName: String, opponentUserName: String){
+        repository.getOpponentSetAverageScores(currentUserName,opponentUserName){
+            setAvgScoresOpponent.value=it
+        }
+    }
+    fun getTotalSetsPlayedWithOpponent(currentUserName: String, opponentUserName: String){
+        repository.getTotalSetsPlayedWithOpponent(currentUserName,opponentUserName){
+            totalSetWithOpponent.value=it
+        }
+    }
+    fun getTotalPointsWonAgainstOpponent(currentUserName: String, opponentUserName: String){
+        repository.getTotalPointsWonAgainstOpponent(currentUserName,opponentUserName){user,opponent->
+            totalScoreCurrrentAndOpponent.value=Pair(user,opponent)
         }
     }
 }

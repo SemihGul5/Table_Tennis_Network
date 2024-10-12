@@ -335,7 +335,6 @@ class DataSource(var collectionReference: CollectionReference,
             }
     }
 
-
     fun getMatchesByUserName(currentUserName: String, onResult: (List<Match>) -> Unit) {
         val matchesList = mutableListOf<Match>()
 
@@ -505,9 +504,6 @@ class DataSource(var collectionReference: CollectionReference,
         }
     }
 
-
-
-
     fun getTotalMatchesByUser(currentUserName: String, onResult: (Int) -> Unit) {
         getMatchesByUserName(currentUserName) { matches ->
             onResult(matches.size)
@@ -570,6 +566,20 @@ class DataSource(var collectionReference: CollectionReference,
             onResult(totalSetsPlayed)
         }
     }
+    fun getTotalSetsPlayedWithOpponent(currentUserName: String, opponentUserName: String, onResult: (Int) -> Unit) {
+        getMatchesByUserName(currentUserName) { matches ->
+            var totalSetsPlayed = 0
+
+            for (match in matches) {
+                if ((match.userHome == currentUserName && match.userAway == opponentUserName) ||
+                    (match.userHome == opponentUserName && match.userAway == currentUserName)) {
+                    totalSetsPlayed += match.setScores.size
+                }
+            }
+            onResult(totalSetsPlayed)
+        }
+    }
+
     fun getTotalPointsWon(currentUserName: String, onResult: (Int) -> Unit) {
         getMatchesByUserName(currentUserName) { matches ->
             var totalPointsWon = 0
@@ -587,7 +597,263 @@ class DataSource(var collectionReference: CollectionReference,
             onResult(totalPointsWon)
         }
     }
+    fun getTotalPointsWonAgainstOpponent(currentUserName: String, opponentUserName: String, onResult: (Int,Int) -> Unit) {
+        getMatchesByUserName(currentUserName) { matches ->
+            var totalPointsWon = 0
+            var totalPointWonOpponent=0
+            for (match in matches) {
+                if ((match.userHome == currentUserName && match.userAway == opponentUserName) ||
+                    (match.userHome == opponentUserName && match.userAway == currentUserName)) {
 
+                    for (setScore in match.setScores) {
+                        if (match.userHome == currentUserName) {
+                            totalPointsWon += setScore.userScore
+                            totalPointWonOpponent+=setScore.opponentScore
+                        } else if (match.userAway == currentUserName) {
+                            totalPointsWon += setScore.opponentScore
+                            totalPointWonOpponent += setScore.userScore
+                        }
+                    }
+                }
+            }
+
+            onResult(totalPointsWon,totalPointWonOpponent)
+        }
+    }
+
+    fun getTotalMatchesAgainstOpponent(currentUserName: String, opponentUserName: String, onResult: (Int) -> Unit) {
+        val matchesList = mutableListOf<Match>()
+
+        val homeMatchesQuery = collectionReferenceMatches
+            .whereEqualTo("userHome", currentUserName)
+            .whereEqualTo("userAway", opponentUserName)
+            .orderBy("timestamp", Query.Direction.ASCENDING)
+
+        val awayMatchesQuery = collectionReferenceMatches
+            .whereEqualTo("userHome", opponentUserName)
+            .whereEqualTo("userAway", currentUserName)
+            .orderBy("timestamp", Query.Direction.ASCENDING)
+
+        homeMatchesQuery.get()
+            .addOnSuccessListener { homeQuerySnapshot ->
+                matchesList.addAll(homeQuerySnapshot.documents.mapNotNull { document ->
+                    document.toObject(Match::class.java)
+                })
+
+                awayMatchesQuery.get()
+                    .addOnSuccessListener { awayQuerySnapshot ->
+                        matchesList.addAll(awayQuerySnapshot.documents.mapNotNull { document ->
+                            document.toObject(Match::class.java)
+                        })
+                        onResult(matchesList.size)
+                    }
+                    .addOnFailureListener { e ->
+                        onResult(matchesList.size)
+                    }
+            }
+            .addOnFailureListener { e ->
+                onResult(0)
+            }
+    }
+    fun getTotalWinsAgainstOpponent(currentUserName: String, opponentUserName: String, onResult: (Int) -> Unit) {
+        getMatchesByUserName(currentUserName) { matches ->
+            var wins = 0
+            for (match in matches) {
+                if (match.winner == currentUserName && (match.userHome == opponentUserName || match.userAway == opponentUserName)) {
+                    wins++
+                }
+            }
+            onResult(wins)
+        }
+    }
+    fun getAverageScorePerMatch(currentUserName: String,opponentUserName:String, onResult: (Double,Double) -> Unit) {
+        getMatchesByUserName(currentUserName) { matches ->
+            if (matches.isEmpty()) {
+                onResult(0.0,0.0)
+                return@getMatchesByUserName
+            }
+
+            var totalScore = 0
+            var totalMatches = 0
+            var totalScoreOpponent = 0
+
+            matches.forEach { match ->
+                if (match.userHome == currentUserName&&match.userAway==opponentUserName) {
+                    totalScore += match.userHomeScore
+                    totalScoreOpponent+=match.userAwayScore
+                    totalMatches++
+                } else if (match.userAway == currentUserName&&match.userHome==opponentUserName) {
+                    totalScore += match.userAwayScore
+                    totalScoreOpponent+=match.userHomeScore
+                    totalMatches++
+                }
+                println(totalMatches)
+            }
+            val averageScore = if (totalMatches > 0) {
+                totalScore.toDouble() / totalMatches
+            } else {
+                0.0
+            }
+            val averageScoreOpponent = if (totalMatches > 0) {
+                totalScoreOpponent.toDouble() / totalMatches
+            } else {
+                0.0
+            }
+
+            onResult(averageScore,averageScoreOpponent)
+        }
+    }
+
+    fun getCurrentUserSetWinRates(currentUserName: String, opponentUserName: String, onResult: (Map<Int, Double>) -> Unit) {
+        getMatchesByUserName(currentUserName) { matches ->
+            val winRates = mutableMapOf<Int, Double>()
+
+            val totalSetsPlayed = IntArray(5) { 0 }
+            val setsWon = IntArray(5) { 0 }
+
+            for (match in matches) {
+                if (match.userAway == opponentUserName || match.userHome == opponentUserName) {
+                    for (setIndex in 0 until match.setScores.size) {
+                        if (setIndex < 5) {
+                            totalSetsPlayed[setIndex]++
+                            val setScore = match.setScores[setIndex]
+
+                            if (match.userHome == currentUserName && setScore.userScore > setScore.opponentScore) {
+                                setsWon[setIndex]++
+                            }
+
+                            if (match.userAway == currentUserName && setScore.opponentScore > setScore.userScore) {
+                                setsWon[setIndex]++
+                            }
+                        }
+                    }
+                }
+            }
+            for (setNumber in 0 until 5) {
+                val winRate = if (totalSetsPlayed[setNumber] > 0) {
+                    setsWon[setNumber].toDouble() / totalSetsPlayed[setNumber]
+                } else {
+                    0.0
+                }
+
+                winRates[setNumber] = winRate
+            }
+            onResult(winRates)
+        }
+    }
+    fun getOpponentSetWinRates(currentUserName: String, opponentUserName: String, onResult: (Map<Int, Double>) -> Unit) {
+        getMatchesByUserName(opponentUserName) { matches ->
+            val winRates = mutableMapOf<Int, Double>()
+
+            val totalSetsPlayed = IntArray(5) { 0 }
+            val setsWon = IntArray(5) { 0 }
+
+            for (match in matches) {
+                if (match.userAway == currentUserName || match.userHome == currentUserName) {
+                    for (setIndex in 0 until match.setScores.size) {
+                        if (setIndex < 5) {
+                            totalSetsPlayed[setIndex]++
+                            val setScore = match.setScores[setIndex]
+
+                            if (match.userHome == opponentUserName && setScore.userScore > setScore.opponentScore) {
+                                setsWon[setIndex]++
+                            }
+
+                            if (match.userAway == opponentUserName && setScore.opponentScore > setScore.userScore) {
+                                setsWon[setIndex]++
+                            }
+                        }
+                    }
+                }
+            }
+
+            for (setNumber in 0 until 5) {
+                val winRate = if (totalSetsPlayed[setNumber] > 0) {
+                    setsWon[setNumber].toDouble() / totalSetsPlayed[setNumber]
+                } else {
+                    0.0
+                }
+
+                winRates[setNumber] = winRate
+            }
+
+            onResult(winRates)
+        }
+    }
+    fun getSetAverageScoresAgainstOpponent(currentUserName: String, opponentUserName: String, onResult: (Map<Int, Double>) -> Unit) {
+        getMatchesByUserName(currentUserName) { matches ->
+            val averageScores = mutableMapOf<Int, Double>()
+
+            val totalSetsPlayed = IntArray(5) { 0 }
+            val totalScores = DoubleArray(5) { 0.0 }
+
+            for (match in matches) {
+                if (match.userAway == opponentUserName || match.userHome == opponentUserName) {
+                    for (setIndex in 0 until match.setScores.size) {
+                        if (setIndex < 5) {
+                            totalSetsPlayed[setIndex]++
+
+                            val setScore = match.setScores[setIndex]
+                            if (match.userHome == currentUserName) {
+                                totalScores[setIndex] += setScore.userScore.toDouble()
+                            } else if (match.userAway == currentUserName) {
+                                totalScores[setIndex] += setScore.opponentScore.toDouble()
+                            }
+                        }
+                    }
+                }
+            }
+
+            for (setNumber in 0 until 5) {
+                val averageScore = if (totalSetsPlayed[setNumber] > 0) {
+                    totalScores[setNumber] / totalSetsPlayed[setNumber]
+                } else {
+                    0.0
+                }
+                println("Average score for set ${setNumber + 1} against $opponentUserName is $averageScore")
+                averageScores[setNumber] = averageScore
+            }
+
+            onResult(averageScores)
+        }
+    }
+    fun getOpponentSetAverageScores(currentUserName: String, opponentUserName: String, onResult: (Map<Int, Double>) -> Unit) {
+        getMatchesByUserName(currentUserName) { matches ->
+            val averageScores = mutableMapOf<Int, Double>()
+
+            val totalSetsPlayed = IntArray(5) { 0 }
+            val totalScores = DoubleArray(5) { 0.0 }
+
+            for (match in matches) {
+                if (match.userAway == opponentUserName || match.userHome == opponentUserName) {
+                    for (setIndex in 0 until match.setScores.size) {
+                        if (setIndex < 5) {
+                            totalSetsPlayed[setIndex]++
+
+                            val setScore = match.setScores[setIndex]
+                            if (match.userHome == opponentUserName) {
+                                totalScores[setIndex] += setScore.userScore.toDouble()
+                            } else if (match.userAway == opponentUserName) {
+                                totalScores[setIndex] += setScore.opponentScore.toDouble()
+                            }
+                        }
+                    }
+                }
+            }
+
+            for (setNumber in 0 until 5) {
+                val averageScore = if (totalSetsPlayed[setNumber] > 0) {
+                    totalScores[setNumber] / totalSetsPlayed[setNumber]
+                } else {
+                    0.0
+                }
+                println("Average score for set ${setNumber + 1} by $opponentUserName against $currentUserName is $averageScore")
+                averageScores[setNumber] = averageScore
+            }
+
+            onResult(averageScores)
+        }
+    }
 
 
 

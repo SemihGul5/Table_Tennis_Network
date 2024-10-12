@@ -3,25 +3,23 @@ package com.abrebo.tabletennishub.ui.fragment
 import android.annotation.SuppressLint
 import android.graphics.Color
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.abrebo.tabletennishub.R
 import com.abrebo.tabletennishub.databinding.FragmentMyStatisticsBinding
 import com.abrebo.tabletennishub.ui.viewmodel.StatisticsViewModel
 import com.github.mikephil.charting.components.AxisBase
-import com.github.mikephil.charting.data.BarData
-import com.github.mikephil.charting.data.BarDataSet
-import com.github.mikephil.charting.data.BarEntry
+import com.github.mikephil.charting.components.Description
+import com.github.mikephil.charting.components.Legend
 import com.github.mikephil.charting.data.RadarData
 import com.github.mikephil.charting.data.RadarDataSet
 import com.github.mikephil.charting.data.RadarEntry
 import com.github.mikephil.charting.formatter.ValueFormatter
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
+
 
 @AndroidEntryPoint
 class MyStatisticsFragment : Fragment() {
@@ -151,6 +149,8 @@ class MyStatisticsFragment : Fragment() {
         dataSet.lineWidth = 1.5f
         dataSet.setDrawFilled(true)
         dataSet.fillAlpha = 80
+        dataSet.isDrawHighlightCircleEnabled=true
+        dataSet.setDrawHighlightIndicators(false)
 
         val radarData = RadarData(dataSet)
         binding.performanceChart.data = radarData
@@ -187,9 +187,28 @@ class MyStatisticsFragment : Fragment() {
         binding.performanceChart.yAxis.setDrawLabels(false)
         binding.performanceChart.yAxis.setDrawGridLines(false)
         binding.performanceChart.xAxis.setDrawGridLines(false)
+        binding.performanceChart.legend.isEnabled=false
         binding.performanceChart.animateXY(1000, 1000)
         binding.performanceChart.invalidate()
     }
 
+    override fun onResume() {
+        super.onResume()
+        auth=FirebaseAuth.getInstance()
+        val temp:StatisticsViewModel by viewModels()
+        viewModel=temp
+        viewModel.getUserNameByEmail(auth.currentUser?.email!!){
+            if (it!=null){
+                viewModel.getSetWinRates(it)
+                viewModel.getAverageScorePerMatch(it)
+                viewModel.getTotalMatchesByUser(it)
+                viewModel.loadMatchResults(it)
+                viewModel.getAverageScorePerMatch(it)
+                viewModel.getSetAverageScores(it)
+                viewModel.getTotalSetsPlayed(it)
+                viewModel.getTotalPointsWon(it)
+            }
+        }
+    }
 
 }
