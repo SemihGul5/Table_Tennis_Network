@@ -67,6 +67,7 @@ class DataSource(var collectionReference: CollectionReference,
     }
 
     fun saveUser(user: User) {
+        user.id=UUID.randomUUID().toString()
         collectionReference.document().set(user)
     }
 
@@ -76,16 +77,16 @@ class DataSource(var collectionReference: CollectionReference,
 
     fun updateUser(user: User) {
         val newUser = HashMap<String, Any>()
-        newUser["AdSoyad"] = user.nameFamily!!
-        newUser["KullanıcıAdı"] = user.userName!!
-        newUser["Email"] = user.email!!
+        newUser["nameFamily"] = user.nameFamily!!
+        newUser["userName"] = user.userName!!
+        newUser["email"] = user.email!!
         collectionReference.document(user.id!!).update(newUser)
     }
 
     suspend fun checkUserNameAvailability(userName: String): Boolean {
         return try {
             val querySnapshot = collectionReference
-                .whereEqualTo("KullanıcıAdı", userName)
+                .whereEqualTo("userName", userName)
                 .get()
                 .await()
 

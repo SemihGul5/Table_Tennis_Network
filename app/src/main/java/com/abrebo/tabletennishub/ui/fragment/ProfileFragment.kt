@@ -48,11 +48,19 @@ class ProfileFragment : Fragment() {
         binding.textViewFriends.setOnClickListener {
             Navigation.findNavController(it).navigate(R.id.action_profileFragment_to_friendsFragment)
         }
+        binding.linearLayoutSettings.setOnClickListener {
+            Navigation.findNavController(it).navigate(R.id.action_profileFragment_to_settingsFragment)
+        }
         viewModel.map.observe(viewLifecycleOwner){
             binding.textViewNameFamily.text=it["userName"].toString()
             binding.textViewEmail.text=it["email"].toString()
             user=User(it["id"].toString(),it["nameFamily"].toString(),it["userName"].toString(),it["email"].toString())
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.getUserInfo(auth.currentUser?.email!!)
     }
 
 }

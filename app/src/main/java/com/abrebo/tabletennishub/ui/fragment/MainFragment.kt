@@ -62,7 +62,15 @@ class MainFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        viewModel.getMatchesByUserName(currentUserName)
+        val currentUserEmail = auth.currentUser?.email
+        if (currentUserEmail != null) {
+            viewModel.getUserNameByEmail(currentUserEmail) { userName ->
+                if (userName != null) {
+                    currentUserName = userName
+                    viewModel.getMatchesByUserName(currentUserName)
+                }
+            }
+        }
     }
 
 }
