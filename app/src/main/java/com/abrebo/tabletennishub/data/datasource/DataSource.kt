@@ -24,7 +24,7 @@ import kotlin.math.log
 
 class DataSource(var collectionReference: CollectionReference,
                  var collectionReferenceUserFriends: CollectionReference,
-                 var collectionReferenceMatches: CollectionReference) {
+                     var collectionReferenceMatches: CollectionReference) {
     var userList = MutableLiveData<List<User>>()
     val firestore = FirebaseFirestore.getInstance()
 
@@ -81,6 +81,143 @@ class DataSource(var collectionReference: CollectionReference,
         newUser["userName"] = user.userName!!
         newUser["email"] = user.email!!
         collectionReference.document(user.id!!).update(newUser)
+    }
+    suspend fun updateWinnerUserName(oldUserName: String, newUserName: String): Boolean {
+        return try {
+            val querySnapshot = collectionReferenceMatches
+                .whereEqualTo("winner", oldUserName)
+                .get()
+                .await()
+
+            if (querySnapshot.isEmpty) {
+                Log.e("hata", "Eski kullanıcı adına sahip 'winner' belgeleri bulunamadı: $oldUserName")
+                return false
+            }
+
+            for (document in querySnapshot.documents) {
+                val documentId = document.id
+                collectionReferenceMatches.document(documentId).update("winner", newUserName).await()
+            }
+
+            true
+        } catch (e: Exception) {
+            Log.e("hata", e.message.toString())
+            false
+        }
+    }
+    suspend fun updateUserHomeUserName(oldUserName: String, newUserName: String): Boolean {
+        return try {
+            val querySnapshot = collectionReferenceMatches
+                .whereEqualTo("userHome", oldUserName)
+                .get()
+                .await()
+
+            if (querySnapshot.isEmpty) {
+                Log.e("hata", "Eski kullanıcı adına sahip 'userHome' belgeleri bulunamadı: $oldUserName")
+                return false
+            }
+
+            for (document in querySnapshot.documents) {
+                val documentId = document.id
+                collectionReferenceMatches.document(documentId).update("userHome", newUserName).await()
+            }
+
+            true
+        } catch (e: Exception) {
+            Log.e("hata", e.message.toString())
+            false
+        }
+    }
+    suspend fun updateUserAwayUserName(oldUserName: String, newUserName: String): Boolean {
+        return try {
+            val querySnapshot = collectionReferenceMatches
+                .whereEqualTo("userAway", oldUserName)
+                .get()
+                .await()
+
+            if (querySnapshot.isEmpty) {
+                Log.e("hata", "Eski kullanıcı adına sahip 'userAway' belgeleri bulunamadı: $oldUserName")
+                return false
+            }
+
+            for (document in querySnapshot.documents) {
+                val documentId = document.id
+                collectionReferenceMatches.document(documentId).update("userAway", newUserName).await()
+            }
+
+            true
+        } catch (e: Exception) {
+            Log.e("hata", e.message.toString())
+            false
+        }
+    }
+
+    suspend fun updateUserNameInDocuments(oldUserName: String, newUserName: String): Boolean {
+        return try {
+
+            val querySnapshotFriends = collectionReferenceUserFriends
+                .whereArrayContains("arkadaşlar", oldUserName)
+                .get()
+                .await()
+
+            if (!querySnapshotFriends.isEmpty) {
+                for (document in querySnapshotFriends.documents) {
+                    val userData = document.data
+                    if (userData != null) {
+                        val updatedData = userData.toMutableMap()
+                        val currentFriends = updatedData["arkadaşlar"] as? List<*>
+
+                        val updatedFriends = currentFriends?.map {
+                            if (it == oldUserName) newUserName else it
+                        } ?: listOf<String>()
+                        updatedData["arkadaşlar"] = updatedFriends
+                        collectionReferenceUserFriends.document(document.id)
+                            .set(updatedData)
+                            .await()
+                    }
+                }
+                true
+            } else {
+                Log.e("hata", "Eski kullanıcı adına sahip arkadaşlar belgeleri bulunamadı: $oldUserName")
+                false
+            }
+        } catch (e: Exception) {
+            Log.e("hata", e.message.toString())
+            false
+        }
+    }
+
+
+    suspend fun updateUserDocumentId(oldUserName: String, newUserName: String): Boolean {
+        return try {
+            val documentSnapshot = collectionReferenceUserFriends.document(oldUserName)
+                .get()
+                .await()
+
+            if (documentSnapshot.exists()) {
+                val userData = documentSnapshot.data
+
+                if (userData != null) {
+                    collectionReferenceUserFriends.document(newUserName)
+                        .set(userData)
+                        .await()
+
+                    collectionReferenceUserFriends.document(oldUserName)
+                        .delete()
+                        .await()
+                    true
+                } else {
+                    Log.e("hata", "Kullanıcı verisi bulunamadı.")
+                    false
+                }
+            } else {
+                Log.e("hata", "Eski kullanıcı adıyla belge bulunamadı: $oldUserName")
+                false
+            }
+        } catch (e: Exception) {
+            Log.e("hata", e.message.toString())
+            false
+        }
     }
 
     suspend fun checkUserNameAvailability(userName: String): Boolean {

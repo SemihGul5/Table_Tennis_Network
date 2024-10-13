@@ -12,6 +12,16 @@ class Repository(var dataSource: DataSource) {
     fun saveUser(user:User) = dataSource.saveUser(user)
     fun deleteUser(userId:String) = dataSource.deleteUser(userId)
     fun updateUser(user: User) = dataSource.updateUser(user)
+    suspend fun updateWinnerUserName(oldUserName: String, newUserName: String): Boolean =
+        dataSource.updateWinnerUserName(oldUserName, newUserName)
+    suspend fun updateUserHomeUserName(oldUserName: String, newUserName: String): Boolean=
+        dataSource.updateUserHomeUserName(oldUserName, newUserName)
+    suspend fun updateUserAwayUserName(oldUserName: String, newUserName: String): Boolean=
+        dataSource.updateUserAwayUserName(oldUserName, newUserName)
+    suspend fun updateUserNameInDocuments(oldUserName: String, newUserName: String): Boolean=
+        dataSource.updateUserNameInDocuments(oldUserName, newUserName)
+    suspend fun updateUserDocumentId(oldUserName: String, newUserName: String): Boolean=
+        dataSource.updateUserDocumentId(oldUserName, newUserName)
     suspend fun checkUserNameAvailability(userName: String): Boolean = dataSource.checkUserNameAvailability(userName)
     fun sendFriendRequest(context: Context, currentUserName: String, friendUserName: String)=
         dataSource.sendFriendRequest(context, currentUserName, friendUserName)

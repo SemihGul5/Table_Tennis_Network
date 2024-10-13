@@ -84,5 +84,18 @@
     <fragment
         android:id="@+id/myInformationFragment"
         android:name="com.abrebo.tabletennishub.ui.fragment.MyInformationFragment"
-        android:label="MyInformationFragment" />
+        android:label="MyInformationFragment" >
+        <action
+            android:id="@+id/action_myInformationFragment_to_updateUserNameFragment"
+            app:destination="@id/updateUserNameFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/updateUserNameFragment"
+        android:name="com.abrebo.tabletennishub.ui.fragment.UpdateUserNameFragment"
+        android:label="fragment_update_user_name"
+        tools:layout="@layout/fragment_update_user_name" >
+        <argument
+            android:name="PageType"
+            app:argType="com.abrebo.tabletennishub.utils.PageType" />
+    </fragment>
 </navigation>

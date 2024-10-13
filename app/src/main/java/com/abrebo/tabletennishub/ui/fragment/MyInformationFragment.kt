@@ -6,10 +6,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.navigation.Navigation
 import com.abrebo.tabletennishub.R
 import com.abrebo.tabletennishub.data.model.User
 import com.abrebo.tabletennishub.databinding.FragmentMyInformationBinding
 import com.abrebo.tabletennishub.ui.viewmodel.SettingsViewModel
+import com.abrebo.tabletennishub.utils.PageType
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
@@ -40,26 +42,20 @@ class MyInformationFragment : Fragment() {
             binding.nameFamilyText.setText(map["nameFamily"].toString())
             binding.userNameText.setText(map["userName"].toString())
             binding.emailText.setText(map["email"].toString())
-            binding.updateButton.setOnClickListener {
-                viewModel.checkUserNameAvailability(binding.userNameText.text.toString())
-                if (binding.nameFamilyText.text!!.isNotEmpty()&&binding.userNameText.text!!.isNotEmpty()){
-                    viewModel.userNameAvailability.observe(viewLifecycleOwner){isAvailability->
-                        if (isAvailability){
-                            val user= User(map["id"].toString(),
-                                binding.nameFamilyText.text.toString(),
-                                binding.userNameText.text.toString(),
-                                map["email"].toString())
-                            viewModel.updateUserData(user)
-                            Snackbar.make(it,"Bilgileriniz güncellendi",Snackbar.LENGTH_SHORT).show()
-                        }else{if (binding.userNameText.text.toString()!=map["userName"]){
-                            Snackbar.make(it,"Bu kullanıcı adı zaten kullanılıyor",Snackbar.LENGTH_SHORT).show()
-                            }
-                        }
-                    }
-                }else{
-                    Snackbar.make(it,"Boş alan olmamalıdır.",Snackbar.LENGTH_SHORT).show()
-                }
-            }
         }
+
+        binding.userNameText.setOnClickListener {
+            val navDirection=MyInformationFragmentDirections.actionMyInformationFragmentToUpdateUserNameFragment(PageType.USER_NAME)
+            Navigation.findNavController(it).navigate(navDirection)
+        }
+        binding.nameFamilyText.setOnClickListener {
+            val navDirection=MyInformationFragmentDirections.actionMyInformationFragmentToUpdateUserNameFragment(PageType.NAME_FAMILY)
+            Navigation.findNavController(it).navigate(navDirection)
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.getUserInfo(auth.currentUser?.email!!)
     }
 }

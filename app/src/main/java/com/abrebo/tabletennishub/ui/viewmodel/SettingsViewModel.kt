@@ -18,7 +18,9 @@ class SettingsViewModel@Inject constructor (var repository: Repository,
     private val context = getApplication<Application>().applicationContext
     var map= MutableLiveData<HashMap<String,Any>>()
     var userNameAvailability=MutableLiveData<Boolean>()
-
+    var updateUserNameInMatches=MutableLiveData<Boolean>()
+    var updateUserNameInDocuments=MutableLiveData<Boolean>()
+    var updateUserDocumentId=MutableLiveData<Boolean>()
     fun getUserInfo(email:String){
         viewModelScope.launch {
             map.value=repository.getUserInfo(email) as HashMap<String, Any>
@@ -31,7 +33,31 @@ class SettingsViewModel@Inject constructor (var repository: Repository,
         viewModelScope.launch {
             userNameAvailability.value=repository.checkUserNameAvailability(userName)
         }
-
+    }
+    fun updateWinnerUserName(oldUserName: String, newUserName: String){
+        viewModelScope.launch {
+            repository.updateWinnerUserName(oldUserName, newUserName)
+        }
+    }
+    fun updateUserHomeUserName(oldUserName: String, newUserName: String){
+        viewModelScope.launch {
+            repository.updateUserHomeUserName(oldUserName, newUserName)
+        }
+    }
+    fun updateUserAwayUserName(oldUserName: String, newUserName: String){
+        viewModelScope.launch {
+            repository.updateUserAwayUserName(oldUserName, newUserName)
+        }
+    }
+    fun updateUserNameInDocuments(oldUserName: String, newUserName: String){
+        viewModelScope.launch {
+            updateUserNameInDocuments.value=repository.updateUserNameInDocuments(oldUserName, newUserName)
+        }
+    }
+    fun updateUserDocumentId(oldUserName: String, newUserName: String){
+        viewModelScope.launch {
+            updateUserDocumentId.value=repository.updateUserDocumentId(oldUserName, newUserName)
+        }
     }
 
 }

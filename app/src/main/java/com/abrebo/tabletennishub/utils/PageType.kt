@@ -3,5 +3,7 @@ package com.abrebo.tabletennishub.utils
 enum class PageType {
     RECEIVED_REQUESTS,
     SENT_REQUESTS,
-    FRIENDS
+    FRIENDS,
+    USER_NAME,
+    NAME_FAMILY
 }
