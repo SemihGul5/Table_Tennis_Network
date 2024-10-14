@@ -6,7 +6,6 @@ import android.view.View
 import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.abrebo.tabletennishub.data.model.User
 import com.abrebo.tabletennishub.data.repo.Repository

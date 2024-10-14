@@ -80,6 +80,9 @@
         <action
             android:id="@+id/action_settingsFragment_to_myInformationFragment"
             app:destination="@id/myInformationFragment" />
+        <action
+            android:id="@+id/action_settingsFragment_to_supportAndContactFragment"
+            app:destination="@id/supportAndContactFragment" />
     </fragment>
     <fragment
         android:id="@+id/myInformationFragment"
@@ -98,4 +101,9 @@
             android:name="PageType"
             app:argType="com.abrebo.tabletennishub.utils.PageType" />
     </fragment>
+    <fragment
+        android:id="@+id/supportAndContactFragment"
+        android:name="com.abrebo.tabletennishub.ui.fragment.SupportAndContactFragment"
+        android:label="fragment_support_and_contact"
+        tools:layout="@layout/fragment_support_and_contact" />
 </navigation>

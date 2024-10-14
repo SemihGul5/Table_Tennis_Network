@@ -5,9 +5,9 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.abrebo.tabletennishub.data.model.Message
 import com.abrebo.tabletennishub.data.model.User
 import com.abrebo.tabletennishub.data.repo.Repository
-import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -59,5 +59,15 @@ class SettingsViewModel@Inject constructor (var repository: Repository,
             updateUserDocumentId.value=repository.updateUserDocumentId(oldUserName, newUserName)
         }
     }
+    fun updateUserNameInFriendRequests(oldUserName: String, newUserName: String){
+        viewModelScope.launch {
+            repository.updateUserNameInFriendRequests(oldUserName, newUserName)
+        }
+    }
+    fun sendMessage(message: Message){
+        repository.sendMessage(message)
+    }
+
+
 
 }

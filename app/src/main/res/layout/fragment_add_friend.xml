@@ -15,7 +15,7 @@
         android:theme="?attr/actionBarTheme"
         app:titleCentered="true"
         app:titleTextColor="@color/white"
-        app:title="RAKİP EKLE"
+        app:title="@string/add_opponent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -35,7 +35,7 @@
             android:id="@+id/searchFriendText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Ara"
+            android:hint="@string/search"
             android:drawableStart="@drawable/baseline_search_24"
             android:drawablePadding="10dp"
             android:inputType="text"

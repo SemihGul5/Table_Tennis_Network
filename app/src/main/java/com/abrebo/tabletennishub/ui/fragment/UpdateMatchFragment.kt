@@ -1,13 +1,10 @@
 package com.abrebo.tabletennishub.ui.fragment
 
-import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
 import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
 import com.abrebo.tabletennishub.R
@@ -15,7 +12,6 @@ import com.abrebo.tabletennishub.data.model.Match
 import com.abrebo.tabletennishub.data.model.SetScore
 import com.abrebo.tabletennishub.databinding.FragmentUpdateMatchBinding
 import com.abrebo.tabletennishub.ui.viewmodel.AddMatchViewModel
-import com.abrebo.tabletennishub.ui.viewmodel.UpdateMatchViewModel
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint

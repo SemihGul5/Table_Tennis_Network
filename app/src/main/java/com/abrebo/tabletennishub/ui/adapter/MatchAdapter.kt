@@ -4,14 +4,12 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.abrebo.tabletennishub.R
 import com.abrebo.tabletennishub.data.model.Match
 import com.abrebo.tabletennishub.databinding.MatchItemBinding
 import com.abrebo.tabletennishub.ui.fragment.MainFragmentDirections
-import com.abrebo.tabletennishub.ui.viewmodel.AddMatchViewModel
 import com.abrebo.tabletennishub.ui.viewmodel.MainViewModel
 import com.google.firebase.auth.FirebaseAuth
 

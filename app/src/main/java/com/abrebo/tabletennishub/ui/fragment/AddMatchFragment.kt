@@ -115,11 +115,10 @@ class AddMatchFragment : Fragment() {
 
 
     }
-    // Maçı kaydetme fonksiyonu
     private fun submitMatch() {
         val opponentUserName = binding.autoCompleteTextView.text.toString()
 
-        if (opponentUserName.isEmpty()||opponentUserName=="Rakipler") {
+        if (opponentUserName.isEmpty() || opponentUserName == "Rakipler") {
             Snackbar.make(requireView(), "Lütfen bir rakip seçin", Snackbar.LENGTH_SHORT).show()
             return
         }
@@ -156,6 +155,7 @@ class AddMatchFragment : Fragment() {
 
         viewModel.saveMatch(currentUserName, opponentUserName, setScores)
     }
+
     private fun clearSet(setNumber: Int) {
         when (setNumber) {
             2 -> {

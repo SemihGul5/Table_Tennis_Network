@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="_1_set">1. Set</string>
+    <string name="_2_set">2. Set</string>
+    <string name="_3_set">3. Set</string>
+    <string name="_4_set">4. Set</string>
+    <string name="_5_set">5. Set</string>
+    <string name="clear_image">Clear Image</string>
+    <string name="main_image">Main Image</string>
+    <string name="e_mail">E-mail</string>
+</resources>

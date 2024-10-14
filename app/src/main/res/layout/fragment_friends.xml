@@ -15,7 +15,7 @@
         android:theme="?attr/actionBarTheme"
         app:titleTextColor="@color/white"
         app:titleCentered="true"
-        app:title="Rakiplerim"
+        app:title="@string/my_opponents"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

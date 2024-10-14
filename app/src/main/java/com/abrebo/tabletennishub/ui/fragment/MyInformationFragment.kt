@@ -8,11 +8,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
 import com.abrebo.tabletennishub.R
-import com.abrebo.tabletennishub.data.model.User
 import com.abrebo.tabletennishub.databinding.FragmentMyInformationBinding
 import com.abrebo.tabletennishub.ui.viewmodel.SettingsViewModel
 import com.abrebo.tabletennishub.utils.PageType
-import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
 

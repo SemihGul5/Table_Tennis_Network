@@ -11,8 +11,6 @@ import androidx.fragment.app.viewModels
 import com.abrebo.tabletennishub.databinding.FragmentMyStatisticsBinding
 import com.abrebo.tabletennishub.ui.viewmodel.StatisticsViewModel
 import com.github.mikephil.charting.components.AxisBase
-import com.github.mikephil.charting.components.Description
-import com.github.mikephil.charting.components.Legend
 import com.github.mikephil.charting.data.RadarData
 import com.github.mikephil.charting.data.RadarDataSet
 import com.github.mikephil.charting.data.RadarEntry

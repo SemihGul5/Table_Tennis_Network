@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import com.abrebo.tabletennishub.data.datasource.DataSource
 import com.abrebo.tabletennishub.data.model.Match
+import com.abrebo.tabletennishub.data.model.Message
 import com.abrebo.tabletennishub.data.model.User
 
 class Repository(var dataSource: DataSource) {
@@ -22,6 +23,8 @@ class Repository(var dataSource: DataSource) {
         dataSource.updateUserNameInDocuments(oldUserName, newUserName)
     suspend fun updateUserDocumentId(oldUserName: String, newUserName: String): Boolean=
         dataSource.updateUserDocumentId(oldUserName, newUserName)
+    suspend fun updateUserNameInFriendRequests(oldUserName: String, newUserName: String): Boolean=
+        dataSource.updateUserNameInFriendRequests(oldUserName, newUserName)
     suspend fun checkUserNameAvailability(userName: String): Boolean = dataSource.checkUserNameAvailability(userName)
     fun sendFriendRequest(context: Context, currentUserName: String, friendUserName: String)=
         dataSource.sendFriendRequest(context, currentUserName, friendUserName)
@@ -85,4 +88,5 @@ class Repository(var dataSource: DataSource) {
         dataSource.getTotalSetsPlayedWithOpponent(currentUserName, opponentUserName, onResult)
     fun getTotalPointsWonAgainstOpponent(currentUserName: String, opponentUserName: String, onResult: (Int,Int) -> Unit) =
         dataSource.getTotalPointsWonAgainstOpponent(currentUserName, opponentUserName, onResult)
+    fun sendMessage(message: Message) = dataSource.sendMessage(message)
 }

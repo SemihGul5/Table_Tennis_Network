@@ -16,9 +16,7 @@ import com.abrebo.tabletennishub.ui.viewmodel.SignUpViewModel
 import com.abrebo.tabletennishub.utils.BackPressUtils
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.auth
-import com.google.firebase.firestore.FirebaseFirestore
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

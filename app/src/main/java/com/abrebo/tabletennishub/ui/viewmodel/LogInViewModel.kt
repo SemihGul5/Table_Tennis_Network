@@ -6,7 +6,6 @@ import android.graphics.Color
 import android.view.View
 import android.widget.ProgressBar
 import android.widget.Toast
-import androidx.activity.OnBackPressedCallback
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.AndroidViewModel
 import androidx.navigation.Navigation
@@ -16,7 +15,6 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import dagger.hilt.android.lifecycle.HiltViewModel
-import java.security.AccessController.getContext
 import javax.inject.Inject
 
 

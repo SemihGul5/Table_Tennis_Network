@@ -9,7 +9,6 @@ import android.widget.Toast
 import androidx.fragment.app.viewModels
 import com.abrebo.tabletennishub.R
 import com.abrebo.tabletennishub.data.model.User
-import com.abrebo.tabletennishub.databinding.FragmentMyInformationBinding
 import com.abrebo.tabletennishub.databinding.FragmentUpdateUserNameBinding
 import com.abrebo.tabletennishub.ui.viewmodel.SettingsViewModel
 import com.abrebo.tabletennishub.utils.PageType
@@ -58,7 +57,7 @@ class UpdateUserNameFragment : Fragment() {
                                 viewModel.updateUserHomeUserName(userName,binding.userNameText.text.toString())
                                 viewModel.updateUserAwayUserName(userName,binding.userNameText.text.toString())
                                 viewModel.updateUserNameInDocuments(userName,binding.userNameText.text.toString())
-
+                                viewModel.updateUserNameInFriendRequests(userName,binding.userNameText.text.toString())
                                 Toast.makeText(requireContext(),"Kullanıcı adı başarıyla güncellendi",Toast.LENGTH_SHORT).show()
                             }else{
                                 Toast.makeText(requireContext(),"Bu kullanıcı adı zaten mevcut",Toast.LENGTH_SHORT).show()

@@ -5,11 +5,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.viewModels
 import com.abrebo.tabletennishub.R
 import com.abrebo.tabletennishub.databinding.FragmentStatisticsBinding
 import com.abrebo.tabletennishub.ui.adapter.StatisticsPagerAdapter
-import com.abrebo.tabletennishub.ui.viewmodel.StatisticsViewModel
 import com.abrebo.tabletennishub.utils.BackPressUtils
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint

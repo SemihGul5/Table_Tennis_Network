@@ -5,6 +5,7 @@ import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import com.abrebo.tabletennishub.data.model.Match
+import com.abrebo.tabletennishub.data.model.Message
 import com.abrebo.tabletennishub.data.model.User
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.Timestamp
@@ -24,7 +25,8 @@ import kotlin.math.log
 
 class DataSource(var collectionReference: CollectionReference,
                  var collectionReferenceUserFriends: CollectionReference,
-                     var collectionReferenceMatches: CollectionReference) {
+                 var collectionReferenceMatches: CollectionReference,
+                 var collectionReferenceMessages:CollectionReference) {
     var userList = MutableLiveData<List<User>>()
     val firestore = FirebaseFirestore.getInstance()
 
@@ -69,6 +71,9 @@ class DataSource(var collectionReference: CollectionReference,
     fun saveUser(user: User) {
         user.id=UUID.randomUUID().toString()
         collectionReference.document().set(user)
+    }
+    fun sendMessage(message: Message){
+        collectionReferenceMessages.document().set(message)
     }
 
     fun deleteUser(userId: String) {
@@ -187,6 +192,59 @@ class DataSource(var collectionReference: CollectionReference,
         }
     }
 
+    suspend fun updateUserNameInFriendRequests(oldUserName: String, newUserName: String): Boolean {
+        return try {
+            val sentRequestsQuerySnapshot = collectionReferenceUserFriends
+                .whereArrayContains("istekler.gönderilen", oldUserName)
+                .get()
+                .await()
+
+            if (!sentRequestsQuerySnapshot.isEmpty) {
+                for (document in sentRequestsQuerySnapshot.documents) {
+                    val userData = document.data
+                    if (userData != null) {
+                        val updatedData = userData.toMutableMap()
+                        val sentRequests = updatedData["istekler.gönderilen"] as? List<*>
+                        val updatedRequests = sentRequests?.map {
+                            if (it == oldUserName) newUserName else it
+                        } ?: listOf<String>()
+
+                        updatedData["istekler.gönderilen"] = updatedRequests
+                        collectionReferenceUserFriends.document(document.id)
+                            .set(updatedData)
+                            .await()
+                    }
+                }
+            }
+
+            val receivedRequestsQuerySnapshot = collectionReferenceUserFriends
+                .whereArrayContains("istekler.alınan", oldUserName)
+                .get()
+                .await()
+
+            if (!receivedRequestsQuerySnapshot.isEmpty) {
+                for (document in receivedRequestsQuerySnapshot.documents) {
+                    val userData = document.data
+                    if (userData != null) {
+                        val updatedData = userData.toMutableMap()
+                        val receivedRequests = updatedData["istekler.alınan"] as? List<*>
+                        val updatedRequests = receivedRequests?.map {
+                            if (it == oldUserName) newUserName else it
+                        } ?: listOf<String>()
+
+                        updatedData["istekler.alınan"] = updatedRequests
+                        collectionReferenceUserFriends.document(document.id)
+                            .set(updatedData)
+                            .await()
+                    }
+                }
+            }
+            true
+        } catch (e: Exception) {
+            Log.e("hata", e.message.toString())
+            false
+        }
+    }
 
     suspend fun updateUserDocumentId(oldUserName: String, newUserName: String): Boolean {
         return try {

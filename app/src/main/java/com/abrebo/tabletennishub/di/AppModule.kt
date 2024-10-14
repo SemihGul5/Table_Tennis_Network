@@ -18,7 +18,6 @@ class AppModule {
     @Retention(AnnotationRetention.BINARY)
     annotation class UsersCollection
 
-
     @Qualifier
     @Retention(AnnotationRetention.BINARY)
     annotation class UserFriendsCollection
@@ -27,14 +26,21 @@ class AppModule {
     @Retention(AnnotationRetention.BINARY)
     annotation class MatchesCollection
 
+    @Qualifier
+    @Retention(AnnotationRetention.BINARY)
+    annotation class MesajlarCollection
+
+
+
     @Provides
     @Singleton
     fun provideDataSource(
         @UsersCollection usersCollection: CollectionReference,
         @UserFriendsCollection userFriendsCollection: CollectionReference,
-        @MatchesCollection matchesCollection: CollectionReference
+        @MatchesCollection matchesCollection: CollectionReference,
+        @MesajlarCollection mesajlarCollection:CollectionReference
     ): DataSource {
-        return DataSource(usersCollection, userFriendsCollection,matchesCollection)
+        return DataSource(usersCollection, userFriendsCollection,matchesCollection,mesajlarCollection)
     }
 
     @Provides
@@ -62,5 +68,12 @@ class AppModule {
     @MatchesCollection
     fun provideMatchesCollection(): CollectionReference {
         return FirebaseFirestore.getInstance().collection("Maçlar")
+    }
+
+    @Provides
+    @Singleton
+    @MesajlarCollection
+    fun provideMesajlarCollection(): CollectionReference {
+        return FirebaseFirestore.getInstance().collection("Mesajlar")
     }
 }
