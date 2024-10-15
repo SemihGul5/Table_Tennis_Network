@@ -75,4 +75,6 @@ dependencies {
     implementation ("com.github.PhilJay:MPAndroidChart:v3.1.0")
     implementation (libs.androidx.cardview)
     implementation ("com.airbnb.android:lottie:3.4.0")
+    implementation("com.google.android.gms:play-services-ads:23.3.0")
+
 }

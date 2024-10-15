@@ -35,7 +35,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Toplam Maç"
+                        android:text="@string/total_matches"
                         android:textColor="@color/main_color_dark"
                         android:textSize="17sp"
                         android:textStyle="bold"
@@ -46,7 +46,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Kazanılan"
+                        android:text="@string/won"
                         android:textColor="@color/main_color_dark"
                         android:textSize="17sp"
                         android:textStyle="bold"
@@ -56,7 +56,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Kaybedilen"
+                        android:text="@string/lost"
                         android:textColor="@color/main_color_dark"
                         android:textSize="17sp"
                         android:textStyle="bold"
@@ -66,7 +66,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Kazanma Yüzdesi"
+                        android:text="@string/winning_percentage"
                         android:textColor="@color/main_color_dark"
                         android:textSize="17sp"
                         android:textStyle="bold"
@@ -140,7 +140,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Detaylı İstatistikler"
+            android:text="@string/DetailedStatistics"
             android:textColor="@color/main_color_dark"
             android:textSize="24sp"
             android:textStyle="bold"
@@ -172,7 +172,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Maç Başına Ortalama Set Skor"
+                        android:text="@string/AverageSetsWonPerMatch"
                         android:textSize="18sp"
                         android:textColor="@color/main_color_dark"
                         android:textStyle="bold" />
@@ -204,7 +204,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Set Başına Kazanma Oranı"
+                        android:text="@string/WinningRatePerSet"
                         android:textSize="18sp"
                         android:textColor="@color/main_color_dark"
                         android:textStyle="bold" />
@@ -218,7 +218,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="1. Set"
+                            android:text="@string/_1_set"
                             android:textColor="@color/main_color_dark"
                             android:textSize="18sp"
                             android:textStyle="bold"
@@ -227,7 +227,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="2. Set"
+                            android:text="@string/_2_set"
                             android:textColor="@color/main_color_dark"
                             android:textSize="18sp"
                             android:textStyle="bold"
@@ -236,7 +236,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="3. Set"
+                            android:text="@string/_3_set"
                             android:textColor="@color/main_color_dark"
                             android:textSize="18sp"
                             android:textStyle="bold"
@@ -245,7 +245,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="4. Set"
+                            android:text="@string/_4_set"
                             android:textColor="@color/main_color_dark"
                             android:textSize="18sp"
                             android:textStyle="bold"
@@ -254,7 +254,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="5. Set"
+                            android:text="@string/_5_set"
                             android:textColor="@color/main_color_dark"
                             android:textSize="18sp"
                             android:textStyle="bold"
@@ -330,7 +330,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Set Başına Kazanılan Sayı Ortalaması"
+                        android:text="@string/AveragePointsWonPerSet"
                         android:textSize="18sp"
                         android:textColor="@color/main_color_dark"
                         android:textStyle="bold" />
@@ -345,7 +345,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="1. Set"
+                            android:text="@string/_1_set"
                             android:textColor="@color/main_color_dark"
                             android:textSize="18sp"
                             android:textStyle="bold"
@@ -354,7 +354,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="2. Set"
+                            android:text="@string/_2_set"
                             android:textColor="@color/main_color_dark"
                             android:textSize="18sp"
                             android:textStyle="bold"
@@ -363,7 +363,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="3. Set"
+                            android:text="@string/_3_set"
                             android:textColor="@color/main_color_dark"
                             android:textSize="18sp"
                             android:textStyle="bold"
@@ -372,7 +372,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="4. Set"
+                            android:text="@string/_4_set"
                             android:textColor="@color/main_color_dark"
                             android:textSize="18sp"
                             android:textStyle="bold"
@@ -381,7 +381,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="5. Set"
+                            android:text="@string/_5_set"
                             android:textColor="@color/main_color_dark"
                             android:textSize="18sp"
                             android:textStyle="bold"
@@ -455,7 +455,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Maç Başı Kazanılan Sayı Ortalaması"
+                        android:text="@string/AveragePointsWonPerMatch"
                         android:textSize="18sp"
                         android:textColor="@color/main_color_dark"
                         android:textStyle="bold" />
@@ -486,7 +486,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Oynanan Set Sayısı"
+                        android:text="@string/TotalSetsPlayed"
                         android:textSize="18sp"
                         android:textColor="@color/main_color_dark"
                         android:textStyle="bold" />
@@ -518,7 +518,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Toplam Kazanılan Sayı"
+                        android:text="@string/TotalPointsWon"
                         android:textSize="18sp"
                         android:textColor="@color/main_color_dark"
                         android:textStyle="bold" />
@@ -532,7 +532,14 @@
                         android:textColor="@color/black" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
-
+            <FrameLayout
+                android:id="@+id/adView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:gravity="center"
+                android:layout_marginBottom="10dp"
+                />
         </LinearLayout>
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>

@@ -12,6 +12,10 @@ import com.abrebo.tabletennishub.data.model.User
 import com.abrebo.tabletennishub.databinding.FragmentProfileBinding
 import com.abrebo.tabletennishub.ui.viewmodel.ProfileViewModel
 import com.abrebo.tabletennishub.utils.BackPressUtils
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.AdSize
+import com.google.android.gms.ads.AdView
+import com.google.android.gms.ads.MobileAds
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -21,6 +25,8 @@ class ProfileFragment : Fragment() {
     private lateinit var viewModel:ProfileViewModel
     private lateinit var auth:FirebaseAuth
     private lateinit var user:User
+    private lateinit var adView: AdView
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         auth=FirebaseAuth.getInstance()
@@ -32,6 +38,17 @@ class ProfileFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         binding=FragmentProfileBinding.inflate(inflater, container, false)
+        MobileAds.initialize(requireContext()) {}
+
+        // Setup Banner Ad
+        adView = AdView(requireContext())
+        adView.adUnitId = "ca-app-pub-3940256099942544/9214589741"
+        adView.setAdSize(AdSize.BANNER)
+        binding.adView.removeAllViews()
+        binding.adView.addView(adView)
+
+        val adRequest = AdRequest.Builder().build()
+        adView.loadAd(adRequest)
         return binding.root
     }
 

@@ -16,12 +16,6 @@ class UpdateMatchViewModel @Inject constructor (var repository: Repository, appl
     var friends= MutableLiveData<List<String>>()
     var setCount = MutableLiveData(1)
 
-
-
-
-
-
-
     fun getUserNameByEmail(userEmail: String, onResult: (String?) -> Unit){
         viewModelScope.launch {
             onResult(repository.getUserNameByEmail(userEmail))

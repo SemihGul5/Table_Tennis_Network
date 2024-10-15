@@ -48,6 +48,7 @@
                             android:id="@+id/imageView8"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:contentDescription="@string/backgroungimageview"
                             android:scaleType="centerCrop"
                             android:src="@drawable/circles"
                             app:layout_constraintBottom_toBottomOf="parent"
@@ -97,6 +98,7 @@
                                         android:id="@+id/imageViewSettings"
                                         android:layout_width="60dp"
                                         android:layout_height="60dp"
+                                        android:contentDescription="@string/settingimageview"
                                         android:src="@drawable/baseline_settings_60"
                                         app:layout_constraintBottom_toBottomOf="parent"
                                         app:layout_constraintEnd_toEndOf="parent"
@@ -111,7 +113,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_margin="8dp"
                                     android:layout_marginBottom="8dp"
-                                    android:text="Ayarlar"
+                                    android:text="@string/Settings"
                                     android:textAlignment="center"
                                     android:textColor="@color/black"
                                     android:textStyle="bold" />
@@ -152,7 +154,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_margin="8dp"
                                     android:layout_marginBottom="8dp"
-                                    android:text="Rakip Ekle"
+                                    android:text="@string/add_opponent_"
                                     android:textAlignment="center"
                                     android:textColor="@color/black"
                                     android:textStyle="bold" />
@@ -172,7 +174,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:text="Kişisel Bilgiler"
+                                android:text="@string/PersonalInformation"
                                 android:textStyle="bold"
                                 android:textColor="@color/main_color"
                                 android:textSize="18sp" />
@@ -182,7 +184,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:text="Değiştir"
+                                android:text="@string/Change"
                                 android:textAlignment="viewEnd"
                                 android:textColor="#5b5b5b"
                                 android:textSize="16sp" />
@@ -209,7 +211,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:text="Rakiplerim"
+                                android:text="@string/my_opponents"
                                 android:textStyle="bold"
                                 android:textColor="@color/main_color"
                                 android:textSize="18sp" />
@@ -219,7 +221,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:text="Göster"
+                                android:text="@string/Show"
                                 android:textAlignment="viewEnd"
                                 android:textColor="#5b5b5b"
                                 android:textSize="16sp" />
@@ -246,7 +248,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:text="İstekler"
+                                android:text="@string/Requests"
                                 android:textColor="@color/main_color"
                                 android:textSize="18sp"
                                 android:textStyle="bold" />
@@ -256,7 +258,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:text="Göster"
+                                android:text="@string/Show"
                                 android:textAlignment="viewEnd"
                                 android:textColor="#5b5b5b"
                                 android:textSize="16sp" />
@@ -301,6 +303,14 @@
                         app:layout_constraintTop_toBottomOf="@+id/textViewNameFamily" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
+            <FrameLayout
+                android:id="@+id/adView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:gravity="center"
+                android:layout_marginBottom="10dp"
+                />
         </LinearLayout>
     </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

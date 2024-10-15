@@ -7,6 +7,7 @@ import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
+import com.abrebo.tabletennishub.R
 import com.abrebo.tabletennishub.data.model.User
 import com.abrebo.tabletennishub.data.repo.Repository
 import com.google.firebase.auth.FirebaseAuth
@@ -27,9 +28,13 @@ class SignUpViewModel @Inject constructor (var repository: Repository,
     fun sendEmailVerification(user: FirebaseUser) {
         user.sendEmailVerification().addOnCompleteListener {
             if (it.isSuccessful){
-                Toast.makeText(context,"Email gönderildi, hesabınızı doğrulayın.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context,
+                    context.getString(R.string.Emailhasbeensentpleaseverifyyouraccount),
+                    Toast.LENGTH_SHORT).show()
             }else{
-                Toast.makeText(context,"E mail verification failed", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context,
+                    context.getString(R.string.Emailverificationfailed),
+                    Toast.LENGTH_SHORT).show()
             }
         }
     }

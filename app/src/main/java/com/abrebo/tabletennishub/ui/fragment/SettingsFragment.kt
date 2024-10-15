@@ -11,12 +11,18 @@ import androidx.navigation.Navigation
 import com.abrebo.tabletennishub.MainActivity
 import com.abrebo.tabletennishub.R
 import com.abrebo.tabletennishub.databinding.FragmentSettingsBinding
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.AdSize
+import com.google.android.gms.ads.AdView
+import com.google.android.gms.ads.MobileAds
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class SettingsFragment : Fragment() {
     private lateinit var binding:FragmentSettingsBinding
+    private lateinit var adView: AdView
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -24,6 +30,17 @@ class SettingsFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         binding=FragmentSettingsBinding.inflate(inflater, container, false)
+        MobileAds.initialize(requireContext()) {}
+
+        // Setup Banner Ad
+        adView = AdView(requireContext())
+        adView.adUnitId = "ca-app-pub-3940256099942544/9214589741"
+        adView.setAdSize(AdSize.BANNER)
+        binding.adView.removeAllViews()
+        binding.adView.addView(adView)
+
+        val adRequest = AdRequest.Builder().build()
+        adView.loadAd(adRequest)
         return binding.root
     }
 
@@ -31,10 +48,10 @@ class SettingsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val settingsList=ArrayList<String>()
-        settingsList.add("Bilgilerim")
-        settingsList.add("Uygulamayı Paylaş")
-        settingsList.add("Destek ve İletişim")
-        settingsList.add("Çıkış Yap")
+        settingsList.add(requireContext().getString(R.string.MyInformation))
+        settingsList.add(requireContext().getString(R.string.SharetheApplication))
+        settingsList.add(requireContext().getString(R.string.SupportandContact))
+        settingsList.add(requireContext().getString(R.string.LogOut))
 
         val adapter=ArrayAdapter(requireContext(),android.R.layout.simple_list_item_1,settingsList)
         binding.settingListView.adapter=adapter
@@ -58,10 +75,10 @@ class SettingsFragment : Fragment() {
         val shareIntent = Intent(Intent.ACTION_SEND)
         shareIntent.type = "text/plain"
         val appPackageName = context?.packageName
-        val shareMessage = "Bu harika uygulamayı denemenizi tavsiye ederim!"
+        val shareMessage = requireContext().getString(R.string.Irecommendtryingthisamazingapp)
 
         shareIntent.putExtra(Intent.EXTRA_TEXT, shareMessage)
-        startActivity(Intent.createChooser(shareIntent, "Uygulamayı Paylaş"))
+        startActivity(Intent.createChooser(shareIntent, requireContext().getString(R.string.SharetheApplication)))
     }
 
 

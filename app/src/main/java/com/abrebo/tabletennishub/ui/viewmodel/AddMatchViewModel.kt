@@ -6,6 +6,7 @@ import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.abrebo.tabletennishub.R
 import com.abrebo.tabletennishub.data.model.Match
 import com.abrebo.tabletennishub.data.model.SetScore
 import com.abrebo.tabletennishub.data.repo.Repository
@@ -49,9 +50,13 @@ class AddMatchViewModel @Inject constructor (var repository: Repository,applicat
 
         repository.saveMatch(match) { success ->
             if (success) {
-                Toast.makeText(context,"Maç başarıyla kaydedildi.",Toast.LENGTH_SHORT).show()
+                Toast.makeText(context,
+                    context.getString(R.string.Matchhasbeensuccessfullysaved)
+                    ,Toast.LENGTH_SHORT).show()
             } else {
-                Toast.makeText(context,"Maç kaydedilemedi.",Toast.LENGTH_SHORT).show()
+                Toast.makeText(context,
+                    context.getString(R.string.Thematchcouldnotbesaved)
+                    ,Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -91,18 +96,26 @@ class AddMatchViewModel @Inject constructor (var repository: Repository,applicat
 
         repository.updateMatch(updatedMatch) { success ->
             if (success) {
-                Toast.makeText(context, "Maç başarıyla güncellendi.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context,
+                    context.getString(R.string.Matchhasbeensuccessfullyupdated),
+                    Toast.LENGTH_SHORT).show()
             } else {
-                Toast.makeText(context, "Maç güncellenemedi.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context,
+                    context.getString(R.string.Thematchcouldnotbeupdated),
+                    Toast.LENGTH_SHORT).show()
             }
         }
     }
     fun deleteMatchByField(id: String){
         repository.deleteMatchByField(id){
             if (it){
-                Toast.makeText(context,"Maç başarıyla silindi",Toast.LENGTH_SHORT).show()
+                Toast.makeText(context,
+                    context.getString(R.string.Matchhasbeensuccessfullydeleted),
+                    Toast.LENGTH_SHORT).show()
             }else{
-                Toast.makeText(context,"Maç silinirken hata",Toast.LENGTH_SHORT).show()
+                Toast.makeText(context,
+                    context.getString(R.string.Anerroroccurredwhiledeletingthematch),
+                    Toast.LENGTH_SHORT).show()
             }
         }
     }

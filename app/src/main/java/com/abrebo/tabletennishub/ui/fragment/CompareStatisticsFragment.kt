@@ -18,6 +18,10 @@ import com.github.mikephil.charting.data.RadarData
 import com.github.mikephil.charting.data.RadarDataSet
 import com.github.mikephil.charting.data.RadarEntry
 import com.github.mikephil.charting.formatter.ValueFormatter
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.AdSize
+import com.google.android.gms.ads.AdView
+import com.google.android.gms.ads.MobileAds
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
@@ -28,6 +32,8 @@ class CompareStatisticsFragment : Fragment() {
     private val viewModel: StatisticsViewModel by viewModels()
     private lateinit var auth: FirebaseAuth
     private var userName=""
+    private lateinit var adView: AdView
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         auth = FirebaseAuth.getInstance()
@@ -46,6 +52,17 @@ class CompareStatisticsFragment : Fragment() {
         binding.cardMatches.visibility=View.INVISIBLE
         binding.detailedStatisticsTitle.visibility=View.INVISIBLE
         binding.linearLayoutAll.visibility=View.INVISIBLE
+        MobileAds.initialize(requireContext()) {}
+
+        // Setup Banner Ad
+        adView = AdView(requireContext())
+        adView.adUnitId = "ca-app-pub-3940256099942544/9214589741"
+        adView.setAdSize(AdSize.BANNER)
+        binding.adView.removeAllViews()
+        binding.adView.addView(adView)
+
+        val adRequest = AdRequest.Builder().build()
+        adView.loadAd(adRequest)
         return binding.root
     }
 
@@ -180,7 +197,7 @@ class CompareStatisticsFragment : Fragment() {
                         }
                     }
                     else{
-                        Snackbar.make(binding.root, "Seçtiğiniz rakiple oynanmış maç bulunmamaktadır.", Snackbar.LENGTH_LONG).show()
+                        Snackbar.make(binding.root, requireContext().getString(R.string.Therearenomatchesplayedwiththeselectedcompetitor), Snackbar.LENGTH_LONG).show()
                     }
                 }
             }

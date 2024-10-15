@@ -12,6 +12,10 @@ import com.abrebo.tabletennishub.data.model.Match
 import com.abrebo.tabletennishub.data.model.SetScore
 import com.abrebo.tabletennishub.databinding.FragmentUpdateMatchBinding
 import com.abrebo.tabletennishub.ui.viewmodel.AddMatchViewModel
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.AdSize
+import com.google.android.gms.ads.AdView
+import com.google.android.gms.ads.MobileAds
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
@@ -22,6 +26,7 @@ class UpdateMatchFragment : Fragment() {
     private val viewModel: AddMatchViewModel by viewModels()
     private lateinit var auth: FirebaseAuth
     private var currentUserName: String = ""
+    private lateinit var adView: AdView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,6 +42,17 @@ class UpdateMatchFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentUpdateMatchBinding.inflate(inflater, container, false)
+        MobileAds.initialize(requireContext()) {}
+
+        // Setup Banner Ad
+        adView = AdView(requireContext())
+        adView.adUnitId = "ca-app-pub-3940256099942544/9214589741"
+        adView.setAdSize(AdSize.BANNER)
+        binding.adView.removeAllViews()
+        binding.adView.addView(adView)
+
+        val adRequest = AdRequest.Builder().build()
+        adView.loadAd(adRequest)
         return binding.root
     }
 
@@ -154,7 +170,8 @@ class UpdateMatchFragment : Fragment() {
                     binding.linearLayoutAdd2.visibility = View.GONE
                     binding.addNewSet1Button.visibility = View.VISIBLE
                 } else {
-                    Snackbar.make(binding.root, "İlk önce 3. seti kaldırmalısınız", Snackbar.LENGTH_SHORT).show()
+                    Snackbar.make(binding.root, requireContext().getString(R.string.Youmustdeletethe3rdsetfirst),
+                        Snackbar.LENGTH_SHORT).show()
                 }
             }
             3 -> {
@@ -162,7 +179,8 @@ class UpdateMatchFragment : Fragment() {
                     binding.linearLayoutAdd3.visibility = View.GONE
                     binding.addNewSet2Button.visibility = View.VISIBLE
                 } else {
-                    Snackbar.make(binding.root, "İlk önce 4. seti kaldırmalısınız", Snackbar.LENGTH_SHORT).show()
+                    Snackbar.make(binding.root, requireContext().getString(R.string.Youmustdeletethe4rdsetfirst),
+                        Snackbar.LENGTH_SHORT).show()
                 }
             }
             4 -> {
@@ -170,7 +188,8 @@ class UpdateMatchFragment : Fragment() {
                     binding.linearLayoutAdd4.visibility = View.GONE
                     binding.addNewSet3Button.visibility = View.VISIBLE
                 } else {
-                    Snackbar.make(binding.root, "İlk önce 5. seti kaldırmalısınız", Snackbar.LENGTH_SHORT).show()
+                    Snackbar.make(binding.root, requireContext().getString(R.string.Youmustdeletethe5rdsetfirst),
+                        Snackbar.LENGTH_SHORT).show()
                 }
             }
             5 -> {
@@ -183,8 +202,8 @@ class UpdateMatchFragment : Fragment() {
     private fun updateMatch(match: Match) {
         val opponentUserName = binding.autoCompleteTextView.text.toString()
 
-        if (opponentUserName.isEmpty() || opponentUserName == "Rakipler") {
-            Snackbar.make(requireView(), "Lütfen bir rakip seçin", Snackbar.LENGTH_SHORT).show()
+        if (opponentUserName.isEmpty() || opponentUserName == requireContext().getString(R.string.opponents)) {
+            Snackbar.make(requireView(), requireContext().getString(R.string.Pleaseselectacompetitor), Snackbar.LENGTH_SHORT).show()
             return
         }
 

@@ -21,7 +21,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:title="Maç Güncelle"
+        app:title="@string/UpdatetheMatch"
         app:menu="@menu/update_menu"
         app:titleCentered="true"
         app:titleTextColor="@color/white" />
@@ -43,7 +43,7 @@
             android:id="@+id/autoCompleteTextView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="Rakipler" />
+            android:text="@string/opponents" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -71,7 +71,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
-                android:text="1. Set"
+                android:text="@string/_1_set"
                 android:textAlignment="center"
                 android:gravity="center" />
 
@@ -87,7 +87,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="number"
-                    android:hint="Sen" />
+                    android:hint="@string/you" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -101,14 +101,15 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="number"
-                    android:hint="Rakip" />
+                    android:hint="@string/opponent" />
             </com.google.android.material.textfield.TextInputLayout>
             <ImageView
                 android:id="@+id/linearLayoutAdd1Clear"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:contentDescription="@string/clear_image"
                 android:src="@drawable/baseline_clear_24"
-                android:layout_marginLeft="8dp"
+                android:layout_marginStart="8dp"
                 android:visibility="invisible"
                 />
         </LinearLayout>
@@ -119,7 +120,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             app:icon="@drawable/baseline_add_24_white"
-            android:text="Yeni Set"/>
+            android:text="@string/new_set"/>
     </LinearLayout>
     <LinearLayout
         android:id="@+id/linearLayoutAdd2"
@@ -145,7 +146,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
-                android:text="2. Set"
+                android:text="@string/_2_set"
                 android:textAlignment="center"
                 android:gravity="center" />
 
@@ -161,7 +162,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="number"
-                    android:hint="Sen" />
+                    android:hint="@string/you" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -175,15 +176,16 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="number"
-                    android:hint="Rakip" />
+                    android:hint="@string/opponent" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <ImageView
                 android:id="@+id/linearLayoutAdd2Clear"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:contentDescription="@string/clear_image"
                 android:src="@drawable/baseline_clear_24"
-                android:layout_marginLeft="8dp"
+                android:layout_marginStart="8dp"
                 android:visibility="invisible"
                 />
         </LinearLayout>
@@ -194,7 +196,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             app:icon="@drawable/baseline_add_24_white"
-            android:text="Yeni Set"/>
+            android:text="@string/new_set"/>
     </LinearLayout>
     <LinearLayout
         android:id="@+id/linearLayoutAdd3"
@@ -220,7 +222,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
-                android:text="3. Set"
+                android:text="@string/_3_set"
                 android:textAlignment="center"
                 android:gravity="center" />
 
@@ -236,7 +238,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="number"
-                    android:hint="Sen" />
+                    android:hint="@string/you" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -250,14 +252,16 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="number"
-                    android:hint="Rakip" />
+                    android:hint="@string/opponent" />
             </com.google.android.material.textfield.TextInputLayout>
+
             <ImageView
                 android:id="@+id/linearLayoutAdd3Clear"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:contentDescription="@string/clear_image"
                 android:src="@drawable/baseline_clear_24"
-                android:layout_marginLeft="8dp"
+                android:layout_marginStart="8dp"
                 android:visibility="invisible"
                 />
         </LinearLayout>
@@ -268,7 +272,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             app:icon="@drawable/baseline_add_24_white"
-            android:text="Yeni Set"/>
+            android:text="@string/new_set"/>
     </LinearLayout>
     <LinearLayout
         android:id="@+id/linearLayoutAdd4"
@@ -294,7 +298,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
-                android:text="4. Set"
+                android:text="@string/_4_set"
                 android:textAlignment="center"
                 android:gravity="center" />
 
@@ -310,7 +314,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="number"
-                    android:hint="Sen" />
+                    android:hint="@string/you" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -324,14 +328,15 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="number"
-                    android:hint="Rakip" />
+                    android:hint="@string/opponent" />
             </com.google.android.material.textfield.TextInputLayout>
             <ImageView
                 android:id="@+id/linearLayoutAdd4Clear"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:contentDescription="@string/clear_image"
                 android:src="@drawable/baseline_clear_24"
-                android:layout_marginLeft="8dp"
+                android:layout_marginStart="8dp"
                 android:visibility="invisible"
                 />
         </LinearLayout>
@@ -342,7 +347,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             app:icon="@drawable/baseline_add_24_white"
-            android:text="Yeni Set"/>
+            android:text="@string/new_set"/>
     </LinearLayout>
     <LinearLayout
         android:id="@+id/linearLayoutAdd5"
@@ -368,7 +373,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
-                android:text="5. Set"
+                android:text="@string/_5_set"
                 android:textAlignment="center"
                 android:gravity="center" />
 
@@ -384,7 +389,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="number"
-                    android:hint="Sen" />
+                    android:hint="@string/you" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -398,14 +403,15 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="number"
-                    android:hint="Rakip" />
+                    android:hint="@string/opponent" />
             </com.google.android.material.textfield.TextInputLayout>
             <ImageView
                 android:id="@+id/linearLayoutAdd5Clear"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:contentDescription="@string/clear_image"
                 android:src="@drawable/baseline_clear_24"
-                android:layout_marginLeft="8dp"
+                android:layout_marginStart="8dp"
                 android:visibility="invisible"
                 />
         </LinearLayout>
@@ -417,13 +423,24 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginBottom="8dp"
-        android:text="Güncelle"
+        android:text="@string/UpdatetheMatch"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayoutAdd5" />
 
-
+    <FrameLayout
+        android:id="@+id/adView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:gravity="center"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintTop_toBottomOf="@+id/submitButton"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

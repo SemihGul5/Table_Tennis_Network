@@ -14,6 +14,10 @@ import com.abrebo.tabletennishub.data.model.User
 import com.abrebo.tabletennishub.databinding.FragmentSignUpBinding
 import com.abrebo.tabletennishub.ui.viewmodel.SignUpViewModel
 import com.abrebo.tabletennishub.utils.BackPressUtils
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.AdSize
+import com.google.android.gms.ads.AdView
+import com.google.android.gms.ads.MobileAds
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
@@ -29,6 +33,8 @@ class SignUpFragment : Fragment() {
     private lateinit var email:String
     private lateinit var password:String
     private lateinit var passwordRetry:String
+    private lateinit var adView: AdView
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         auth = Firebase.auth
@@ -39,6 +45,17 @@ class SignUpFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         binding=FragmentSignUpBinding.inflate(inflater, container, false)
+        MobileAds.initialize(requireContext()) {}
+
+        // Setup Banner Ad
+        adView = AdView(requireContext())
+        adView.adUnitId = "ca-app-pub-3940256099942544/9214589741"
+        adView.setAdSize(AdSize.BANNER)
+        binding.adView.removeAllViews()
+        binding.adView.addView(adView)
+
+        val adRequest = AdRequest.Builder().build()
+        adView.loadAd(adRequest)
         return binding.root
     }
 
@@ -72,12 +89,15 @@ class SignUpFragment : Fragment() {
                     clearText()
                 } else {
                     binding.progressBar.visibility = View.GONE
-                    Toast.makeText(requireContext(), "Kullanıcı adı zaten mevcut", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(),
+                        requireContext().getString(R.string.Usernamealreadyexists),
+                        Toast.LENGTH_SHORT)
+                        .show()
                 }
             }
         } else {
             binding.progressBar.visibility = View.GONE
-            Toast.makeText(requireContext(), "Tüm alanları eksiksiz şekilde doldurun", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), requireContext().getString(R.string.Pleasefilloutallfieldscompletely), Toast.LENGTH_SHORT).show()
         }
     }
     private fun isNotEmptyUserInput(nameFamily: String, userName: String, email: String, password: String, passwordRetry: String):Boolean {

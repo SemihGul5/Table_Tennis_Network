@@ -5,6 +5,7 @@ import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
+import com.abrebo.tabletennishub.R
 
 object BackPressUtils {
 
@@ -16,7 +17,9 @@ object BackPressUtils {
                 if (lastBackPressedTime + 2000 > currentTime) {
                     fragment.activity?.finishAffinity()
                 } else {
-                    Toast.makeText(fragment.context, "Çıkmak için tekrar basın", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(fragment.context,
+                        fragment.context?.getString(R.string.Pressagaintoexit),
+                        Toast.LENGTH_SHORT).show()
                 }
                 lastBackPressedTime = currentTime
             }

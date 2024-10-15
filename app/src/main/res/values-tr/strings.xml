@@ -1,62 +1,107 @@
 <resources>
     <string name="app_name">Table Tennis Hub</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="change_the_language">"Uygulamanın Dilini Değiştir"</string>
-    <string name="add">"Ekle"</string>
-    <string name="add_opponent">"RAKİP EKLE"</string>
-    <string name="search">"Ara"</string>
-    <string name="add_match">"Maç Ekle"</string>
-    <string name="opponents">"Rakipler"</string>
-    <string name="you">"Sen"</string>
-    <string name="opponent">"Rakip"</string>
-    <string name="new_set">"Yeni Set"</string>
+    <string name="change_the_language">Uygulamanın Dilini Değiştir</string>
+    <string name="add">Ekle</string>
+    <string name="add_opponent">RAKİP EKLE</string>
+    <string name="search">Ara</string>
+    <string name="add_match">Maç Ekle</string>
+    <string name="opponents">Rakipler</string>
+    <string name="you">Sen</string>
+    <string name="opponent">Rakip</string>
+    <string name="new_set">Yeni Set</string>
     <string name="_1_set">1. Set</string>
     <string name="_2_set">2. Set</string>
     <string name="_3_set">3. Set</string>
     <string name="_4_set">4. Set</string>
     <string name="_5_set">5. Set</string>
-    <string name="complete_the_match_or_save_to_edit_later">"Maçı tamamla veya daha sonra düzenlemek için kaydet"</string>
-    <string name="clear_image">Clear Image</string>
-    <string name="total_matches">"Toplam Maç"</string>
-    <string name="won">"Kazanılan"</string>
-    <string name="lost">"Kaybedilen"</string>
-    <string name="winning_percentage">"Kazanma Yüzdesi"</string>
-    <string name="DetailedStatistics">"Detaylı İstatistikler"</string>
-    <string name="AverageSetsWonPerMatch">"Maç Başına Kazanılan Ortalama Set"</string>
-    <string name="WinningRatePerSet">"Set Başına Kazanma Oranı"</string>
-    <string name="AveragePointsWonPerSet">"Set Başına Kazanılan Sayı Ortalaması"</string>
-    <string name="AveragePointsWonPerMatch">"Maç Başı Kazanılan Sayı Ortalaması"</string>
-    <string name="TotalSetsPlayed">"Toplam Oynanan Set"</string>
-    <string name="TotalPointsWon">"Toplam Kazanılan Sayı"</string>
-    <string name="my_opponents">"Rakiplerim"</string>
-    <string name="password">"Şifre"</string>
-    <string name="IForgotMyPassword">"Şifreyi Unuttum"</string>
-    <string name="LogIn">"Giriş Yap"</string>
-    <string name="NotamemberSignUp">"Üye değil misin? Üye Ol !"</string>
-    <string name="main_image">Main Image</string>
+    <string name="complete_the_match_or_save_to_edit_later">Maçı tamamla veya daha sonra düzenlemek için kaydet</string>
+    <string name="clear_image">Resmi Temizle</string>
+    <string name="total_matches">Toplam Maç</string>
+    <string name="won">Kazanılan</string>
+    <string name="lost">Kaybedilen</string>
+    <string name="winning_percentage">Kazanma Yüzdesi</string>
+    <string name="DetailedStatistics">Detaylı İstatistikler</string>
+    <string name="AverageSetsWonPerMatch">Maç Başına Kazanılan Ortalama Set</string>
+    <string name="WinningRatePerSet">Set Başına Kazanma Oranı</string>
+    <string name="AveragePointsWonPerSet">Set Başına Kazanılan Sayı Ortalaması</string>
+    <string name="AveragePointsWonPerMatch">Maç Başı Kazanılan Sayı Ortalaması</string>
+    <string name="TotalSetsPlayed">Toplam Oynanan Set</string>
+    <string name="TotalPointsWon">Toplam Kazanılan Sayı</string>
+    <string name="my_opponents">Rakiplerim</string>
+    <string name="password">Şifre</string>
+    <string name="IForgotMyPassword">Şifreyi Unuttum</string>
+    <string name="LogIn">Giriş Yap</string>
+    <string name="NotamemberSignUp">Üye değil misin? Üye Ol!</string>
+    <string name="main_image">Ana Resim</string>
     <string name="e_mail">E-mail</string>
-    <string name="MyMatches">"Maçlarım"</string>
-    <string name="FirstNameandLastName">"Ad ve Soyad"</string>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    <string name="MyMatches">Maçlarım</string>
+    <string name="FirstNameandLastName">Ad ve Soyad</string>
+    <string name="user_name">Kullanıcı Adı</string>
+    <string name="ChangePassword">Şifreyi Değiştir</string>
+    <string name="Settings">Ayarlar</string>
+    <string name="backgroundimageview">backgroundImageView</string>
+    <string name="settingimageview">settingImageView</string>
+    <string name="PersonalInformation">Kişisel Bilgiler</string>
+    <string name="Change">Değiştir</string>
+    <string name="Show">Göster</string>
+    <string name="Requests">İstekler</string>
+    <string name="add_opponent_">Rakip Ekle</string>
+    <string name="ConfirmPassword">Şifre Tekrar</string>
+    <string name="SignUp">Kayıt Ol</string>
+    <string name="AlreadyamemberLogIn">Zaten üye misiniz? Giriş Yap!</string>
+    <string name="SupportandContact">Destek ve İletişim</string>
+    <string name="title">Başlık</string>
+    <string name="ContentYouropinionssuggestionsandcomplaints">İçerik: Görüş, öneri ve şikayetleriniz</string>
+    <string name="submit">Gönder</string>
+    <string name="UpdatetheMatch">Maçı Güncelle</string>
+    <string name="ChangeUsername">Kullanıcı Adını Değiştir</string>
+    <string name="newUsername">Yeni Kullanıcı Adı</string>
+    <string name="Delete">Sil</string>
+    <string name="Accept">Kabul Et</string>
+    <string name="win_won">Kazanma/Kazandı</string>
+    <string name="Withdraw">Geri Çek</string>
+    <string name="YourcompetitorlistisemptyYoushouldfirstaddacompetitorfromyourprofile">
+        Rakip listen boş. İlk öncelikle profilden rakip eklemelisin.
+    </string>
+    <string name="ok">Tamam</string>
+    <string name="Pleaseselectacompetitor">Lütfen bir rakip seçin.</string>
+    <string name="Youmustdeletethe3rdsetfirst">İlk önce 3. seti silmelisiniz.</string>
+    <string name="Youmustdeletethe4rdsetfirst">İlk önce 4. seti silmelisiniz.</string>
+    <string name="Youmustdeletethe5rdsetfirst">İlk önce 5. seti silmelisiniz.</string>
+    <string name="Therearenomatchesplayedwiththeselectedcompetitor">
+        Seçtiğiniz rakiple oynanmış maç bulunmamaktadır.
+    </string>
+    <string name="Enteryouremail">Email girin</string>
+    <string name="Enteryouremailandpassword">Email ve şifreyi girin.</string>
+    <string name="IncomingRequests">Gelen İstekler</string>
+    <string name="SentRequests">Gönderilen İstekler</string>
+    <string name="MyInformation">Bilgilerim</string>
+    <string name="SharetheApplication">Uygulamayı Paylaş</string>
+    <string name="LogOut">Çıkış Yap</string>
+    <string name="Irecommendtryingthisamazingapp">Bu harika uygulamayı denemenizi tavsiye ederim!</string>
+    <string name="Usernamealreadyexists">Kullanıcı adı zaten mevcut.</string>
+    <string name="Pleasefilloutallfieldscompletely">Tüm alanları eksiksiz şekilde doldurun.</string>
+    <string name="MyStatistics">İstatistiklerim</string>
+    <string name="ComparewithCompetitor">Rakiple Karşılaştır</string>
+    <string name="Yourmessagehasbeensuccessfullyreceived">Mesajınız başarıyla tarafımıza ulaştı.</string>
+    <string name="Titleandcontentcannotbeempty">Başlık ve içerik boş olamaz.</string>
+    <string name="Usernamehasbeensuccessfullyupdated">Kullanıcı adı başarıyla güncellendi.</string>
+    <string name="Usernamecannotbeempty">Kullanıcı adı boş olamaz.</string>
+    <string name="ChangeFirstNameandLastName">Ad ve Soyad Değiştir</string>
+    <string name="NewFirstNameandLastName">Yeni Ad ve Soyad</string>
+    <string name="FirstNameandLastNamehavebeensuccessfullyupdated">Ad ve Soyad başarıyla güncellendi.</string>
+    <string name="FirstNameandLastNamecannotbeempty">Ad ve Soyad boş olamaz.</string>
+    <string name="Matchhasbeensuccessfullysaved">Maç başarıyla kaydedildi.</string>
+    <string name="Thematchcouldnotbesaved">Maç kaydedilemedi.</string>
+    <string name="Matchhasbeensuccessfullyupdated">Maç başarıyla güncellendi.</string>
+    <string name="Thematchcouldnotbeupdated">Maç güncellenemedi.</string>
+    <string name="Matchhasbeensuccessfullydeleted">Maç başarıyla silindi.</string>
+    <string name="Anerroroccurredwhiledeletingthematch">Maç silinirken hata oluştu.</string>
+    <string name="Emailhasbeensentpleaseverifyyouraccount">Email gönderildi, hesabınızı doğrulayın.</string>
+    <string name="Emailverificationfailed">E-posta Doğrulaması başarısız oldu.</string>
+    <string name="Passwordresetemailhasbeensent">"Şifre sıfırlama e-mail'i gönderildi."</string>
+    <string name="Pleaseverifyyouremailaddress">Email adresinizi doğrulayın.</string>
+    <string name="Wouldyouliketheverificationemailtoberesent">"Doğrulama email'i yeniden gönderilsin mi?"</string>
+    <string name="Pressagaintoexit">Çıkmak için tekrar basın.</string>
 </resources>

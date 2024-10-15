@@ -33,7 +33,8 @@ class StatisticsFragment : Fragment() {
         binding.viewPager.adapter=adapter
 
         TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
-            tab.text = if (position == 0) "İstatistiklerim" else "Rakiple Karşılaştır"
+            tab.text = if (position == 0) requireContext().getString(R.string.MyStatistics) else
+                requireContext().getString(R.string.ComparewithCompetitor)
         }.attach()
 
 

@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.abrebo.tabletennishub.R
 import com.abrebo.tabletennishub.databinding.ItemReceivedRequestBinding
 import com.abrebo.tabletennishub.ui.viewmodel.RequestsViewModel
 import com.abrebo.tabletennishub.utils.PageType
@@ -33,10 +34,10 @@ class RequestsAdapter(var context: Context,
 
         if (pageType==PageType.SENT_REQUESTS){
             binding.buttonDeclineRequest.visibility=View.GONE
-            binding.buttonAcceptRequest.text="Geri çek"
+            binding.buttonAcceptRequest.text=context.getString(R.string.Withdraw)
         }else if(pageType==PageType.FRIENDS){
             binding.buttonDeclineRequest.visibility=View.GONE
-            binding.buttonAcceptRequest.text="Sil"
+            binding.buttonAcceptRequest.text=context.getString(R.string.Delete)
         }
 
         binding.buttonAcceptRequest.setOnClickListener {

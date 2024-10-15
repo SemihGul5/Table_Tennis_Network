@@ -27,16 +27,22 @@ class LogInViewModel @Inject constructor (var repository: Repository,
     fun sendEmailVerification(user: FirebaseUser) {
         user.sendEmailVerification().addOnCompleteListener {
             if (it.isSuccessful){
-                Toast.makeText(context,"Email gönderildi, hesabınızı doğrulayın.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context,
+                    context.getString(R.string.Emailhasbeensentpleaseverifyyouraccount),
+                    Toast.LENGTH_SHORT).show()
             }else{
-                Toast.makeText(context,"E mail verification failed", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context,
+                    context.getString(R.string.Emailverificationfailed),
+                    Toast.LENGTH_SHORT).show()
             }
         }
     }
     fun sendPasswordResetEmail(auth: FirebaseAuth,email:String){
         auth.sendPasswordResetEmail(email).addOnCompleteListener { task->
             if (task.isSuccessful){
-                Toast.makeText(context,"Şifre sıfırlama e-mail'i gönderildi.",Toast.LENGTH_SHORT).show();
+                Toast.makeText(context,
+                    context.getString(R.string.Passwordresetemailhasbeensent),
+                    Toast.LENGTH_SHORT).show();
             }else{
                 Toast.makeText(context, task.exception?.localizedMessage, Toast.LENGTH_SHORT).show()
             }
@@ -46,19 +52,21 @@ class LogInViewModel @Inject constructor (var repository: Repository,
         auth.signInWithEmailAndPassword(email, password).addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 if (auth.currentUser!!.isEmailVerified) {
-                    Toast.makeText(context, "Giriş Yapılıyor...", Toast.LENGTH_SHORT).show()
-
                     progressBar.visibility = View.GONE
                     Navigation.findNavController(it).navigate(R.id.action_logInFragment_to_mainPageActivity)
                 } else {
                     progressBar.visibility = View.GONE
-                    Toast.makeText(context, "Email adresinizi doğrulayın", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context,
+                        context.getString(R.string.Pleaseverifyyouremailaddress),
+                        Toast.LENGTH_SHORT).show()
 
                     val backgroundColor = ContextCompat.getColor(context, R.color.main_color)
-                    Snackbar.make(it, "Doğrulama email'i yeniden gönderilsin mi? ", Snackbar.LENGTH_SHORT)
+                    Snackbar.make(it,
+                        context.getString(R.string.Wouldyouliketheverificationemailtoberesent)
+                        , Snackbar.LENGTH_SHORT)
                         .setActionTextColor(Color.WHITE)
                         .setBackgroundTint(backgroundColor)
-                        .setAction("Gönder") {
+                        .setAction(context.getString(R.string.submit)) {
                             sendEmailVerification(auth.currentUser!!)
                         }.show()
                 }
