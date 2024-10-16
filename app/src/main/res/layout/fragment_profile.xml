@@ -48,7 +48,6 @@
                             android:id="@+id/imageView8"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:contentDescription="@string/backgroungimageview"
                             android:scaleType="centerCrop"
                             android:src="@drawable/circles"
                             app:layout_constraintBottom_toBottomOf="parent"
@@ -308,8 +307,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
-                android:gravity="center"
-                android:layout_marginBottom="10dp"
+                android:gravity="bottom"
                 />
         </LinearLayout>
     </ScrollView>

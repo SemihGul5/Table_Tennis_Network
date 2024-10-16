@@ -9,13 +9,17 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import androidx.fragment.app.viewModels
+import androidx.navigation.Navigation
 import com.abrebo.tabletennishub.R
 import com.abrebo.tabletennishub.databinding.FragmentAddMatchBinding
 import com.abrebo.tabletennishub.ui.viewmodel.AddMatchViewModel
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdSize
 import com.google.android.gms.ads.AdView
+import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.MobileAds
+import com.google.android.gms.ads.interstitial.InterstitialAd
+import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
@@ -47,13 +51,14 @@ class AddMatchFragment : Fragment() {
 
         // Setup Banner Ad
         adView = AdView(requireContext())
-        adView.adUnitId = "ca-app-pub-3940256099942544/9214589741"
+        adView.adUnitId = "ca-app-pub-4667560937795938/3444910316"
         adView.setAdSize(AdSize.BANNER)
         binding.adView.removeAllViews()
         binding.adView.addView(adView)
 
         val adRequest = AdRequest.Builder().build()
         adView.loadAd(adRequest)
+        viewModel.loadInterstitialAd()
         return binding.root
     }
 
@@ -171,6 +176,9 @@ class AddMatchFragment : Fragment() {
         }
 
         viewModel.saveMatch(currentUserName, opponentUserName, setScores)
+        viewModel.showInterstitialAd(requireActivity())
+        Navigation.findNavController(binding.root).navigate(R.id.action_addMatchFragment_to_mainFragment)
+
     }
 
     private fun clearSet(setNumber: Int) {

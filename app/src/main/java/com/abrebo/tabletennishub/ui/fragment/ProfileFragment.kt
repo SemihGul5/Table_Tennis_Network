@@ -42,7 +42,7 @@ class ProfileFragment : Fragment() {
 
         // Setup Banner Ad
         adView = AdView(requireContext())
-        adView.adUnitId = "ca-app-pub-3940256099942544/9214589741"
+        adView.adUnitId = "ca-app-pub-4667560937795938/8444388881"
         adView.setAdSize(AdSize.BANNER)
         binding.adView.removeAllViews()
         binding.adView.addView(adView)
@@ -67,6 +67,9 @@ class ProfileFragment : Fragment() {
         }
         binding.linearLayoutSettings.setOnClickListener {
             Navigation.findNavController(it).navigate(R.id.action_profileFragment_to_settingsFragment)
+        }
+        binding.textViewPersonalInformationChange.setOnClickListener {
+            Navigation.findNavController(it).navigate(R.id.action_profileFragment_to_myInformationFragment)
         }
         viewModel.map.observe(viewLifecycleOwner){
             binding.textViewNameFamily.text=it["userName"].toString()

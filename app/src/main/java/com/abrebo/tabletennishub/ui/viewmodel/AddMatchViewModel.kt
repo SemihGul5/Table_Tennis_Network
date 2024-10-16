@@ -1,6 +1,7 @@
 package com.abrebo.tabletennishub.ui.viewmodel
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.app.Application
 import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
@@ -10,6 +11,10 @@ import com.abrebo.tabletennishub.R
 import com.abrebo.tabletennishub.data.model.Match
 import com.abrebo.tabletennishub.data.model.SetScore
 import com.abrebo.tabletennishub.data.repo.Repository
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.LoadAdError
+import com.google.android.gms.ads.interstitial.InterstitialAd
+import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 import com.google.firebase.Timestamp
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -22,7 +27,7 @@ class AddMatchViewModel @Inject constructor (var repository: Repository,applicat
 
     var friends=MutableLiveData<List<String>>()
     var setCount = MutableLiveData(1)
-
+    private var interstitialAd: InterstitialAd? = null
     fun saveMatch(currentUserName: String, opponentUserName: String, setScores: List<Pair<Int, Int>>) {
         val user1Score = setScores.count { it.first > it.second }
         val user2Score = setScores.count { it.second > it.first }
@@ -119,5 +124,22 @@ class AddMatchViewModel @Inject constructor (var repository: Repository,applicat
             }
         }
     }
+    fun loadInterstitialAd() {
+        val adRequest = AdRequest.Builder().build()
+        InterstitialAd.load(context, "ca-app-pub-4667560937795938/7337852044", adRequest,
+            object : InterstitialAdLoadCallback() {
+                override fun onAdLoaded(ad: InterstitialAd) {
+                    interstitialAd = ad
+                }
 
+                override fun onAdFailedToLoad(adError: LoadAdError) {
+                    interstitialAd = null
+                }
+            })
+    }
+    fun showInterstitialAd(activity: Activity) {
+        if (interstitialAd!=null){
+            interstitialAd?.show(activity)
+        }
+    }
 }

@@ -14,10 +14,7 @@
         android:theme="@style/Theme.TableTennisHub"
         tools:targetApi="31">
         <activity
-            android:name=".MainPageActivity"
-            android:exported="false" />
-        <activity
-            android:name=".MainActivity"
+            android:name=".SplashActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -28,8 +25,15 @@
 
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="ca-app-pub-4667560937795938~6441574907"/>
+            android:value="ca-app-pub-4667560937795938~6441574907" />
 
+        <activity
+            android:name=".MainPageActivity"
+            android:exported="false" />
+        <activity
+            android:name=".MainActivity"
+            android:exported="true">
+        </activity>
 
         <meta-data
             android:name="preloaded_fonts"

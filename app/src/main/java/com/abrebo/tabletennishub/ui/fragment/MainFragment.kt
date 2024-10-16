@@ -15,7 +15,10 @@ import com.abrebo.tabletennishub.utils.BackPressUtils
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdSize
 import com.google.android.gms.ads.AdView
+import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.MobileAds
+import com.google.android.gms.ads.interstitial.InterstitialAd
+import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -51,13 +54,15 @@ class MainFragment : Fragment() {
 
         // Setup Banner Ad
         adView = AdView(requireContext())
-        adView.adUnitId = "ca-app-pub-3940256099942544/9214589741"
+        adView.adUnitId = "ca-app-pub-4667560937795938/5466871752"
         adView.setAdSize(AdSize.BANNER)
         binding.adView.removeAllViews()
         binding.adView.addView(adView)
 
         val adRequest = AdRequest.Builder().build()
         adView.loadAd(adRequest)
+
+        viewModel.loadInterstitialAd()
         return binding.root
     }
 
@@ -66,6 +71,7 @@ class MainFragment : Fragment() {
         BackPressUtils.setBackPressCallback(this, viewLifecycleOwner)
 
         binding.floatingActionButton.setOnClickListener {
+            viewModel.showInterstitialAd(requireActivity())
             Navigation.findNavController(it).navigate(R.id.action_mainFragment_to_addMatchFragment)
         }
 

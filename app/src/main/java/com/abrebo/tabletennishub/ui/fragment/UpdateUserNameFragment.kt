@@ -16,6 +16,7 @@ import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdSize
 import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.MobileAds
+
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -41,7 +42,7 @@ class UpdateUserNameFragment : Fragment() {
 
         // Setup Banner Ad
         adView = AdView(requireContext())
-        adView.adUnitId = "ca-app-pub-3940256099942544/9214589741"
+        adView.adUnitId = "ca-app-pub-4667560937795938/9141888302"
         adView.setAdSize(AdSize.BANNER)
         binding.adView.removeAllViews()
         binding.adView.addView(adView)

@@ -49,7 +49,7 @@ class SignUpFragment : Fragment() {
 
         // Setup Banner Ad
         adView = AdView(requireContext())
-        adView.adUnitId = "ca-app-pub-3940256099942544/9214589741"
+        adView.adUnitId = "ca-app-pub-4667560937795938/7131307212"
         adView.setAdSize(AdSize.BANNER)
         binding.adView.removeAllViews()
         binding.adView.addView(adView)
@@ -61,7 +61,7 @@ class SignUpFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        BackPressUtils.setBackPressCallback(this, viewLifecycleOwner)
+        
         binding.logInTextButton.setOnClickListener {
             Navigation.findNavController(it).navigate(R.id.action_signUpFragment_to_logInFragment)
         }
