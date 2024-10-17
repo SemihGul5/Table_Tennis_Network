@@ -106,4 +106,10 @@
     <string name="Pleaseverifyyouremailaddress">Veuillez vérifier votre adresse e-mail.</string>
     <string name="Wouldyouliketheverificationemailtoberesent">"Souhaitez-vous que l'e-mail de vérification soit renvoyé?"</string>
     <string name="Pressagaintoexit">Appuyez à nouveau pour quitter.</string>
+    <string name="password_reset_email_sent">E-mail de réinitialisation du mot de passe envoyé.</string>
+    <string name="password_reset_email_failed">"Échec de l'envoi de l'e-mail de réinitialisation du mot de passe."</string>
+    <string name="homePage">Accueil</string>
+    <string name="Statistics">Statistiques</string>
+    <string name="Profile">Profil</string>
+
 </resources>

@@ -2,6 +2,7 @@ package com.abrebo.tabletennishub.ui.fragment
 
 import android.annotation.SuppressLint
 import android.graphics.Color
+import android.graphics.Typeface
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -9,6 +10,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import android.widget.TextView
 import androidx.fragment.app.viewModels
 import com.abrebo.tabletennishub.R
 import com.abrebo.tabletennishub.databinding.FragmentCompareStatisticsBinding
@@ -105,33 +107,56 @@ class CompareStatisticsFragment : Fragment() {
         viewModel.averageScorePerMatchWithOpponen.observe(viewLifecycleOwner){(user,opponent)->
             binding.averageScorePerMatchUser.text=String.format("%.2f",user)
             binding.averageScorePerMatchOpponent.text=String.format("%.2f",opponent)
+            if (user > opponent) {
+                binding.averageScorePerMatchUser.setTypeface(null, Typeface.BOLD)
+                binding.averageScorePerMatchOpponent.setTypeface(null, Typeface.NORMAL)
+            } else if (user < opponent) {
+                binding.averageScorePerMatchOpponent.setTypeface(null, Typeface.BOLD)
+                binding.averageScorePerMatchUser.setTypeface(null, Typeface.NORMAL)
+            } else {
+                binding.averageScorePerMatchUser.setTypeface(null, Typeface.NORMAL)
+                binding.averageScorePerMatchOpponent.setTypeface(null, Typeface.NORMAL)
+            }
 
         }
-        viewModel.setWinRatesCurrentWithOpponent.observe(viewLifecycleOwner) {
+        viewModel.setWinRatesCurrentWithOpponent.observe(viewLifecycleOwner) { current ->
             for (setNumber in 0..4) {
-                val winRate = it[setNumber] ?: 0.0
-                when (setNumber) {
-                    0 -> binding.currentSet1Value.text = String.format("%.2f%%", winRate * 100)
-                    1 -> binding.currentSet2Value.text = String.format("%.2f%%", winRate * 100)
-                    2 -> binding.currentSet3Value.text = String.format("%.2f%%", winRate * 100)
-                    3 -> binding.currentSet4Value.text = String.format("%.2f%%", winRate * 100)
-                    4 -> binding.currentSet5Value.text = String.format("%.2f%%", winRate * 100)
+                val currentWinRate = current[setNumber] ?: 0.0
+                viewModel.setWinRatesOpponent.observe(viewLifecycleOwner) { opponent ->
+                    val opponentWinRate = opponent[setNumber] ?: 0.0
+
+                    when (setNumber) {
+                        0 -> {
+                            binding.currentSet1Value.text = String.format("%.2f%%", currentWinRate * 100)
+                            binding.opponentSet1Value.text = String.format("%.2f%%", opponentWinRate * 100)
+                            setTextStyle(binding.currentSet1Value, binding.opponentSet1Value, currentWinRate, opponentWinRate)
+                        }
+                        1 -> {
+                            binding.currentSet2Value.text = String.format("%.2f%%", currentWinRate * 100)
+                            binding.opponentSet2Value.text = String.format("%.2f%%", opponentWinRate * 100)
+                            setTextStyle(binding.currentSet2Value, binding.opponentSet2Value, currentWinRate, opponentWinRate)
+                        }
+                        2 -> {
+                            binding.currentSet3Value.text = String.format("%.2f%%", currentWinRate * 100)
+                            binding.opponentSet3Value.text = String.format("%.2f%%", opponentWinRate * 100)
+                            setTextStyle(binding.currentSet3Value, binding.opponentSet3Value, currentWinRate, opponentWinRate)
+                        }
+                        3 -> {
+                            binding.currentSet4Value.text = String.format("%.2f%%", currentWinRate * 100)
+                            binding.opponentSet4Value.text = String.format("%.2f%%", opponentWinRate * 100)
+                            setTextStyle(binding.currentSet4Value, binding.opponentSet4Value, currentWinRate, opponentWinRate)
+                        }
+                        4 -> {
+                            binding.currentSet5Value.text = String.format("%.2f%%", currentWinRate * 100)
+                            binding.opponentSet5Value.text = String.format("%.2f%%", opponentWinRate * 100)
+                            setTextStyle(binding.currentSet5Value, binding.opponentSet5Value, currentWinRate, opponentWinRate)
+                        }
+                    }
                 }
             }
         }
 
-        viewModel.setWinRatesOpponent.observe(viewLifecycleOwner){
-            for (setNumber in 0..4) {
-                val winRate = it[setNumber] ?: 0.0
-                when (setNumber) {
-                    0 -> binding.opponentSet1Value.text = String.format("%.2f%%", winRate * 100)
-                    1 -> binding.opponentSet2Value.text = String.format("%.2f%%", winRate * 100)
-                    2 -> binding.opponentSet3Value.text = String.format("%.2f%%", winRate * 100)
-                    3 -> binding.opponentSet4Value.text = String.format("%.2f%%", winRate * 100)
-                    4 -> binding.opponentSet5Value.text = String.format("%.2f%%", winRate * 100)
-                }
-            }
-        }
+
 
         viewModel.setAvgScoresWithOpponent.observe(viewLifecycleOwner){avgScoresMapCurrent->
             val set1AvgScore = avgScoresMapCurrent[0]?.toFloat() ?: 0.0f
@@ -158,6 +183,9 @@ class CompareStatisticsFragment : Fragment() {
                 binding.opponentSet3ValueWinScoreSet.text = String.format("%.2f", set3AvgScoreOpponent)
                 binding.opponentSet4ValueWinScoreSet.text = String.format("%.2f", set4AvgScoreOpponent)
                 binding.opponentSet5ValueWinScoreSet.text = String.format("%.2f", set5AvgScoreOpponent)
+                setTextStyle(set1AvgScore,set2AvgScore,set3AvgScore,set4AvgScore,set5AvgScore,set1AvgScoreOpponent,
+                    set2AvgScoreOpponent,set3AvgScoreOpponent,set4AvgScoreOpponent,set5AvgScoreOpponent)
+
                 viewModel.totalMatchesAgainstOpponent.observe(viewLifecycleOwner) { totalMatches ->
                     if(totalMatches>0){
                         binding.cardMatches.visibility=View.VISIBLE
@@ -174,8 +202,12 @@ class CompareStatisticsFragment : Fragment() {
                         viewModel.totalScoreCurrrentAndOpponent.observe(viewLifecycleOwner){(user,opponent)->
                             binding.currentUserTotalScore.text=user.toString()
                             binding.opponentUserTotalScore.text=opponent.toString()
+                            setTextStyle(user,opponent)
+
                             binding.currentUserScore.text=String.format("%.2f",(user.toDouble()/totalMatches.toDouble()))
                             binding.opponentUserScore.text=String.format("%.2f",(opponent.toDouble()/totalMatches.toDouble()))
+                            setTextStyle(user.toDouble()/totalMatches.toDouble(),opponent.toDouble()/totalMatches.toDouble())
+
 
                             viewModel.totalSetWithOpponent.observe(viewLifecycleOwner){totalSet->
                                 binding.totalSet.text=totalSet.toString()
@@ -203,6 +235,124 @@ class CompareStatisticsFragment : Fragment() {
             }
         }
     }
+
+    private fun setTextStyle(d: Double, d1: Double) {
+        if (d>d1){
+            binding.currentUserScore.setTypeface(null, Typeface.BOLD)
+            binding.opponentUserScore.setTypeface(null, Typeface.NORMAL)
+        }else if (d<d1){
+            binding.currentUserScore.setTypeface(null, Typeface.NORMAL)
+            binding.opponentUserScore.setTypeface(null, Typeface.BOLD)
+        }else{
+            binding.currentUserScore.setTypeface(null, Typeface.NORMAL)
+            binding.opponentUserScore.setTypeface(null, Typeface.NORMAL)
+        }
+    }
+
+    private fun setTextStyle(user: Int, opponent: Int) {
+        if (user>opponent){
+            binding.currentUserTotalScore.setTypeface(null, Typeface.BOLD)
+            binding.opponentUserTotalScore.setTypeface(null, Typeface.NORMAL)
+        }else if (opponent>user){
+            binding.currentUserTotalScore.setTypeface(null, Typeface.NORMAL)
+            binding.opponentUserTotalScore.setTypeface(null, Typeface.BOLD)
+        }else{
+            binding.currentUserTotalScore.setTypeface(null, Typeface.NORMAL)
+            binding.opponentUserTotalScore.setTypeface(null, Typeface.NORMAL)
+        }
+    }
+
+    private fun setTextStyle(
+        currentTextView: TextView,
+        opponentTextView: TextView,
+        currentWinRate: Double,
+        opponentWinRate: Double
+    ) {
+        if (currentWinRate > opponentWinRate) {
+            currentTextView.setTypeface(null, Typeface.BOLD)
+            opponentTextView.setTypeface(null, Typeface.NORMAL)
+        } else if (currentWinRate < opponentWinRate) {
+            opponentTextView.setTypeface(null, Typeface.BOLD)
+            currentTextView.setTypeface(null, Typeface.NORMAL)
+        } else {
+            currentTextView.setTypeface(null, Typeface.NORMAL)
+            opponentTextView.setTypeface(null, Typeface.NORMAL)
+        }
+    }
+    private fun setTextStyle(
+        set1AvgScore: Float,
+        set2AvgScore: Float,
+        set3AvgScore: Float,
+        set4AvgScore: Float,
+        set5AvgScore: Float,
+        set1AvgScoreOpponent: Float,
+        set2AvgScoreOpponent: Float,
+        set3AvgScoreOpponent: Float,
+        set4AvgScoreOpponent: Float,
+        set5AvgScoreOpponent: Float
+    ) {
+        // Set 1
+        if (set1AvgScore > set1AvgScoreOpponent) {
+            binding.currentSet1ValueWinScoreSet.setTypeface(null, Typeface.BOLD)
+            binding.opponentSet1ValueWinScoreSet.setTypeface(null, Typeface.NORMAL)
+        } else if (set1AvgScore < set1AvgScoreOpponent) {
+            binding.opponentSet1ValueWinScoreSet.setTypeface(null, Typeface.BOLD)
+            binding.currentSet1ValueWinScoreSet.setTypeface(null, Typeface.NORMAL)
+        } else {
+            binding.currentSet1ValueWinScoreSet.setTypeface(null, Typeface.NORMAL)
+            binding.opponentSet1ValueWinScoreSet.setTypeface(null, Typeface.NORMAL)
+        }
+
+        // Set 2
+        if (set2AvgScore > set2AvgScoreOpponent) {
+            binding.currentSet2ValueWinScoreSet.setTypeface(null, Typeface.BOLD)
+            binding.opponentSet2ValueWinScoreSet.setTypeface(null, Typeface.NORMAL)
+        } else if (set2AvgScore < set2AvgScoreOpponent) {
+            binding.opponentSet2ValueWinScoreSet.setTypeface(null, Typeface.BOLD)
+            binding.currentSet2ValueWinScoreSet.setTypeface(null, Typeface.NORMAL)
+        } else {
+            binding.currentSet2ValueWinScoreSet.setTypeface(null, Typeface.NORMAL)
+            binding.opponentSet2ValueWinScoreSet.setTypeface(null, Typeface.NORMAL)
+        }
+
+        // Set 3
+        if (set3AvgScore > set3AvgScoreOpponent) {
+            binding.currentSet3ValueWinScoreSet.setTypeface(null, Typeface.BOLD)
+            binding.opponentSet3ValueWinScoreSet.setTypeface(null, Typeface.NORMAL)
+        } else if (set3AvgScore < set3AvgScoreOpponent) {
+            binding.opponentSet3ValueWinScoreSet.setTypeface(null, Typeface.BOLD)
+            binding.currentSet3ValueWinScoreSet.setTypeface(null, Typeface.NORMAL)
+        } else {
+            binding.currentSet3ValueWinScoreSet.setTypeface(null, Typeface.NORMAL)
+            binding.opponentSet3ValueWinScoreSet.setTypeface(null, Typeface.NORMAL)
+        }
+
+        // Set 4
+        if (set4AvgScore > set4AvgScoreOpponent) {
+            binding.currentSet4ValueWinScoreSet.setTypeface(null, Typeface.BOLD)
+            binding.opponentSet4ValueWinScoreSet.setTypeface(null, Typeface.NORMAL)
+        } else if (set4AvgScore < set4AvgScoreOpponent) {
+            binding.opponentSet4ValueWinScoreSet.setTypeface(null, Typeface.BOLD)
+            binding.currentSet4ValueWinScoreSet.setTypeface(null, Typeface.NORMAL)
+        } else {
+            binding.currentSet4ValueWinScoreSet.setTypeface(null, Typeface.NORMAL)
+            binding.opponentSet4ValueWinScoreSet.setTypeface(null, Typeface.NORMAL)
+        }
+
+        // Set 5
+        if (set5AvgScore > set5AvgScoreOpponent) {
+            binding.currentSet5ValueWinScoreSet.setTypeface(null, Typeface.BOLD)
+            binding.opponentSet5ValueWinScoreSet.setTypeface(null, Typeface.NORMAL)
+        } else if (set5AvgScore < set5AvgScoreOpponent) {
+            binding.opponentSet5ValueWinScoreSet.setTypeface(null, Typeface.BOLD)
+            binding.currentSet5ValueWinScoreSet.setTypeface(null, Typeface.NORMAL)
+        } else {
+            binding.currentSet5ValueWinScoreSet.setTypeface(null, Typeface.NORMAL)
+            binding.opponentSet5ValueWinScoreSet.setTypeface(null, Typeface.NORMAL)
+        }
+    }
+
+
     private fun updateRadarChart(
         matchPerScoreAvgCurrent: Float,
         set1AvgScoreCurrent: Float,

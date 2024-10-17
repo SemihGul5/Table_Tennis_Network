@@ -5,6 +5,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
+import android.widget.ListView
 import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
 import com.abrebo.tabletennishub.R
@@ -19,6 +21,7 @@ import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.MobileAds
 import com.google.android.gms.ads.interstitial.InterstitialAd
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -41,6 +44,7 @@ class MainFragment : Fragment() {
                 if (userName != null) {
                     currentUserName = userName
                     viewModel.getMatchesByUserName(currentUserName)
+                    viewModel.getfriends(currentUserName)
                 }
             }
         }
@@ -79,9 +83,45 @@ class MainFragment : Fragment() {
             val adapter=MatchAdapter(requireContext(),it,viewModel,auth)
             binding.matchRecyclerView.adapter=adapter
         }
+        binding.materialToolbar.setOnMenuItemClickListener {
+            if (it.itemId==R.id.filterMatches){
+                handleFilterMenuItem()
+            }
+
+            true
+        }
 
     }
+    private fun handleFilterMenuItem() {
+        val dialog = BottomSheetDialog(requireContext())
+        val bottomSheet = layoutInflater.inflate(R.layout.main_page_bottom_sheet, null)
+        val listView = bottomSheet.findViewById<ListView>(R.id.listViewBottomSheet)
 
+        viewModel.friends.observe(viewLifecycleOwner) { friendsList ->
+            val modifiedList = mutableListOf("Tüm Maçlar")
+            modifiedList.addAll(friendsList.sorted())
+            val listViewAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, modifiedList)
+            listView.adapter = listViewAdapter
+        }
+
+        listView.setOnItemClickListener { parent, view, position, id ->
+            val selectedItemText = (parent.getItemAtPosition(position) as String)
+            if (selectedItemText == "Tüm Maçlar") {
+                viewModel.getMatchesByUserName(currentUserName)
+                dialog.dismiss()
+            } else {
+                val opponent = selectedItemText
+                viewModel.getMatchesByUserNameWithFilter(currentUserName, opponent)
+                dialog.dismiss()
+            }
+            viewModel.matches.observe(viewLifecycleOwner){
+                val adapter=MatchAdapter(requireContext(),it,viewModel,auth)
+                binding.matchRecyclerView.adapter=adapter
+            }
+        }
+        dialog.setContentView(bottomSheet)
+        dialog.show()
+    }
     override fun onResume() {
         super.onResume()
         val currentUserEmail = auth.currentUser?.email

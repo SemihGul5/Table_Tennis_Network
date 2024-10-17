@@ -22,16 +22,37 @@ class MainViewModel @Inject constructor(var repository: Repository,application: 
     private val context = getApplication<Application>().applicationContext
     var matches = MutableLiveData<List<Match>>()
     private var interstitialAd: InterstitialAd? = null
+    var friends=MutableLiveData<List<String>>()
 
     fun getMatchesByUserName(currentUserName: String){
         repository.getMatchesByUserName(currentUserName) { matchList ->
             matches.postValue(matchList)
         }
     }
+    fun getMatchesByUserNameWithFilter(currentUserName: String, opponent: String) {
+        repository.getMatchesByUserName(currentUserName) { matchList ->
+            val filteredMatches = mutableListOf<Match>()
+
+            matchList.forEach { match ->
+                if (match.userHome.equals(opponent, ignoreCase = true) || match.userAway.equals(opponent, ignoreCase = true)) {
+                    filteredMatches.add(match)
+                }
+            }
+
+            matches.postValue(filteredMatches)
+        }
+    }
+
 
     fun getUserNameByEmail(userEmail: String, onResult: (String?) -> Unit){
         viewModelScope.launch {
             onResult(repository.getUserNameByEmail(userEmail))
+        }
+    }
+
+    fun getfriends(currentUserName: String){
+        repository.getfriends(currentUserName){
+            friends.postValue(it)
         }
     }
     fun loadInterstitialAd() {

@@ -106,4 +106,9 @@
     <string name="Pleaseverifyyouremailaddress">Please verify your email address.</string>
     <string name="Wouldyouliketheverificationemailtoberesent">Do you want the verification email to be resent?</string>
     <string name="Pressagaintoexit">Press again to exit.</string>
+    <string name="password_reset_email_sent">Password reset email sent.</string>
+    <string name="password_reset_email_failed">Failed to send password reset email.</string>
+    <string name="homePage">Home</string>
+    <string name="Statistics">Statistics</string>
+    <string name="Profile">Profile</string>
 </resources>

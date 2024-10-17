@@ -106,4 +106,10 @@
     <string name="Pleaseverifyyouremailaddress">Bitte verifizieren Sie Ihre E-Mail-Adresse.</string>
     <string name="Wouldyouliketheverificationemailtoberesent">Möchten Sie die Bestätigungs-E-Mail erneut senden?</string>
     <string name="Pressagaintoexit">Drücken Sie erneut, um zu beenden.</string>
+    <string name="password_reset_email_sent">Passwort-Wiederherstellungs-E-Mail wurde gesendet.</string>
+    <string name="password_reset_email_failed">Fehler beim Senden der Passwort-Wiederherstellungs-E-Mail.</string>
+    <string name="homePage">Startseite</string>
+    <string name="Statistics">Statistiken</string>
+    <string name="Profile">Profil</string>
+
 </resources>

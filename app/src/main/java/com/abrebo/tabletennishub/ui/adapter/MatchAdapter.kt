@@ -2,6 +2,7 @@ package com.abrebo.tabletennishub.ui.adapter
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.graphics.Typeface
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.navigation.Navigation
@@ -38,6 +39,17 @@ class MatchAdapter(var context:Context,
         binding.homeScoreTextView.text=match.userHomeScore.toString()
         binding.awayScoreTextView.text=match.userAwayScore.toString()
         binding.awayTeamTextView.text=match.userAway
+        if (match.userHomeScore > match.userAwayScore) {
+            binding.homeTeamTextView.setTypeface(null, Typeface.BOLD)
+            binding.awayTeamTextView.setTypeface(null, Typeface.NORMAL)
+        } else if (match.userHomeScore < match.userAwayScore) {
+            binding.awayTeamTextView.setTypeface(null, Typeface.BOLD)
+            binding.homeTeamTextView.setTypeface(null, Typeface.NORMAL)
+        } else {
+            binding.homeTeamTextView.setTypeface(null, Typeface.NORMAL)
+            binding.awayTeamTextView.setTypeface(null, Typeface.NORMAL)
+        }
+
 
         viewModel.getUserNameByEmail(auth.currentUser?.email!!){
             if (it != null) {

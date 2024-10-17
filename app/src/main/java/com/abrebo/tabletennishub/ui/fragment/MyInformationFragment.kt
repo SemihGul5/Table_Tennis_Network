@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
 import com.abrebo.tabletennishub.R
@@ -66,6 +67,20 @@ class MyInformationFragment : Fragment() {
         binding.nameFamilyText.setOnClickListener {
             val navDirection=MyInformationFragmentDirections.actionMyInformationFragmentToUpdateUserNameFragment(PageType.NAME_FAMILY)
             Navigation.findNavController(it).navigate(navDirection)
+        }
+        binding.passwordUpdateButton.setOnClickListener {
+            auth.sendPasswordResetEmail(auth.currentUser?.email!!).addOnCompleteListener {
+                if (it.isSuccessful){
+                    Toast.makeText(requireContext(),
+                        requireContext().getString(R.string.password_reset_email_sent),
+                        Toast.LENGTH_SHORT).show()
+                }else{
+                    Toast.makeText(requireContext(),
+                        requireContext().getString(R.string.password_reset_email_failed),
+                        Toast.LENGTH_SHORT).show()
+
+                }
+            }
         }
     }
 

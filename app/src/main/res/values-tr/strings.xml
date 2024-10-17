@@ -104,4 +104,11 @@
     <string name="Pleaseverifyyouremailaddress">Email adresinizi doğrulayın.</string>
     <string name="Wouldyouliketheverificationemailtoberesent">"Doğrulama email'i yeniden gönderilsin mi?"</string>
     <string name="Pressagaintoexit">Çıkmak için tekrar basın.</string>
+    <string name="password_reset_email_sent">Şifre sıfırlama e-postası gönderildi.</string>
+    <string name="password_reset_email_failed">Şifre sıfırlama e-postası gönderilemedi.</string>
+    <string name="homePage">Anasayfa</string>
+    <string name="Statistics">İstatistikler</string>
+    <string name="Profile">Profil</string>
+
+
 </resources>

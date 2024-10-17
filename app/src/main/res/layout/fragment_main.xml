@@ -30,6 +30,7 @@
         android:theme="?attr/actionBarTheme"
         app:title="@string/MyMatches"
         app:titleCentered="true"
+        app:menu="@menu/main_menu"
         app:titleTextColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

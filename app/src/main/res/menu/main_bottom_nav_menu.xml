@@ -4,13 +4,13 @@
     <item
         android:id="@+id/mainFragment"
         android:icon="@drawable/baseline_home_24"
-        android:title="Anasayfa" />
+        android:title="@string/homePage" />
     <item
         android:id="@+id/statisticsFragment"
         android:icon="@drawable/baseline_query_stats_24"
-        android:title="İstatistikler" />
+        android:title="@string/Statistics" />
     <item
         android:id="@+id/profileFragment"
         android:icon="@drawable/baseline_person_24"
-        android:title="Profil" />
+        android:title="@string/Profile" />
 </menu>
