@@ -70,7 +70,7 @@ dependencies {
     implementation("com.google.firebase:firebase-firestore")
     implementation("com.google.firebase:firebase-auth")
     implementation("com.google.android.gms:play-services-ads:22.2.0")
-    implementation ("com.google.firebase:firebase-messaging")
+
     //others
     implementation("com.github.bumptech.glide:glide:4.13.2")
     implementation ("de.hdodenhof:circleimageview:3.1.0")

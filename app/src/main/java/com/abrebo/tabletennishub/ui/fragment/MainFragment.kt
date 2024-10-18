@@ -75,7 +75,7 @@ class MainFragment : Fragment() {
         BackPressUtils.setBackPressCallback(this, viewLifecycleOwner)
 
         binding.floatingActionButton.setOnClickListener {
-            viewModel.showInterstitialAd(requireActivity())
+            //viewModel.showInterstitialAd(requireActivity())
             Navigation.findNavController(it).navigate(R.id.action_mainFragment_to_addMatchFragment)
         }
 

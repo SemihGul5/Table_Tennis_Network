@@ -17,6 +17,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.SetOptions
 import kotlinx.coroutines.tasks.await
+import org.json.JSONObject
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -87,6 +88,20 @@ class DataSource(var collectionReference: CollectionReference,
         newUser["email"] = user.email!!
         collectionReference.document(user.id!!).update(newUser)
     }
+    fun saveFcmToken(userId: String, token: String) {
+        val tokenMap = HashMap<String, Any>()
+        tokenMap["fcmToken"] = token
+
+        collectionReference.document(userId).update(tokenMap)
+            .addOnSuccessListener {
+                Log.d("FCM Token", "Token başarıyla kaydedildi.")
+            }
+            .addOnFailureListener { e ->
+                Log.e("FCM Token", "Token kaydedilemedi: $e")
+            }
+    }
+
+
     suspend fun updateWinnerUserName(oldUserName: String, newUserName: String): Boolean {
         return try {
             val querySnapshot = collectionReferenceMatches

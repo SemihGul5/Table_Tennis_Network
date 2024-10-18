@@ -3,6 +3,8 @@ package com.abrebo.tabletennishub.ui.viewmodel
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.Application
+import android.content.Context
+import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
@@ -16,8 +18,10 @@ import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.interstitial.InterstitialAd
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 import com.google.firebase.Timestamp
+import com.google.firebase.firestore.FirebaseFirestore
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import org.json.JSONObject
 import javax.inject.Inject
 
 @HiltViewModel
@@ -142,4 +146,5 @@ class AddMatchViewModel @Inject constructor (var repository: Repository,applicat
             interstitialAd?.show(activity)
         }
     }
+
 }

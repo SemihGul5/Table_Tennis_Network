@@ -22,4 +22,3 @@ dependencyResolutionManagement {
 
 rootProject.name = "Table Tennis Hub"
 include(":app")
- 
