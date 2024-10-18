@@ -7,13 +7,13 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.abrebo.tabletennishub.R
 import com.abrebo.tabletennishub.databinding.ItemReceivedRequestBinding
-import com.abrebo.tabletennishub.ui.viewmodel.RequestsViewModel
+import com.abrebo.tabletennishub.ui.viewmodel.Profile.RequestsViewModel
 import com.abrebo.tabletennishub.utils.PageType
 import com.google.firebase.auth.FirebaseAuth
 
 class RequestsAdapter(var context: Context,
                       var requestList: List<String>,
-                      var viewModel:RequestsViewModel,
+                      var viewModel: RequestsViewModel,
                       var pageType: PageType,
                       var auth: FirebaseAuth):RecyclerView.Adapter<RequestsAdapter.ItemReceivedRequestHolder>() {
     inner class ItemReceivedRequestHolder(var binding:ItemReceivedRequestBinding):RecyclerView.ViewHolder(binding.root)

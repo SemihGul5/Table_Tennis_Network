@@ -6,12 +6,12 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.abrebo.tabletennishub.data.model.User
 import com.abrebo.tabletennishub.databinding.CardFriendListBinding
-import com.abrebo.tabletennishub.ui.viewmodel.AddFriendViewModel
+import com.abrebo.tabletennishub.ui.viewmodel.Profile.AddFriendViewModel
 import com.google.firebase.auth.FirebaseAuth
 
 class AddFriendAdapter(var context: Context,
                        var userList: List<User>,
-                       var viewModel:AddFriendViewModel,
+                       var viewModel: AddFriendViewModel,
                        var auth: FirebaseAuth
 ):RecyclerView.Adapter<AddFriendAdapter.AddFriendHolder>() {
 

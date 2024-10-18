@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/logInFragment"
-        android:name="com.abrebo.tabletennishub.ui.fragment.LogInFragment"
+        android:name="com.abrebo.tabletennishub.ui.fragment.MainPage.LogInFragment"
         android:label="fragment_log_in"
         tools:layout="@layout/fragment_log_in" >
         <action
@@ -19,7 +19,7 @@
     </fragment>
     <fragment
         android:id="@+id/signUpFragment"
-        android:name="com.abrebo.tabletennishub.ui.fragment.SignUpFragment"
+        android:name="com.abrebo.tabletennishub.ui.fragment.MainPage.SignUpFragment"
         android:label="SignUpFragment" >
         <action
             android:id="@+id/action_signUpFragment_to_logInFragment"

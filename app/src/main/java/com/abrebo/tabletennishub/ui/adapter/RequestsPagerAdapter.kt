@@ -3,8 +3,8 @@ package com.abrebo.tabletennishub.ui.adapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.abrebo.tabletennishub.ui.fragment.ReceivedRequestsFragment
-import com.abrebo.tabletennishub.ui.fragment.SentRequestsFragment
+import com.abrebo.tabletennishub.ui.fragment.Profile.ReceivedRequestsFragment
+import com.abrebo.tabletennishub.ui.fragment.Profile.SentRequestsFragment
 
 class RequestsPagerAdapter(fa: FragmentActivity) : FragmentStateAdapter(fa) {
     override fun getItemCount(): Int = 2

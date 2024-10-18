@@ -3,8 +3,8 @@ package com.abrebo.tabletennishub.ui.adapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.abrebo.tabletennishub.ui.fragment.CompareStatisticsFragment
-import com.abrebo.tabletennishub.ui.fragment.MyStatisticsFragment
+import com.abrebo.tabletennishub.ui.fragment.Statistics.CompareStatisticsFragment
+import com.abrebo.tabletennishub.ui.fragment.Statistics.MyStatisticsFragment
 
 
 class StatisticsPagerAdapter(fa:FragmentActivity) : FragmentStateAdapter(fa) {

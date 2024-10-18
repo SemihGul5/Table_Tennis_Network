@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginBottom="70dp"
-    tools:context=".ui.fragment.SupportAndContactFragment" >
+    tools:context=".ui.fragment.Profile.SupportAndContactFragment" >
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/materialToolbar9"

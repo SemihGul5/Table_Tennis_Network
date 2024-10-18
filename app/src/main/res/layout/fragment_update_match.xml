@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginBottom="70dp"
-    tools:context=".ui.fragment.UpdateMatchFragment">
+    tools:context=".ui.fragment.Home.UpdateMatchFragment">
 
 <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
