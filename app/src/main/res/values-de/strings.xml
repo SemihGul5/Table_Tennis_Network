@@ -117,6 +117,12 @@
     <string name="Confirmed">Bestätigt</string>
     <string name="Pending">Ausstehend</string>
     <string name="Delete_match">Spiel löschen</string>
+    <string name="Confirmmatchdeletion">Löschung des Spiels bestätigen</string>
+    <string name="Lastupdatedate">Letztes Aktualisierungsdatum</string>
+    <string name="match_cannot_be_updated">Das Spiel kann nicht aktualisiert werden, da es bestätigt wurde. Wenn Sie glauben, dass ein Fehler vorliegt, löschen Sie bitte das Spiel und speichern Sie es erneut.</string>
+    <string name="GotoMatchDeletionPage">Zur Löschungsseite des Spiels gehen</string>
+    <string name="MatchConfirmed">Spiel bestätigt</string>
+    <string name="Yourmatchdeletionconfirmationhasbeenreceived">Ihre Bestätigung zur Spiel-Löschung wurde erhalten.</string>
 
 
 

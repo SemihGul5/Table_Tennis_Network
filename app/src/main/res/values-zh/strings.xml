@@ -116,8 +116,13 @@
     <string name="Confirm_match">确认比赛</string>
     <string name="Confirmed">Confermato</string>
     <string name="Pending">等待中</string>
-    <string name="Delete_match"> 删除比赛</string>
-
+    <string name="Delete_match">删除比赛</string>
+    <string name="Confirmmatchdeletion">确认删除比赛</string>
+    <string name="Lastupdatedate">上次更新时间</string>
+    <string name="match_cannot_be_updated">比赛已确认，无法更新。如果您认为有错误，请删除比赛并重新保存</string>
+    <string name="GotoMatchDeletionPage">转到比赛删除页面</string>
+    <string name="MatchConfirmed">比赛已确认</string>
+    <string name="Yourmatchdeletionconfirmationhasbeenreceived">您的比赛删除确认已收到</string>
 
 
 

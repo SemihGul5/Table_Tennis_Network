@@ -78,10 +78,11 @@ class MatchDetailFragment : Fragment() {
             binding.linearLayoutConfirmStatus.visibility=View.GONE
             binding.linearLayoutConfirmStatus2.visibility=View.GONE
             binding.confirmButton.visibility=View.GONE
+            binding.lastUpdateDateText.visibility=View.GONE
         }
 
-        binding.currentSet1Value.setText(match.setScores.getOrNull(0)?.userScore.toString())
-        binding.opponentSet1Value.setText(match.setScores.getOrNull(0)?.opponentScore.toString())
+        binding.currentSet1Value.text = match.setScores.getOrNull(0)?.userScore.toString()
+        binding.opponentSet1Value.text = match.setScores.getOrNull(0)?.opponentScore.toString()
         if (match.setScores[0].userScore>=match.setScores[0].opponentScore){
             binding.currentSet1Value.setTypeface(null, Typeface.BOLD)
             binding.opponentSet1Value.setTypeface(null, Typeface.NORMAL)
@@ -90,8 +91,8 @@ class MatchDetailFragment : Fragment() {
             binding.opponentSet1Value.setTypeface(null, Typeface.BOLD)
         }
         if (match.setScores.size>1){
-            binding.currentSet2Value.setText(match.setScores[1].userScore.toString())
-            binding.opponentSet2Value.setText(match.setScores[1].opponentScore.toString())
+            binding.currentSet2Value.text = match.setScores[1].userScore.toString()
+            binding.opponentSet2Value.text = match.setScores[1].opponentScore.toString()
             if (match.setScores[1].userScore>=match.setScores[1].opponentScore){
                 binding.currentSet2Value.setTypeface(null, Typeface.BOLD)
                 binding.opponentSet2Value.setTypeface(null, Typeface.NORMAL)
@@ -106,8 +107,8 @@ class MatchDetailFragment : Fragment() {
             binding.linearLayoutSet5.visibility=View.GONE
         }
         if (match.setScores.size>2){
-            binding.currentSet3Value.setText(match.setScores[2].userScore.toString())
-            binding.opponentSet3Value.setText(match.setScores[2].opponentScore.toString())
+            binding.currentSet3Value.text = match.setScores[2].userScore.toString()
+            binding.opponentSet3Value.text = match.setScores[2].opponentScore.toString()
             if (match.setScores[2].userScore>=match.setScores[2].opponentScore){
                 binding.currentSet3Value.setTypeface(null, Typeface.BOLD)
                 binding.opponentSet3Value.setTypeface(null, Typeface.NORMAL)
@@ -122,8 +123,8 @@ class MatchDetailFragment : Fragment() {
             binding.linearLayoutSet5.visibility=View.GONE
         }
         if (match.setScores.size>3){
-            binding.currentSet4Value.setText(match.setScores[3].userScore.toString())
-            binding.opponentSet4Value.setText(match.setScores[3].opponentScore.toString())
+            binding.currentSet4Value.text = match.setScores[3].userScore.toString()
+            binding.opponentSet4Value.text = match.setScores[3].opponentScore.toString()
 
             if (match.setScores[3].userScore>=match.setScores[3].opponentScore){
                 binding.currentSet4Value.setTypeface(null, Typeface.BOLD)
@@ -137,8 +138,8 @@ class MatchDetailFragment : Fragment() {
             binding.linearLayoutSet5.visibility=View.GONE
         }
         if (match.setScores.size>4){
-            binding.currentSet5Value.setText(match.setScores[4].userScore.toString())
-            binding.opponentSet5Value.setText(match.setScores[4].opponentScore.toString())
+            binding.currentSet5Value.text = match.setScores[4].userScore.toString()
+            binding.opponentSet5Value.text = match.setScores[4].opponentScore.toString()
 
             if (match.setScores[4].userScore>=match.setScores[4].opponentScore){
                 binding.currentSet5Value.setTypeface(null, Typeface.BOLD)
@@ -150,26 +151,33 @@ class MatchDetailFragment : Fragment() {
         }else{
             binding.linearLayoutSet5.visibility=View.GONE
         }
-        binding.lastUpdateDateText.text="Son Güncellenme Tarihi: ${match.timestamp.toDate().toString()}"
+        val t="${requireContext().getString(R.string.Lastupdatedate)}: ${match.timestamp.toDate().toString()}"
+        binding.lastUpdateDateText.text=t
         binding.confirmHomeTeamNameText.text=match.userHome
         binding.confirmAwayTeamNameText.text=match.userAway
-        if (match.confirmStatusHome&&match.confirmStatusAway){
-            binding.confirmStatusText.text="Onaylandı"
+
+
+        if (match.confirmStatusHome){
+            binding.homeTeamConfirmStatusText.text=requireContext().getString(R.string.Confirmed)
         }else{
-            binding.confirmStatusText.text="Bekleniyor"
+            binding.homeTeamConfirmStatusText.text=requireContext().getString(R.string.Pending)
+        }
+        if (match.confirmStatusAway){
+            binding.awayTeamConfirmStatusText.text=requireContext().getString(R.string.Confirmed)
+        }else{
+            binding.awayTeamConfirmStatusText.text=requireContext().getString(R.string.Pending)
         }
 
-        binding.homeTeamConfirmStatusText.text=match.confirmStatusHome.toString()
-        binding.awayTeamConfirmStatusText.text=match.confirmStatusAway.toString()
+
 
         binding.materialToolbar.setOnMenuItemClickListener {
             if(it.itemId==R.id.update_match){
                 if (match.confirmStatusHome&&match.confirmStatusAway){
                     Snackbar.make(requireView(),
-                        "Maç onaylandığı için güncellenemez. Eğer bir yanlışlık yaptığınızı düşünüyorsanız maçı silip tekrar kaydedin",
+                        requireContext().getString(R.string.match_cannot_be_updated),
                         Snackbar.LENGTH_LONG)
                         .setActionTextColor(Color.WHITE)
-                        .setAction("Maç Silme Sayfasına Git"){
+                        .setAction(requireContext().getString(R.string.GotoMatchDeletionPage)){
                             val navDirection=MatchDetailFragmentDirections.actionMatchDetailFragmentToDeleteMatchFragment(match)
                             Navigation.findNavController(binding.root).navigate(navDirection)
                         }.show()
@@ -187,12 +195,12 @@ class MatchDetailFragment : Fragment() {
         binding.confirmButton.setOnClickListener {
             if (currentUserName==match.userHome){
                viewModel.updateMatchConfirm(true,true,match.id)
-                binding.homeTeamConfirmStatusText.setText("Onaylandı")
+                binding.homeTeamConfirmStatusText.text = requireContext().getString(R.string.Confirmed)
             }else{
                 viewModel.updateMatchConfirm(false,true,match.id)
-                binding.awayTeamConfirmStatusText.setText("Onaylandı")
+                binding.awayTeamConfirmStatusText.text = requireContext().getString(R.string.Confirmed)
             }
-            Toast.makeText(requireContext(),"Maç Onaylandı",Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(),requireContext().getString(R.string.MatchConfirmed),Toast.LENGTH_SHORT).show()
             binding.confirmButton.visibility=View.GONE
         }
 

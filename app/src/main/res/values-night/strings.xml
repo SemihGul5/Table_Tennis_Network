@@ -117,6 +117,12 @@
     <string name="Confirmed">Confirmed</string>
     <string name="Pending">Pending</string>
     <string name="Delete_match">Delete match</string>
+    <string name="Confirmmatchdeletion">Confirm match deletion</string>
+    <string name="Lastupdatedate">Last update date</string>
+    <string name="match_cannot_be_updated">The match cannot be updated because it has been confirmed. If you think there is a mistake, please delete the match and save it again.</string>
+    <string name="GotoMatchDeletionPage">Go to Match Deletion Page</string>
+    <string name="MatchConfirmed">Match Confirmed</string>
+    <string name="Yourmatchdeletionconfirmationhasbeenreceived">Your match deletion confirmation has been received</string>
 
 
 

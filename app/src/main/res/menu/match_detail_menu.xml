@@ -5,7 +5,7 @@
         android:id="@+id/update_match"
         android:icon="@drawable/baseline_update_24"
         android:title="@string/UpdatetheMatch"
-        app:showAsAction="always" />
+        app:showAsAction="ifRoom" />
     <item
         android:id="@+id/contact_support"
         android:icon="@drawable/baseline_contact_support_24"

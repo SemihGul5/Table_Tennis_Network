@@ -115,6 +115,12 @@
     <string name="Confirmed">Onaylandı</string>
     <string name="Pending">Bekleniyor</string>
     <string name="Delete_match">Maçı Sil</string>
+    <string name="Confirmmatchdeletion">Maç Silmeyi Onayla</string>
+    <string name="Lastupdatedate">Son güncelleme tarihi</string>
+    <string name="match_cannot_be_updated">Maç onaylandığı için güncellenemez. Eğer bir yanlışlık yaptığınızı düşünüyorsanız maçı silip tekrar kaydedin.</string>
+    <string name="GotoMatchDeletionPage">Maç Silme Sayfasına Git</string>
+    <string name="MatchConfirmed">Maç Onaylandı</string>
+    <string name="Yourmatchdeletionconfirmationhasbeenreceived">Maç silme onayınız alındı.</string>
 
 
 

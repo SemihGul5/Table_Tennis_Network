@@ -58,8 +58,16 @@ class DeleteMatchFragment : Fragment() {
         val match = DeleteMatchFragmentArgs.fromBundle(requireArguments()).match
         binding.confirmHomeTeamNameText.text = match.userHome
         binding.confirmAwayTeamNameText.text = match.userAway
-        binding.homeTeamConfirmStatusText.text = match.confirmDeleteStatusHome.toString()
-        binding.awayTeamConfirmStatusText.text = match.confirmDeleteStatusAway.toString()
+        if (match.confirmDeleteStatusHome){
+            binding.homeTeamConfirmStatusText.text=requireContext().getString(R.string.Confirmed)
+        }else{
+            binding.homeTeamConfirmStatusText.text=requireContext().getString(R.string.Pending)
+        }
+        if (match.confirmDeleteStatusAway){
+            binding.awayTeamConfirmStatusText.text=requireContext().getString(R.string.Confirmed)
+        }else{
+            binding.awayTeamConfirmStatusText.text=requireContext().getString(R.string.Pending)
+        }
 
         viewModel.getUserNameByEmail(auth.currentUser?.email!!) { userName ->
             if (userName != null) {
@@ -83,14 +91,15 @@ class DeleteMatchFragment : Fragment() {
     private fun handleConfirmButtonClick(match: Match) {
         if (currentUserName == match.userHome) {
             viewModel.updateMatchConfirmDelete(true, true, match.id)
-            binding.homeTeamConfirmStatusText.text = "true"
+            binding.homeTeamConfirmStatusText.text = requireContext().getString(R.string.Confirmed)
         } else {
             viewModel.updateMatchConfirmDelete(false, true, match.id)
-            binding.awayTeamConfirmStatusText.text = "true"
+            binding.awayTeamConfirmStatusText.text = requireContext().getString(R.string.Confirmed)
         }
         binding.confirmButton.visibility = View.GONE
-        Toast.makeText(requireContext(), "Maç silme onayınız alındı", Toast.LENGTH_SHORT).show()
-        if (binding.homeTeamConfirmStatusText.text=="true" && binding.awayTeamConfirmStatusText.text=="true") {
+        Toast.makeText(requireContext(), requireContext().getString(R.string.Yourmatchdeletionconfirmationhasbeenreceived), Toast.LENGTH_SHORT).show()
+        if (binding.homeTeamConfirmStatusText.text==requireContext().getString(R.string.Confirmed) &&
+            binding.awayTeamConfirmStatusText.text==requireContext().getString(R.string.Confirmed)) {
             viewModel.deleteMatchByField(match.id)
             Toast.makeText(
                 requireContext(),

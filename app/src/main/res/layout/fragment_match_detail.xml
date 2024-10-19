@@ -14,7 +14,7 @@
         android:background="?attr/colorPrimary"
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme"
-        app:title="Match Detail"
+        app:title="@string/Matchdetail"
         app:titleCentered="true"
         app:menu="@menu/match_detail_menu"
         app:titleTextColor="@color/white" />
@@ -312,7 +312,7 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="Onay Durumu:"
+                android:text="@string/Confirmationstatus"
                 android:layout_weight="1"
                 android:textStyle="bold" />
 
@@ -367,7 +367,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginBottom="8dp"
-        android:text="Confirm Match" />
+        android:text="@string/Confirm_match" />
     <FrameLayout
         android:id="@+id/adView"
         android:layout_width="match_parent"

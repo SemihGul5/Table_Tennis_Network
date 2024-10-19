@@ -117,6 +117,12 @@
     <string name="Confirmed">Confermato</string>
     <string name="Pending">In attesa</string>
     <string name="Delete_match">Elimina partita</string>
+    <string name="Confirmmatchdeletion">"Conferma l'eliminazione della partita"</string>
+    <string name="Lastupdatedate">"Data dell'ultimo aggiornamento"</string>
+    <string name="match_cannot_be_updated">La partita non può essere aggiornata perché è stata confermata. Se pensi ci sia un errore, per favore elimina la partita e salvala di nuovo.</string>
+    <string name="GotoMatchDeletionPage">Vai alla pagina di eliminazione della partita</string>
+    <string name="MatchConfirmed">Partita confermata</string>
+    <string name="Yourmatchdeletionconfirmationhasbeenreceived">La tua conferma di eliminazione della partita è stata ricevuta.</string>
 
 
 
