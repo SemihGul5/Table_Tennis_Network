@@ -111,5 +111,16 @@
     <string name="homePage">Accueil</string>
     <string name="Statistics">Statistiques</string>
     <string name="Profile">Profil</string>
+    <string name="Matchdetail">Détails du match</string>
+    <string name="Confirmationstatus">Statut de confirmation</string>
+    <string name="Confirm_match">Confirmer le match</string>
+    <string name="Confirmed">Confirmé</string>
+    <string name="Pending">En attente</string>
+    <string name="Delete_match">Supprimer le match</string>
+
+
+
+
+
 
 </resources>

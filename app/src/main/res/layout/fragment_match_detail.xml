@@ -16,9 +16,11 @@
         android:theme="?attr/actionBarTheme"
         app:title="Match Detail"
         app:titleCentered="true"
+        app:menu="@menu/match_detail_menu"
         app:titleTextColor="@color/white" />
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/scoreCardView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
@@ -37,15 +39,14 @@
             android:id="@+id/homeTeamTextView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Ev Sahibi"
             android:textSize="24sp"
             android:textStyle="bold"
             android:layout_weight="1"
             android:gravity="center" />
         <TextView
+            android:id="@+id/homeTeamScoreText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="3"
             android:textSize="30sp"
             android:layout_marginHorizontal="8dp" />
         <TextView
@@ -55,16 +56,15 @@
             android:textSize="30sp"
             android:layout_marginHorizontal="8dp" />
         <TextView
+            android:id="@+id/awayTeamScoreText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="0"
             android:textSize="30sp"
             android:layout_marginHorizontal="8dp" />
         <TextView
             android:id="@+id/awayTeamTextView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Deplasman"
             android:textSize="24sp"
             android:textStyle="bold"
             android:layout_weight="1"
@@ -98,6 +98,7 @@
                     android:orientation="vertical">
 
                     <LinearLayout
+                        android:id="@+id/linearLayoutSet1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
@@ -136,6 +137,7 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/linearLayoutSet2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
@@ -173,6 +175,7 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/linearLayoutSet3"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
@@ -209,6 +212,7 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/linearLayoutSet4"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
@@ -245,6 +249,7 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/linearLayoutSet5"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
@@ -282,9 +287,9 @@
                 </LinearLayout>
             </LinearLayout>
             <TextView
+                android:id="@+id/lastUpdateDateText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="son güncellenme tarihi: "
                 android:textSize="12sp"
                 />
         </LinearLayout>
@@ -295,25 +300,13 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         >
-        <Button
-            android:id="@+id/submitButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginBottom="8dp"
-            android:text="@string/UpdatetheMatch" />
 
-        <Button
-            android:id="@+id/confirmButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginBottom="8dp"
-            android:text="Confirm Match" />
         <LinearLayout
+            android:id="@+id/linearLayoutConfirmStatus"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
+            android:padding="8dp"
             android:layout_marginBottom="8dp">
 
             <TextView
@@ -324,44 +317,64 @@
                 android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/confirmHomeTeamNameText"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="Ev Sahibi"
                 android:layout_weight="1"
                 android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/confirmAwayTeamNameText"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="Deplasman"
                 android:layout_weight="1"
                 android:textStyle="bold" />
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/linearLayoutConfirmStatus2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
             android:orientation="horizontal"
+            android:padding="8dp"
             android:layout_marginBottom="16dp">
 
             <TextView
+                android:id="@+id/confirmStatusText"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Bekliyor" />
+                android:layout_weight="1" />
 
             <TextView
+                android:id="@+id/homeTeamConfirmStatusText"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Ev Sahibi Durumu" />
+                />
 
             <TextView
+                android:id="@+id/awayTeamConfirmStatusText"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Deplasman Durumu" />
+                />
         </LinearLayout>
     </LinearLayout>
+    <Button
+        android:id="@+id/confirmButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="8dp"
+        android:text="Confirm Match" />
+    <FrameLayout
+        android:id="@+id/adView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:gravity="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
 </LinearLayout>

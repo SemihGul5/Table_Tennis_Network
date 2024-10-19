@@ -111,5 +111,17 @@
     <string name="homePage">Startseite</string>
     <string name="Statistics">Statistiken</string>
     <string name="Profile">Profil</string>
+    <string name="Matchdetail">Spieldetails</string>
+    <string name="Confirmationstatus">Bestätigungsstatus</string>
+    <string name="Confirm_match">Spiel bestätigen</string>
+    <string name="Confirmed">Bestätigt</string>
+    <string name="Pending">Ausstehend</string>
+    <string name="Delete_match">Spiel löschen</string>
+
+
+
+
+
+
 
 </resources>

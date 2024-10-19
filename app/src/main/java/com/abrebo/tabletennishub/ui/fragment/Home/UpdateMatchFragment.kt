@@ -118,6 +118,7 @@ class UpdateMatchFragment : Fragment() {
 
     private fun populateMatchData(match: Match) {
         binding.autoCompleteTextView.setText(match.userAway, false)
+        binding.autoCompleteTextView.isEnabled=false
 
 
         binding.set1Home.setText(match.setScores.getOrNull(0)?.userScore.toString())

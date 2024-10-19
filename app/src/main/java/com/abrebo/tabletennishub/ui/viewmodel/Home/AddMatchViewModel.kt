@@ -50,7 +50,11 @@ class AddMatchViewModel @Inject constructor (var repository: Repository,applicat
             userHomeScore = user1Score,
             userAwayScore = user2Score,
             timestamp = Timestamp.now(),
-            winner = winner
+            winner = winner,
+            confirmStatusHome = false,
+            confirmStatusAway = false,
+            confirmDeleteStatusHome = false,
+            confirmDeleteStatusAway = false
         )
 
         repository.saveMatch(match) { success ->
@@ -95,7 +99,8 @@ class AddMatchViewModel @Inject constructor (var repository: Repository,applicat
             setScores = setScores,
             userHomeScore = user1Score,
             userAwayScore = user2Score,
-            winner = winner
+            winner = winner,
+            timestamp = Timestamp.now()
 
         )
 
@@ -140,6 +145,11 @@ class AddMatchViewModel @Inject constructor (var repository: Repository,applicat
     fun showInterstitialAd(activity: Activity) {
         if (interstitialAd!=null){
             interstitialAd?.show(activity)
+        }
+    }
+    fun updateMatchConfirmDelete(isHome:Boolean,b:Boolean,id:String){
+        viewModelScope.launch {
+            repository.updateMatchConfirmDelete(isHome, b, id)
         }
     }
 

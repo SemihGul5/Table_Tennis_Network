@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/update_match"
+        android:icon="@drawable/baseline_update_24"
+        android:title="@string/UpdatetheMatch"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/contact_support"
+        android:icon="@drawable/baseline_contact_support_24"
+        android:title="@string/SupportandContact"
+        app:showAsAction="always" />
+</menu>

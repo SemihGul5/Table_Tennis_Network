@@ -109,6 +109,18 @@
     <string name="homePage">Anasayfa</string>
     <string name="Statistics">İstatistikler</string>
     <string name="Profile">Profil</string>
+    <string name="Matchdetail">Maç Detayı</string>
+    <string name="Confirmationstatus">Onay Durumu</string>
+    <string name="Confirm_match">Maçı Onayla</string>
+    <string name="Confirmed">Onaylandı</string>
+    <string name="Pending">Bekleniyor</string>
+    <string name="Delete_match">Maçı Sil</string>
+
+
+
+
+
+
 
 
 </resources>

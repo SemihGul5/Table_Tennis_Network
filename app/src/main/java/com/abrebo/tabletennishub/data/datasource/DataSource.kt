@@ -88,20 +88,56 @@ class DataSource(var collectionReference: CollectionReference,
         newUser["email"] = user.email!!
         collectionReference.document(user.id!!).update(newUser)
     }
-    fun saveFcmToken(userId: String, token: String) {
-        val tokenMap = HashMap<String, Any>()
-        tokenMap["fcmToken"] = token
+    suspend fun updateMatchConfirmDelete(isHome:Boolean,b:Boolean,id:String){
+        try {
+            val querySnapshot=collectionReferenceMatches
+                .whereEqualTo("id",id)
+                .get()
+                .await()
+            if (querySnapshot.isEmpty){
+                Log.e("hata", "belge bulunamadı")
+            }
+            if (isHome){
+                for (d in querySnapshot.documents){
+                    collectionReferenceMatches.document(d.id)
+                        .update("confirmDeleteStatusHome",b).await()
+                }
+            }else{
+                for (d in querySnapshot.documents){
+                    collectionReferenceMatches.document(d.id)
+                        .update("confirmDeleteStatusAway",b).await()
+                }
+            }
 
-        collectionReference.document(userId).update(tokenMap)
-            .addOnSuccessListener {
-                Log.d("FCM Token", "Token başarıyla kaydedildi.")
-            }
-            .addOnFailureListener { e ->
-                Log.e("FCM Token", "Token kaydedilemedi: $e")
-            }
+        }catch (e:Exception){
+            Log.e("hata", e.message.toString())
+        }
     }
+    suspend fun updateMatchConfirm(isHome:Boolean,b:Boolean,id:String){
+        try {
+            val querySnapshot=collectionReferenceMatches
+                .whereEqualTo("id",id)
+                .get()
+                .await()
+            if (querySnapshot.isEmpty){
+                Log.e("hata", "belge bulunamadı")
+            }
+            if (isHome){
+                for (d in querySnapshot.documents){
+                    collectionReferenceMatches.document(d.id)
+                        .update("confirmStatusHome",b).await()
+                }
+            }else{
+                for (d in querySnapshot.documents){
+                    collectionReferenceMatches.document(d.id)
+                        .update("confirmStatusAway",b).await()
+                }
+            }
 
-
+        }catch (e:Exception){
+            Log.e("hata", e.message.toString())
+        }
+    }
     suspend fun updateWinnerUserName(oldUserName: String, newUserName: String): Boolean {
         return try {
             val querySnapshot = collectionReferenceMatches
@@ -584,7 +620,7 @@ class DataSource(var collectionReference: CollectionReference,
     }
 
     fun getCurrentDateFormatted(): String {
-        val dateFormat = SimpleDateFormat("M/d/yy", Locale.getDefault())
+        val dateFormat = SimpleDateFormat("d/M/yy", Locale.getDefault())
         return dateFormat.format(Date())
     }
     fun updateMatch(match: Match, onComplete: (Boolean) -> Unit) {

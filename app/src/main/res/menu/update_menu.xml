@@ -7,4 +7,5 @@
         android:icon="@drawable/baseline_delete_24_white"
         android:title="Sil"
         app:showAsAction="always" />
+
 </menu>

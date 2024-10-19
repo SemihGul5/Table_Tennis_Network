@@ -111,5 +111,16 @@
     <string name="homePage">主页</string>
     <string name="Statistics">统计数据</string>
     <string name="Profile">个人资料</string>
+    <string name="Matchdetail">比赛详情</string>
+    <string name="Confirmationstatus">确认状态</string>
+    <string name="Confirm_match">确认比赛</string>
+    <string name="Confirmed">Confermato</string>
+    <string name="Pending">等待中</string>
+    <string name="Delete_match"> 删除比赛</string>
+
+
+
+
+
 
 </resources>

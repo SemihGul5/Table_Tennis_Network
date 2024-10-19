@@ -16,6 +16,9 @@
         <action
             android:id="@+id/action_mainFragment_to_updateMatchFragment"
             app:destination="@id/updateMatchFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_matchDetailFragment"
+            app:destination="@id/matchDetailFragment" />
     </fragment>
     <fragment
         android:id="@+id/profileFragment"
@@ -113,4 +116,34 @@
         android:name="com.abrebo.tabletennishub.ui.fragment.Profile.SupportAndContactFragment"
         android:label="fragment_support_and_contact"
         tools:layout="@layout/fragment_support_and_contact" />
+    <fragment
+        android:id="@+id/matchDetailFragment"
+        android:name="com.abrebo.tabletennishub.ui.fragment.Home.MatchDetailFragment"
+        android:label="fragment_match_detail"
+        tools:layout="@layout/fragment_match_detail" >
+        <argument
+            android:name="match"
+            app:argType="com.abrebo.tabletennishub.data.model.Match" />
+        <action
+            android:id="@+id/action_matchDetailFragment_to_updateMatchFragment"
+            app:destination="@id/updateMatchFragment" />
+        <action
+            android:id="@+id/action_matchDetailFragment_to_supportAndContactFragment"
+            app:destination="@id/supportAndContactFragment" />
+        <action
+            android:id="@+id/action_matchDetailFragment_to_deleteMatchFragment"
+            app:destination="@id/deleteMatchFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/deleteMatchFragment"
+        android:name="com.abrebo.tabletennishub.ui.fragment.Home.DeleteMatchFragment"
+        android:label="fragment_delete_match"
+        tools:layout="@layout/fragment_delete_match" >
+        <argument
+            android:name="match"
+            app:argType="com.abrebo.tabletennishub.data.model.Match" />
+        <action
+            android:id="@+id/action_deleteMatchFragment_to_mainFragment"
+            app:destination="@id/mainFragment" />
+    </fragment>
 </navigation>

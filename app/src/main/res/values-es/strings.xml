@@ -111,6 +111,16 @@
     <string name="homePage">Inicio</string>
     <string name="Statistics">Estadísticas</string>
     <string name="Profile">Perfil</string>
+    <string name="Matchdetail">Detalle del partido</string>
+    <string name="Confirmationstatus">Estado de confirmación</string>
+    <string name="Confirm_match">Confirmar partido</string>
+    <string name="Confirmed">Confirmado</string>
+    <string name="Pending">Pendiente</string>
+    <string name="Delete_match">Eliminar partido</string>
+
+
+
+
 
 
 </resources>

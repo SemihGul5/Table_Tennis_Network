@@ -63,7 +63,6 @@ class MainFragment : Fragment() {
         val adRequest = AdRequest.Builder().build()
         adView.loadAd(adRequest)
 
-        viewModel.loadInterstitialAd()
         return binding.root
     }
 
@@ -74,7 +73,6 @@ class MainFragment : Fragment() {
 
 
         binding.floatingActionButton.setOnClickListener {
-            viewModel.showInterstitialAd(requireActivity())
             Navigation.findNavController(it).navigate(R.id.action_mainFragment_to_addMatchFragment)
         }
 

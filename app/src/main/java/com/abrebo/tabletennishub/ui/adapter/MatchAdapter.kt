@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.abrebo.tabletennishub.R
 import com.abrebo.tabletennishub.data.model.Match
 import com.abrebo.tabletennishub.databinding.MatchItemBinding
-import com.abrebo.tabletennishub.ui.fragment.MainFragmentDirections
+import com.abrebo.tabletennishub.ui.fragment.Home.MainFragmentDirections
 import com.abrebo.tabletennishub.ui.viewmodel.Home.MainViewModel
 import com.google.firebase.auth.FirebaseAuth
 
@@ -64,7 +64,7 @@ class MatchAdapter(var context:Context,
         }
 
         binding.linearLayoutMatchItem.setOnClickListener {
-            val navDirections=MainFragmentDirections.actionMainFragmentToUpdateMatchFragment(match)
+            val navDirections=MainFragmentDirections.actionMainFragmentToMatchDetailFragment(match)
             Navigation.findNavController(it).navigate(navDirections)
         }
 

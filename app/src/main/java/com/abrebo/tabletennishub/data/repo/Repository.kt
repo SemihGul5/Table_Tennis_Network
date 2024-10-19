@@ -89,4 +89,8 @@ class Repository(var dataSource: DataSource) {
     fun getTotalPointsWonAgainstOpponent(currentUserName: String, opponentUserName: String, onResult: (Int,Int) -> Unit) =
         dataSource.getTotalPointsWonAgainstOpponent(currentUserName, opponentUserName, onResult)
     fun sendMessage(message: Message) = dataSource.sendMessage(message)
+    suspend fun updateMatchConfirm(isHome:Boolean,b:Boolean,id:String) =
+        dataSource.updateMatchConfirm(isHome, b, id)
+    suspend fun updateMatchConfirmDelete(isHome:Boolean,b:Boolean,id:String) =
+        dataSource.updateMatchConfirmDelete(isHome, b, id)
 }

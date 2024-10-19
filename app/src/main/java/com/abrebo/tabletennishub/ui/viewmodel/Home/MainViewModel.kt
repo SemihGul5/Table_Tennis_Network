@@ -77,5 +77,10 @@ class MainViewModel @Inject constructor(var repository: Repository,application: 
             interstitialAd?.show(activity)
         }
     }
+    fun updateMatchConfirm(isHome:Boolean,b:Boolean,id:String){
+        viewModelScope.launch {
+            repository.updateMatchConfirm(isHome, b, id)
+        }
+    }
 
 }

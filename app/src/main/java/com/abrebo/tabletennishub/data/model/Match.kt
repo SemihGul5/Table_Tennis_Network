@@ -12,5 +12,9 @@ data class Match(
     val userAwayScore: Int = 0,
     val timestamp: Timestamp = Timestamp.now(),
     val date:String="",
-    val winner:String=""
+    val winner:String="",
+    val confirmStatusHome:Boolean=false,
+    val confirmStatusAway:Boolean=false,
+    val confirmDeleteStatusHome:Boolean=false,
+    val confirmDeleteStatusAway:Boolean=false
 ):Serializable
