@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
 import com.abrebo.tabletennishub.R
@@ -66,7 +67,6 @@ class UpdateMatchFragment : Fragment() {
         binding.submitButton.setOnClickListener {
             updateMatch(match)
         }
-
         setupSetButtons()
 
         binding.materialToolbar4.setOnMenuItemClickListener { menuItem ->
@@ -81,7 +81,6 @@ class UpdateMatchFragment : Fragment() {
         }
 
     }
-
 
 
     private fun setupSetButtons() {

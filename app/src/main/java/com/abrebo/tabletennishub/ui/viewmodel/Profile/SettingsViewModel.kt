@@ -8,8 +8,10 @@ import androidx.lifecycle.viewModelScope
 import com.abrebo.tabletennishub.data.model.Message
 import com.abrebo.tabletennishub.data.model.User
 import com.abrebo.tabletennishub.data.repo.Repository
+import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 @HiltViewModel
 class SettingsViewModel@Inject constructor (var repository: Repository,
@@ -67,7 +69,15 @@ class SettingsViewModel@Inject constructor (var repository: Repository,
     fun sendMessage(message: Message){
         repository.sendMessage(message)
     }
-
+    fun deleteUserAccount(auth:FirebaseAuth): Boolean {
+        return try {
+            val user = auth.currentUser
+            user?.delete()
+            true
+        } catch (e: Exception) {
+            false
+        }
+    }
 
 
 }

@@ -338,6 +338,7 @@ class DataSource(var collectionReference: CollectionReference,
 
             querySnapshot.isEmpty
         } catch (e: Exception) {
+            Log.e("hata",e.message.toString())
             false
         }
     }
