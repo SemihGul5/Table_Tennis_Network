@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginBottom="70dp"
     tools:context=".ui.fragment.Profile.SupportAndContactFragment" >
 
     <com.google.android.material.appbar.MaterialToolbar
@@ -74,8 +73,40 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textInputLayout15" />
+
+    <LinearLayout
+        android:id="@+id/supportCooldownGroup"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="32dp"
+        android:orientation="vertical"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/buttonSendMessage">
+
+        <TextView
+            android:id="@+id/supportCooldownText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/main_color"
+            android:textStyle="bold"
+            tools:text="Try again in 23:59:59" />
+
+        <ProgressBar
+            android:id="@+id/supportCooldownProgress"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="8dp"
+            android:layout_marginTop="4dp"
+            android:max="86400000"
+            android:progress="86400000"
+            android:progressTint="@color/main_color" />
+    </LinearLayout>
     <FrameLayout
-        android:id="@+id/adView"
+        android:id="@+id/adView" android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"

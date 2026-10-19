@@ -19,7 +19,6 @@ class SettingsViewModel@Inject constructor (var repository: Repository,
     @SuppressLint("StaticFieldLeak")
     private val context = getApplication<Application>().applicationContext
     var map= MutableLiveData<HashMap<String,Any>>()
-    var userNameAvailability=MutableLiveData<Boolean>()
     var updateUserNameInMatches=MutableLiveData<Boolean>()
     var updateUserNameInDocuments=MutableLiveData<Boolean>()
     var updateUserDocumentId=MutableLiveData<Boolean>()
@@ -28,12 +27,12 @@ class SettingsViewModel@Inject constructor (var repository: Repository,
             map.value=repository.getUserInfo(email) as HashMap<String, Any>
         }
     }
-    fun updateUserData(user:User) {
-       repository.updateUser(user)
+    fun updateUserData(user:User, onComplete: (Boolean) -> Unit) {
+       repository.updateUser(user, onComplete)
     }
-    fun checkUserNameAvailability(userName:String){
+    fun checkUserNameAvailability(userName:String, onResult: (Boolean) -> Unit){
         viewModelScope.launch {
-            userNameAvailability.value=repository.checkUserNameAvailability(userName)
+            onResult(repository.checkUserNameAvailability(userName))
         }
     }
     fun updateWinnerUserName(oldUserName: String, newUserName: String){
@@ -66,8 +65,8 @@ class SettingsViewModel@Inject constructor (var repository: Repository,
             repository.updateUserNameInFriendRequests(oldUserName, newUserName)
         }
     }
-    fun sendMessage(message: Message){
-        repository.sendMessage(message)
+    fun sendMessage(message: Message, onComplete: (Boolean) -> Unit){
+        repository.sendMessage(message, onComplete)
     }
     fun deleteUserAccount(auth:FirebaseAuth): Boolean {
         return try {

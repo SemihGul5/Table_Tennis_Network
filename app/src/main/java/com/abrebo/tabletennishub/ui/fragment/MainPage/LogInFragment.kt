@@ -15,10 +15,6 @@ import com.abrebo.tabletennishub.R
 import com.abrebo.tabletennishub.databinding.FragmentLogInBinding
 import com.abrebo.tabletennishub.ui.viewmodel.MainPage.LogInViewModel
 import com.abrebo.tabletennishub.utils.BackPressUtils
-import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.AdSize
-import com.google.android.gms.ads.AdView
-import com.google.android.gms.ads.MobileAds
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
@@ -29,15 +25,13 @@ import dagger.hilt.android.AndroidEntryPoint
 class LogInFragment : Fragment() {
     private var resetTimer: CountDownTimer? = null
     private var resetRequestInFlight = false
-    private val cooldownMillis = 3 * 60 * 1000L
+    private val cooldownMillis = 24 * 60 * 60 * 1000L
     private val preferences by lazy { requireContext().getSharedPreferences("password_reset", 0) }
     private lateinit var auth: FirebaseAuth
     private lateinit var viewModel: LogInViewModel
     private lateinit var binding:FragmentLogInBinding
     private lateinit var email:String
     private lateinit var password:String
-    private lateinit var adView: AdView
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         auth = Firebase.auth
@@ -48,18 +42,7 @@ class LogInFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         binding=FragmentLogInBinding.inflate(inflater, container, false)
-        MobileAds.initialize(requireContext()) {}
-
-        // Setup Banner Ad
-        adView = AdView(requireContext())
-        adView.adUnitId = "ca-app-pub-4667560937795938/8211950011"
-        adView.setAdSize(AdSize.BANNER)
-        binding.adView.removeAllViews()
-        binding.adView.addView(adView)
-
-        val adRequest = AdRequest.Builder().build()
-        adView.loadAd(adRequest)
-        return binding.root
+return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -94,12 +77,27 @@ class LogInFragment : Fragment() {
         if (email.isNotEmpty()){
             resetRequestInFlight = true
             binding.textViewForgotPassword.isEnabled = false
-            viewModel.sendPasswordResetEmail(auth,email) { success ->
-                resetRequestInFlight = false
-                binding.textViewForgotPassword.isEnabled = true
-                if (success) {
-                    preferences.edit().putLong("cooldown_until", System.currentTimeMillis() + cooldownMillis).apply()
-                    updateResetCooldown()
+            viewModel.checkRegisteredEmail(email) { isRegistered ->
+                if (!isAdded) return@checkRegisteredEmail
+                when (isRegistered) {
+                    true -> {
+                        preferences.edit().putLong("daily_cooldown_until", System.currentTimeMillis() + cooldownMillis).apply()
+                        updateResetCooldown()
+                        viewModel.sendPasswordResetEmail(auth, email) {
+                            resetRequestInFlight = false
+                            if (remainingCooldown() <= 0L) binding.textViewForgotPassword.isEnabled = true
+                        }
+                    }
+                    false -> {
+                        resetRequestInFlight = false
+                        binding.textViewForgotPassword.isEnabled = true
+                        Toast.makeText(requireContext(), R.string.password_reset_email_not_registered, Toast.LENGTH_SHORT).show()
+                    }
+                    null -> {
+                        resetRequestInFlight = false
+                        binding.textViewForgotPassword.isEnabled = true
+                        Toast.makeText(requireContext(), R.string.password_reset_email_failed, Toast.LENGTH_SHORT).show()
+                    }
                 }
             }
         }else{
@@ -108,7 +106,7 @@ class LogInFragment : Fragment() {
     }
 
     private fun remainingCooldown(): Long =
-        (preferences.getLong("cooldown_until", 0L) - System.currentTimeMillis()).coerceAtLeast(0L)
+        (preferences.getLong("daily_cooldown_until", 0L) - System.currentTimeMillis()).coerceAtLeast(0L)
 
     private fun updateResetCooldown() {
         resetTimer?.cancel()
@@ -125,7 +123,12 @@ class LogInFragment : Fragment() {
             override fun onTick(millisUntilFinished: Long) {
                 val seconds = (millisUntilFinished + 999L) / 1000L
                 binding.resetCooldownProgress.progress = millisUntilFinished.toInt()
-                binding.resetCooldownText.text = getString(R.string.password_reset_cooldown, seconds / 60, seconds % 60)
+                binding.resetCooldownText.text = getString(
+                    R.string.password_reset_cooldown,
+                    seconds / 3600,
+                    (seconds % 3600) / 60,
+                    seconds % 60
+                )
             }
             override fun onFinish() {
                 binding.resetCooldownGroup.visibility = View.GONE

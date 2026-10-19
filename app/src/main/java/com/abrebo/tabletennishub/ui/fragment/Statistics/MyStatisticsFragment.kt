@@ -15,10 +15,6 @@ import com.github.mikephil.charting.data.RadarData
 import com.github.mikephil.charting.data.RadarDataSet
 import com.github.mikephil.charting.data.RadarEntry
 import com.github.mikephil.charting.formatter.ValueFormatter
-import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.AdSize
-import com.google.android.gms.ads.AdView
-import com.google.android.gms.ads.MobileAds
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -29,8 +25,6 @@ class MyStatisticsFragment : Fragment() {
     private lateinit var viewModel: StatisticsViewModel
     private lateinit var auth: FirebaseAuth
     private var totalMatch=0
-    private lateinit var adView: AdView
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         auth=FirebaseAuth.getInstance()
@@ -54,18 +48,7 @@ class MyStatisticsFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         binding=FragmentMyStatisticsBinding.inflate(inflater, container, false)
-        MobileAds.initialize(requireContext()) {}
-
-        // Setup Banner Ad
-        adView = AdView(requireContext())
-        adView.adUnitId = "ca-app-pub-4667560937795938/1527626744"
-        adView.setAdSize(AdSize.BANNER)
-        binding.adView.removeAllViews()
-        binding.adView.addView(adView)
-
-        val adRequest = AdRequest.Builder().build()
-        adView.loadAd(adRequest)
-        return binding.root
+return binding.root
     }
 
     @SuppressLint("DefaultLocale", "SetTextI18n")

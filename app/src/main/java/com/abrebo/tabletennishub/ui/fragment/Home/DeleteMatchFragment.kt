@@ -12,10 +12,6 @@ import com.abrebo.tabletennishub.R
 import com.abrebo.tabletennishub.data.model.Match
 import com.abrebo.tabletennishub.databinding.FragmentDeleteMatchBinding
 import com.abrebo.tabletennishub.ui.viewmodel.Home.AddMatchViewModel
-import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.AdSize
-import com.google.android.gms.ads.AdView
-import com.google.android.gms.ads.MobileAds
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -25,8 +21,6 @@ class DeleteMatchFragment : Fragment() {
     private val viewModel: AddMatchViewModel by viewModels()
     private lateinit var auth: FirebaseAuth
     private var currentUserName = ""
-    private lateinit var adView: AdView
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         auth = FirebaseAuth.getInstance()
@@ -37,18 +31,6 @@ class DeleteMatchFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         binding = FragmentDeleteMatchBinding.inflate(inflater, container, false)
-        MobileAds.initialize(requireContext()) {}
-
-        // Setup Banner Ad
-        adView = AdView(requireContext())
-        adView.adUnitId = "ca-app-pub-4667560937795938/5466871752"
-        adView.setAdSize(AdSize.BANNER)
-        binding.adView.removeAllViews()
-        binding.adView.addView(adView)
-
-        val adRequest = AdRequest.Builder().build()
-        adView.loadAd(adRequest)
-        viewModel.loadInterstitialAd()
         return binding.root
     }
 
@@ -106,8 +88,7 @@ class DeleteMatchFragment : Fragment() {
                 requireContext().getString(R.string.Matchhasbeensuccessfullydeleted),
                 Toast.LENGTH_SHORT
             ).show()
-            viewModel.showInterstitialAd(requireActivity())
-            Navigation.findNavController(binding.root).navigate(R.id.action_deleteMatchFragment_to_mainFragment)
+        Navigation.findNavController(binding.root).navigate(R.id.action_deleteMatchFragment_to_mainFragment)
         }
     }
 }

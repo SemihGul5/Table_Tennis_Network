@@ -369,7 +369,7 @@
         android:layout_marginBottom="8dp"
         android:text="@string/Confirm_match" />
     <FrameLayout
-        android:id="@+id/adView"
+        android:id="@+id/adView" android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"

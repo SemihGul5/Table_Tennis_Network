@@ -5,7 +5,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginBottom="70dp"
     >
 
 
@@ -92,6 +91,38 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textInputLayoutEmail" />
 
+    <LinearLayout
+        android:id="@+id/passwordResetCooldownGroup"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="32dp"
+        android:orientation="vertical"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/passwordUpdateButton">
+
+        <TextView
+            android:id="@+id/passwordResetCooldownText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/main_color"
+            android:textStyle="bold"
+            tools:text="Try again in 23:59:59" />
+
+        <ProgressBar
+            android:id="@+id/passwordResetCooldownProgress"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="8dp"
+            android:layout_marginTop="4dp"
+            android:max="86400000"
+            android:progress="86400000"
+            android:progressTint="@color/main_color" />
+    </LinearLayout>
+
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/materialToolbar6"
         android:layout_width="0dp"
@@ -107,7 +138,7 @@
         app:titleTextColor="@color/white" />
 
     <FrameLayout
-        android:id="@+id/adView"
+        android:id="@+id/adView" android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"

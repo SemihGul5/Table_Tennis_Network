@@ -20,7 +20,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:spanCount="1" />
     <FrameLayout
-        android:id="@+id/adView"
+        android:id="@+id/adView" android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"

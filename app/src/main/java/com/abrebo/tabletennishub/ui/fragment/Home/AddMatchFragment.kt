@@ -13,10 +13,6 @@ import androidx.navigation.Navigation
 import com.abrebo.tabletennishub.R
 import com.abrebo.tabletennishub.databinding.FragmentAddMatchBinding
 import com.abrebo.tabletennishub.ui.viewmodel.Home.AddMatchViewModel
-import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.AdSize
-import com.google.android.gms.ads.AdView
-import com.google.android.gms.ads.MobileAds
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
@@ -26,8 +22,6 @@ class AddMatchFragment : Fragment() {
     private lateinit var viewModel: AddMatchViewModel
     private lateinit var auth: FirebaseAuth
     private var currentUserName:String=""
-    private lateinit var adView: AdView
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         auth = FirebaseAuth.getInstance()
@@ -44,17 +38,6 @@ class AddMatchFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentAddMatchBinding.inflate(inflater, container, false)
         hideAllSets()
-        MobileAds.initialize(requireContext()) {}
-
-        // Setup Banner Ad
-        adView = AdView(requireContext())
-        adView.adUnitId = "ca-app-pub-4667560937795938/3444910316"
-        adView.setAdSize(AdSize.BANNER)
-        binding.adView.removeAllViews()
-        binding.adView.addView(adView)
-
-        val adRequest = AdRequest.Builder().build()
-        adView.loadAd(adRequest)
         viewModel.loadInterstitialAd()
         return binding.root
     }
@@ -172,9 +155,15 @@ class AddMatchFragment : Fragment() {
             setScores.add(Pair(set5Home, set5Away))
         }
 
-        viewModel.saveMatch(currentUserName, opponentUserName, setScores)
-        viewModel.showInterstitialAd(requireActivity())
-        Navigation.findNavController(binding.root).navigate(R.id.action_addMatchFragment_to_mainFragment)
+        binding.submitButton.isEnabled = false
+        viewModel.saveMatch(currentUserName, opponentUserName, setScores) completion@{ success ->
+            if (!isAdded) return@completion
+            binding.submitButton.isEnabled = true
+            if (success) {
+                viewModel.showInterstitialAd(requireActivity())
+                Navigation.findNavController(binding.root).navigate(R.id.action_addMatchFragment_to_mainFragment)
+            }
+        }
 
     }
 

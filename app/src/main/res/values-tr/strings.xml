@@ -121,7 +121,10 @@
     <string name="GotoMatchDeletionPage">Maç Silme Sayfasına Git</string>
     <string name="MatchConfirmed">Maç Onaylandı</string>
     <string name="Yourmatchdeletionconfirmationhasbeenreceived">Maç silme onayınız alındı.</string>
-    <string name="password_reset_cooldown">Tekrar göndermek için %1$02d:%2$02d bekleyin</string>
+    <string name="password_reset_cooldown">Please wait %1$02d:%2$02d:%3$02d before trying again</string>
+    <string name="retry_in">Please wait %1$02d:%2$02d:%3$02d before trying again</string>
+    <string name="support_message_send_failed">Mesajınız gönderilemedi. Lütfen tekrar deneyin.</string>
+    <string name="password_reset_email_not_registered">Bu e-posta adresiyle kayıtlı bir hesap bulunamadı.</string>
 
 
 

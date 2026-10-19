@@ -2,6 +2,7 @@ package com.abrebo.tabletennishub.ui.fragment.Profile
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.os.CountDownTimer
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -12,18 +13,16 @@ import com.abrebo.tabletennishub.R
 import com.abrebo.tabletennishub.data.model.Message
 import com.abrebo.tabletennishub.databinding.FragmentSupportAndContactBinding
 import com.abrebo.tabletennishub.ui.viewmodel.Profile.SettingsViewModel
-import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.AdSize
-import com.google.android.gms.ads.AdView
-import com.google.android.gms.ads.MobileAds
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class SupportAndContactFragment : Fragment() {
     private lateinit var binding:FragmentSupportAndContactBinding
     private val viewModel: SettingsViewModel by viewModels()
-    private lateinit var adView: AdView
-
+    private var cooldownTimer: CountDownTimer? = null
+    private var messageInFlight = false
+    private val cooldownMillis = 24 * 60 * 60 * 1000L
+    private val preferences by lazy { requireContext().getSharedPreferences("support_contact", 0) }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -32,33 +31,37 @@ class SupportAndContactFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         binding=FragmentSupportAndContactBinding.inflate(inflater, container, false)
-        MobileAds.initialize(requireContext()) {}
-
-        // Setup Banner Ad
-        adView = AdView(requireContext())
-        adView.adUnitId = "ca-app-pub-4667560937795938/4081133312"
-        adView.setAdSize(AdSize.BANNER)
-        binding.adView.removeAllViews()
-        binding.adView.addView(adView)
-
-        val adRequest = AdRequest.Builder().build()
-        adView.loadAd(adRequest)
-        return binding.root
+return binding.root
     }
 
     @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        updateMessageCooldown()
         binding.buttonSendMessage.setOnClickListener {
+            if (remainingCooldown() > 0L || messageInFlight) {
+                updateMessageCooldown()
+                return@setOnClickListener
+            }
             if (binding.messageText.text!!.isNotEmpty()&&binding.messageTitle.text!!.isNotEmpty()){
                 val message=Message(binding.messageTitle.text.toString(),binding.messageText.text.toString())
-                viewModel.sendMessage(message)
-                Toast.makeText(requireContext(),
-                    requireContext().getString(R.string.Yourmessagehasbeensuccessfullyreceived),
-                    Toast.LENGTH_LONG)
-                    .show()
-                binding.messageText.setText("")
-                binding.messageTitle.setText("")
+                messageInFlight = true
+                binding.buttonSendMessage.isEnabled = false
+                viewModel.sendMessage(message) { success ->
+                    if (!isAdded) return@sendMessage
+                    messageInFlight = false
+                    if (success) {
+                        preferences.edit()
+                            .putLong("cooldown_until", System.currentTimeMillis() + cooldownMillis)
+                            .apply()
+                        Toast.makeText(requireContext(), R.string.Yourmessagehasbeensuccessfullyreceived, Toast.LENGTH_LONG).show()
+                        binding.messageText.setText("")
+                        binding.messageTitle.setText("")
+                    } else {
+                        Toast.makeText(requireContext(), R.string.support_message_send_failed, Toast.LENGTH_SHORT).show()
+                    }
+                    updateMessageCooldown()
+                }
             }else{
                 Toast.makeText(requireContext(),
                     requireContext().getString(R.string.Titleandcontentcannotbeempty),
@@ -67,6 +70,44 @@ class SupportAndContactFragment : Fragment() {
             }
         }
 
+    }
+
+    private fun remainingCooldown(): Long =
+        (preferences.getLong("cooldown_until", 0L) - System.currentTimeMillis()).coerceAtLeast(0L)
+
+    private fun updateMessageCooldown() {
+        cooldownTimer?.cancel()
+        val remaining = remainingCooldown()
+        binding.buttonSendMessage.isEnabled = remaining <= 0L && !messageInFlight
+        if (remaining <= 0L) {
+            binding.supportCooldownGroup.visibility = View.GONE
+            return
+        }
+        binding.supportCooldownGroup.visibility = View.VISIBLE
+        binding.supportCooldownProgress.max = cooldownMillis.toInt()
+        cooldownTimer = object : CountDownTimer(remaining, 1000L) {
+            override fun onTick(millisUntilFinished: Long) {
+                val seconds = (millisUntilFinished + 999L) / 1000L
+                binding.supportCooldownProgress.progress = millisUntilFinished.toInt()
+                binding.supportCooldownText.text = getString(
+                    R.string.retry_in,
+                    seconds / 3600,
+                    (seconds % 3600) / 60,
+                    seconds % 60
+                )
+            }
+
+            override fun onFinish() {
+                binding.supportCooldownGroup.visibility = View.GONE
+                binding.buttonSendMessage.isEnabled = !messageInFlight
+            }
+        }.start()
+    }
+
+    override fun onDestroyView() {
+        cooldownTimer?.cancel()
+        cooldownTimer = null
+        super.onDestroyView()
     }
 
 }

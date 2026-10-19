@@ -3,7 +3,6 @@ package com.abrebo.tabletennishub.data.datasource
 import android.content.Context
 import android.util.Log
 import android.widget.Toast
-import androidx.lifecycle.MutableLiveData
 import com.abrebo.tabletennishub.data.model.Match
 import com.abrebo.tabletennishub.data.model.Message
 import com.abrebo.tabletennishub.data.model.User
@@ -28,65 +27,62 @@ class DataSource(var collectionReference: CollectionReference,
                  var collectionReferenceUserFriends: CollectionReference,
                  var collectionReferenceMatches: CollectionReference,
                  var collectionReferenceMessages:CollectionReference) {
-    var userList = MutableLiveData<List<User>>()
     val firestore = FirebaseFirestore.getInstance()
 
-    fun uploadUser(): MutableLiveData<List<User>> {
-        collectionReference.addSnapshotListener { value, error ->
-            if (value != null) {
-                val list = ArrayList<User>()
-
-                for (d in value.documents) {
-                    val user = d.toObject(User::class.java)
-                    if (user != null) {
-                        user.id = d.id
-                        list.add(user)
-                    }
-                }
-                userList.value = list
-            }
-        }
-        return userList
+    suspend fun isUserEmailRegistered(email: String): Boolean {
+        val result = collectionReference
+            .whereEqualTo("email", email.trim())
+            .limit(1)
+            .get()
+            .await()
+        return !result.isEmpty
     }
 
-    fun search(word: String): MutableLiveData<List<User>> {
-        collectionReference.addSnapshotListener { value, error ->
-            if (value != null) {
-                val list = ArrayList<User>()
+    suspend fun searchUsersByUsernamePrefix(prefix: String): List<User> {
+        val normalizedPrefix = prefix.trim().lowercase()
+        if (normalizedPrefix.isEmpty()) return emptyList()
 
-                for (d in value.documents) {
-                    val user = d.toObject(User::class.java)
-                    if (user != null) {
-                        if (user.userName!!.lowercase().contains(word.lowercase())) {
-                            user.id = d.id
-                            list.add(user)
-                        }
-                    }
-                }
-                userList.value = list
-            }
+        val snapshot = collectionReference
+            .orderBy("userName")
+            .startAt(normalizedPrefix)
+            .endAt("$normalizedPrefix\uf8ff")
+            .limit(20)
+            .get()
+            .await()
+
+        return snapshot.documents.mapNotNull { document ->
+            document.toObject(User::class.java)?.apply { id = document.id }
         }
-        return userList
     }
 
     fun saveUser(user: User) {
         user.id=UUID.randomUUID().toString()
         collectionReference.document().set(user)
     }
-    fun sendMessage(message: Message){
+    fun sendMessage(message: Message, onComplete: (Boolean) -> Unit = {}){
         collectionReferenceMessages.document().set(message)
+            .addOnSuccessListener { onComplete(true) }
+            .addOnFailureListener { error ->
+                Log.e("Support", "Could not send support message", error)
+                onComplete(false)
+            }
     }
 
     fun deleteUser(userId: String) {
         collectionReference.document(userId).delete()
     }
 
-    fun updateUser(user: User) {
+    fun updateUser(user: User, onComplete: (Boolean) -> Unit = {}) {
         val newUser = HashMap<String, Any>()
         newUser["nameFamily"] = user.nameFamily!!
         newUser["userName"] = user.userName!!
         newUser["email"] = user.email!!
         collectionReference.document(user.id!!).update(newUser)
+            .addOnSuccessListener { onComplete(true) }
+            .addOnFailureListener { error ->
+                Log.e("User", "Could not update user profile", error)
+                onComplete(false)
+            }
     }
     suspend fun updateMatchConfirmDelete(isHome:Boolean,b:Boolean,id:String){
         try {

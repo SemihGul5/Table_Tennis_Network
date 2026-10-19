@@ -1,18 +1,18 @@
 package com.abrebo.tabletennishub.data.repo
 
 import android.content.Context
-import androidx.lifecycle.MutableLiveData
 import com.abrebo.tabletennishub.data.datasource.DataSource
 import com.abrebo.tabletennishub.data.model.Match
 import com.abrebo.tabletennishub.data.model.Message
 import com.abrebo.tabletennishub.data.model.User
 
 class Repository(var dataSource: DataSource) {
-    fun uploadUser(): MutableLiveData<List<User>> = dataSource.uploadUser()
-    fun search(word:String): MutableLiveData<List<User>> = dataSource.search(word)
+    suspend fun searchUsersByUsernamePrefix(prefix: String): List<User> =
+        dataSource.searchUsersByUsernamePrefix(prefix)
     fun saveUser(user:User) = dataSource.saveUser(user)
+    suspend fun isUserEmailRegistered(email: String): Boolean = dataSource.isUserEmailRegistered(email)
     fun deleteUser(userId:String) = dataSource.deleteUser(userId)
-    fun updateUser(user: User) = dataSource.updateUser(user)
+    fun updateUser(user: User, onComplete: (Boolean) -> Unit = {}) = dataSource.updateUser(user, onComplete)
     suspend fun updateWinnerUserName(oldUserName: String, newUserName: String): Boolean =
         dataSource.updateWinnerUserName(oldUserName, newUserName)
     suspend fun updateUserHomeUserName(oldUserName: String, newUserName: String): Boolean=
@@ -88,7 +88,7 @@ class Repository(var dataSource: DataSource) {
         dataSource.getTotalSetsPlayedWithOpponent(currentUserName, opponentUserName, onResult)
     fun getTotalPointsWonAgainstOpponent(currentUserName: String, opponentUserName: String, onResult: (Int,Int) -> Unit) =
         dataSource.getTotalPointsWonAgainstOpponent(currentUserName, opponentUserName, onResult)
-    fun sendMessage(message: Message) = dataSource.sendMessage(message)
+    fun sendMessage(message: Message, onComplete: (Boolean) -> Unit = {}) = dataSource.sendMessage(message, onComplete)
     suspend fun updateMatchConfirm(isHome:Boolean,b:Boolean,id:String) =
         dataSource.updateMatchConfirm(isHome, b, id)
     suspend fun updateMatchConfirmDelete(isHome:Boolean,b:Boolean,id:String) =

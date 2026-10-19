@@ -108,6 +108,7 @@
     <string name="Pressagaintoexit">Press again to exit.</string>
     <string name="password_reset_email_sent">Password reset email sent.</string>
     <string name="password_reset_email_failed">Failed to send password reset email.</string>
+    <string name="password_reset_email_not_registered">No account is registered with this email address.</string>
     <string name="homePage">Home</string>
     <string name="Statistics">Statistics</string>
     <string name="Profile">Profile</string>
@@ -123,7 +124,9 @@
     <string name="GotoMatchDeletionPage">Go to Match Deletion Page</string>
     <string name="MatchConfirmed">Match Confirmed</string>
     <string name="Yourmatchdeletionconfirmationhasbeenreceived">Your match deletion confirmation has been received.</string>
-    <string name="password_reset_cooldown">Try again in %1$02d:%2$02d</string>
+    <string name="password_reset_cooldown">Try again in %1$02d:%2$02d:%3$02d</string>
+    <string name="retry_in">Try again in %1$02d:%2$02d:%3$02d</string>
+    <string name="support_message_send_failed">Could not send your message. Please try again.</string>
 
 
 

@@ -8,6 +8,7 @@ import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.viewModelScope
 import androidx.navigation.Navigation
 import com.abrebo.tabletennishub.R
 import com.abrebo.tabletennishub.data.repo.Repository
@@ -15,6 +16,9 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 
@@ -37,7 +41,17 @@ class LogInViewModel @Inject constructor (var repository: Repository,
             }
         }
     }
-    fun sendPasswordResetEmail(auth: FirebaseAuth,email:String, onComplete: (Boolean) -> Unit = {}){
+    fun checkRegisteredEmail(email: String, onResult: (Boolean?) -> Unit) {
+        viewModelScope.launch {
+            val isRegistered = try {
+                withContext(Dispatchers.IO) { repository.isUserEmailRegistered(email) }
+            } catch (_: Exception) {
+                null
+            }
+            onResult(isRegistered)
+        }
+    }
+    fun sendPasswordResetEmail(auth: FirebaseAuth,email:String, onComplete: () -> Unit = {}){
         auth.sendPasswordResetEmail(email).addOnCompleteListener { task->
             if (task.isSuccessful){
                 Toast.makeText(context,
@@ -46,7 +60,7 @@ class LogInViewModel @Inject constructor (var repository: Repository,
             }else{
                 Toast.makeText(context, task.exception?.localizedMessage, Toast.LENGTH_SHORT).show()
             }
-            onComplete(task.isSuccessful)
+            onComplete()
         }
     }
     fun signInWithEmailAndPassword(auth: FirebaseAuth,email: String,password:String,progressBar:ProgressBar,it:View){
