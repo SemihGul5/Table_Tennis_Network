@@ -2,6 +2,7 @@ package com.abrebo.tabletennishub.ui.fragment.MainPage
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -26,6 +27,10 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class LogInFragment : Fragment() {
+    private var resetTimer: CountDownTimer? = null
+    private var resetRequestInFlight = false
+    private val cooldownMillis = 3 * 60 * 1000L
+    private val preferences by lazy { requireContext().getSharedPreferences("password_reset", 0) }
     private lateinit var auth: FirebaseAuth
     private lateinit var viewModel: LogInViewModel
     private lateinit var binding:FragmentLogInBinding
@@ -64,7 +69,7 @@ class LogInFragment : Fragment() {
             Navigation.findNavController(it).navigate(R.id.action_logInFragment_to_signUpFragment)
         }
 
-        if (auth.currentUser != null && auth.currentUser!!.isEmailVerified()) {
+        if (auth.currentUser != null) {
             val intent = Intent(requireContext(),MainPageActivity::class.java)
             startActivity(intent)
         }
@@ -74,18 +79,65 @@ class LogInFragment : Fragment() {
         binding.textViewForgotPassword.setOnClickListener {
             forgotPasswordClicked()
         }
+        updateResetCooldown()
 
 
 
     }
 
     private fun forgotPasswordClicked() {
+        if (remainingCooldown() > 0L || resetRequestInFlight) {
+            updateResetCooldown()
+            return
+        }
         email = binding.userEmailText.text.toString()
         if (email.isNotEmpty()){
-            viewModel.sendPasswordResetEmail(auth,email)
+            resetRequestInFlight = true
+            binding.textViewForgotPassword.isEnabled = false
+            viewModel.sendPasswordResetEmail(auth,email) { success ->
+                resetRequestInFlight = false
+                binding.textViewForgotPassword.isEnabled = true
+                if (success) {
+                    preferences.edit().putLong("cooldown_until", System.currentTimeMillis() + cooldownMillis).apply()
+                    updateResetCooldown()
+                }
+            }
         }else{
             Toast.makeText(requireContext(),requireContext().getString(R.string.Enteryouremail),Toast.LENGTH_SHORT).show()
         }
+    }
+
+    private fun remainingCooldown(): Long =
+        (preferences.getLong("cooldown_until", 0L) - System.currentTimeMillis()).coerceAtLeast(0L)
+
+    private fun updateResetCooldown() {
+        resetTimer?.cancel()
+        val remaining = remainingCooldown()
+        if (remaining <= 0L) {
+            binding.resetCooldownGroup.visibility = View.GONE
+            binding.textViewForgotPassword.isEnabled = !resetRequestInFlight
+            return
+        }
+        binding.resetCooldownGroup.visibility = View.VISIBLE
+        binding.textViewForgotPassword.isEnabled = false
+        binding.resetCooldownProgress.max = cooldownMillis.toInt()
+        resetTimer = object : CountDownTimer(remaining, 1000L) {
+            override fun onTick(millisUntilFinished: Long) {
+                val seconds = (millisUntilFinished + 999L) / 1000L
+                binding.resetCooldownProgress.progress = millisUntilFinished.toInt()
+                binding.resetCooldownText.text = getString(R.string.password_reset_cooldown, seconds / 60, seconds % 60)
+            }
+            override fun onFinish() {
+                binding.resetCooldownGroup.visibility = View.GONE
+                binding.textViewForgotPassword.isEnabled = !resetRequestInFlight
+            }
+        }.start()
+    }
+
+    override fun onDestroyView() {
+        resetTimer?.cancel()
+        resetTimer = null
+        super.onDestroyView()
     }
 
     private fun logIn(it:View) {

@@ -6,6 +6,7 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import com.abrebo.tabletennishub.databinding.ActivityMainPageBinding
+import com.abrebo.tabletennishub.utils.configureSystemBarInsets
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -16,6 +17,7 @@ class MainPageActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding=ActivityMainPageBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        configureSystemBarInsets(binding.root)
 
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
         navController = navHostFragment.navController

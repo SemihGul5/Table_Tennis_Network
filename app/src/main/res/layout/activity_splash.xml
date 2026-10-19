@@ -16,5 +16,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ping_pong_1024x1024" />
+        app:srcCompat="@drawable/table_tennis_icon_1024" />
 </androidx.constraintlayout.widget.ConstraintLayout>

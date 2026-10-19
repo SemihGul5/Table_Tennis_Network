@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">乒乓球中心</string>
+    <string name="app_name">乒乓统计与追踪</string>
     <string name="hello_blank_fragment">你好，空白片段</string>
     <string name="change_the_language">更改语言</string>
     <string name="add">添加</string>

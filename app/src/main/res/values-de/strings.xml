@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Tischtennis-Zentrum</string>
+    <string name="app_name">Tischtennis-Statistik-Tracker</string>
     <string name="hello_blank_fragment">Hallo, leeres Fragment</string>
     <string name="change_the_language">Sprache ändern</string>
     <string name="add">Hinzufügen</string>

@@ -37,7 +37,7 @@ class LogInViewModel @Inject constructor (var repository: Repository,
             }
         }
     }
-    fun sendPasswordResetEmail(auth: FirebaseAuth,email:String){
+    fun sendPasswordResetEmail(auth: FirebaseAuth,email:String, onComplete: (Boolean) -> Unit = {}){
         auth.sendPasswordResetEmail(email).addOnCompleteListener { task->
             if (task.isSuccessful){
                 Toast.makeText(context,
@@ -46,30 +46,14 @@ class LogInViewModel @Inject constructor (var repository: Repository,
             }else{
                 Toast.makeText(context, task.exception?.localizedMessage, Toast.LENGTH_SHORT).show()
             }
+            onComplete(task.isSuccessful)
         }
     }
     fun signInWithEmailAndPassword(auth: FirebaseAuth,email: String,password:String,progressBar:ProgressBar,it:View){
         auth.signInWithEmailAndPassword(email, password).addOnCompleteListener { task ->
             if (task.isSuccessful) {
-                if (auth.currentUser!!.isEmailVerified) {
-                    progressBar.visibility = View.GONE
-                    Navigation.findNavController(it).navigate(R.id.action_logInFragment_to_mainPageActivity)
-                } else {
-                    progressBar.visibility = View.GONE
-                    Toast.makeText(context,
-                        context.getString(R.string.Pleaseverifyyouremailaddress),
-                        Toast.LENGTH_SHORT).show()
-
-                    val backgroundColor = ContextCompat.getColor(context, R.color.main_color)
-                    Snackbar.make(it,
-                        context.getString(R.string.Wouldyouliketheverificationemailtoberesent)
-                        , Snackbar.LENGTH_SHORT)
-                        .setActionTextColor(Color.WHITE)
-                        .setBackgroundTint(backgroundColor)
-                        .setAction(context.getString(R.string.submit)) {
-                            sendEmailVerification(auth.currentUser!!)
-                        }.show()
-                }
+                progressBar.visibility = View.GONE
+                Navigation.findNavController(it).navigate(R.id.action_logInFragment_to_mainPageActivity)
             } else {
                 progressBar.visibility = View.GONE
                 Toast.makeText(context, task.exception?.localizedMessage, Toast.LENGTH_SHORT).show()

@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.animation.AnimationUtils
 import androidx.appcompat.app.AppCompatActivity
 import com.abrebo.tabletennishub.databinding.ActivitySplashBinding
+import com.abrebo.tabletennishub.utils.configureSystemBarInsets
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -15,6 +16,7 @@ class SplashActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding=ActivitySplashBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        configureSystemBarInsets(binding.root)
         val fadeIn = AnimationUtils.loadAnimation(this, R.anim.fade_in)
         binding.imageView.startAnimation(fadeIn)
 

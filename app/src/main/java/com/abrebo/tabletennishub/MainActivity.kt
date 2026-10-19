@@ -3,6 +3,7 @@ package com.abrebo.tabletennishub
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.abrebo.tabletennishub.databinding.ActivityMainBinding
+import com.abrebo.tabletennishub.utils.configureSystemBarInsets
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -12,6 +13,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding=ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        configureSystemBarInsets(binding.root)
 
 
     }

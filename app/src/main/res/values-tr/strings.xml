@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Masa Tenisi Merkezi</string>
+    <string name="app_name">Masa Tenisi İstatistik ve Takip</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="change_the_language">Uygulamanın Dilini Değiştir</string>
     <string name="add">Ekle</string>
@@ -121,6 +121,7 @@
     <string name="GotoMatchDeletionPage">Maç Silme Sayfasına Git</string>
     <string name="MatchConfirmed">Maç Onaylandı</string>
     <string name="Yourmatchdeletionconfirmationhasbeenreceived">Maç silme onayınız alındı.</string>
+    <string name="password_reset_cooldown">Tekrar göndermek için %1$02d:%2$02d bekleyin</string>
 
 
 

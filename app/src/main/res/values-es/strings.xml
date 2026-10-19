@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Centro de Tenis de Mesa</string>
+    <string name="app_name">Estadísticas y Tracker Tenis</string>
     <string name="hello_blank_fragment">Hola, fragmento en blanco</string>
     <string name="change_the_language">Cambiar el idioma</string>
     <string name="add">Agregar</string>

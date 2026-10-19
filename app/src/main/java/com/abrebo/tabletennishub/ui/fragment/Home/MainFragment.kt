@@ -28,7 +28,6 @@ class MainFragment : Fragment() {
     private lateinit var viewModel: MainViewModel
     private lateinit var auth:FirebaseAuth
     private var currentUserName:String=""
-    private lateinit var adView: AdView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,30 +50,12 @@ class MainFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         binding= FragmentMainBinding.inflate(inflater, container, false)
-        MobileAds.initialize(requireContext()) {}
-
-        // Setup Banner Ad
-        adView = AdView(requireContext())
-        adView.adUnitId = "ca-app-pub-4667560937795938/5466871752"
-        adView.setAdSize(AdSize.BANNER)
-        binding.adView.removeAllViews()
-        binding.adView.addView(adView)
-
-        val adRequest = AdRequest.Builder().build()
-        adView.loadAd(adRequest)
-
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         BackPressUtils.setBackPressCallback(this, viewLifecycleOwner)
-
-
-
-        binding.floatingActionButton.setOnClickListener {
-            Navigation.findNavController(it).navigate(R.id.action_mainFragment_to_addMatchFragment)
-        }
 
         viewModel.matches.observe(viewLifecycleOwner){
             val adapter=MatchAdapter(requireContext(),it,viewModel,auth)

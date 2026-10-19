@@ -62,6 +62,39 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textInputLayout2" />
 
+    <LinearLayout
+        android:id="@+id/resetCooldownGroup"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="32dp"
+        android:gravity="center_vertical"
+        android:orientation="vertical"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textViewForgotPassword">
+
+        <TextView
+            android:id="@+id/resetCooldownText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/main_color"
+            android:textStyle="bold"
+            tools:text="Tekrar göndermek için 02:59 bekleyin" />
+
+        <ProgressBar
+            android:id="@+id/resetCooldownProgress"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="8dp"
+            android:layout_marginTop="4dp"
+            android:max="180000"
+            android:progressTint="@color/main_color"
+            android:progress="180000" />
+    </LinearLayout>
+
         <Button
             android:id="@+id/logInButton"
             android:layout_width="match_parent"
@@ -75,7 +108,7 @@
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textViewForgotPassword" />
+            app:layout_constraintTop_toBottomOf="@+id/resetCooldownGroup" />
 
         <ProgressBar
             android:id="@+id/progressBar"

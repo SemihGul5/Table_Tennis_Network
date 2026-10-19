@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Centre de Tennis de Table</string>
+    <string name="app_name">Stats - Suivi Tennis de Table</string>
     <string name="hello_blank_fragment">Bonjour, fragment vide</string>
     <string name="change_the_language">Changer la langue</string>
     <string name="add">Ajouter</string>
