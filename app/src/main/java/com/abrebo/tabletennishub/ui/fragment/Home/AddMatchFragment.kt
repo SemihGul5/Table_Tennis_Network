@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
+import com.abrebo.tabletennishub.ads.AdsManager
 import com.abrebo.tabletennishub.R
 import com.abrebo.tabletennishub.databinding.FragmentAddMatchBinding
 import com.abrebo.tabletennishub.ui.viewmodel.Home.AddMatchViewModel
@@ -38,7 +39,7 @@ class AddMatchFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentAddMatchBinding.inflate(inflater, container, false)
         hideAllSets()
-        viewModel.loadInterstitialAd()
+        AdsManager.preloadInterstitial(requireContext())
         return binding.root
     }
 
@@ -160,7 +161,7 @@ class AddMatchFragment : Fragment() {
             if (!isAdded) return@completion
             binding.submitButton.isEnabled = true
             if (success) {
-                viewModel.showInterstitialAd(requireActivity())
+                AdsManager.showInterstitial(requireActivity())
                 Navigation.findNavController(binding.root).navigate(R.id.action_addMatchFragment_to_mainFragment)
             }
         }

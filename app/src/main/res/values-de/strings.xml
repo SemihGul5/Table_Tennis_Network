@@ -1,4 +1,9 @@
 <resources>
+    <string name="PrivacyOptions">Datenschutzoptionen</string>
+    <string name="password_reset_email_not_registered">Für diese E-Mail-Adresse ist kein Konto registriert.</string>
+    <string name="password_reset_cooldown">Erneut versuchen in %1$02d:%2$02d:%3$02d</string>
+    <string name="retry_in">Erneut versuchen in %1$02d:%2$02d:%3$02d</string>
+    <string name="support_message_send_failed">Nachricht konnte nicht gesendet werden. Bitte versuche es erneut.</string>
     <string name="app_name">Tischtennis-Statistik-Tracker</string>
     <string name="hello_blank_fragment">Hallo, leeres Fragment</string>
     <string name="change_the_language">Sprache ändern</string>

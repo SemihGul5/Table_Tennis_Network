@@ -1,7 +1,8 @@
 [versions]
-agp = "8.5.1"
-hiltAndroidCompiler = "2.48"
-kotlin = "1.9.0"
+agp = "9.0.1"
+hiltAndroidCompiler = "2.60.1"
+ksp = "2.3.12"
+kotlin = "2.3.21"
 coreKtx = "1.13.1"
 junit = "4.13.2"
 junitVersion = "1.2.1"
@@ -11,11 +12,11 @@ lifecycleViewmodel = "2.8.6"
 material = "1.12.0"
 activity = "1.9.2"
 constraintlayout = "2.1.4"
-navigationSafeArgsGradlePlugin = "2.8.1"
-playServicesAds = "23.4.0"
+navigationSafeArgsGradlePlugin = "2.10.2"
+playServicesAds = "25.5.0"
 roomRuntime = "2.6.1"
-navigationFragmentKtx = "2.8.2"
-navigationUiKtx = "2.8.2"
+navigationFragmentKtx = "2.10.2"
+navigationUiKtx = "2.10.2"
 cardview = "1.0.0"
 swiperefreshlayout = "1.1.0"
 volley = "1.2.1"
@@ -31,7 +32,7 @@ androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "roomRunt
 androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "roomRuntime" }
 androidx-swiperefreshlayout = { module = "androidx.swiperefreshlayout:swiperefreshlayout", version.ref = "swiperefreshlayout" }
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hiltAndroidCompiler" }
-hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hiltAndroidCompiler" }
+hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "hiltAndroidCompiler" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
@@ -47,5 +48,5 @@ volley = { group = "com.android.volley", name = "volley", version.ref = "volley"
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
-jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 

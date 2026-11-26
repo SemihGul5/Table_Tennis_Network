@@ -16,11 +16,4 @@
         android:layout_weight="1"
         app:defaultNavHost="true"
         app:navGraph="@navigation/log_in_nav" />
-
-    <FrameLayout
-        android:id="@+id/adBanner"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="@color/white"
-        android:gravity="center" />
 </LinearLayout>

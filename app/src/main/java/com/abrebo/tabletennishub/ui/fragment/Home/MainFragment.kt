@@ -14,8 +14,6 @@ import com.abrebo.tabletennishub.databinding.FragmentMainBinding
 import com.abrebo.tabletennishub.ui.adapter.MatchAdapter
 import com.abrebo.tabletennishub.ui.viewmodel.Home.MainViewModel
 import com.abrebo.tabletennishub.utils.BackPressUtils
-import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.AdSize
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint

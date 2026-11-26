@@ -1,4 +1,9 @@
 <resources>
+    <string name="PrivacyOptions">Options de confidentialité</string>
+    <string name="password_reset_email_not_registered">Aucun compte n’est associé à cette adresse e-mail.</string>
+    <string name="password_reset_cooldown">Réessayez dans %1$02d:%2$02d:%3$02d</string>
+    <string name="retry_in">Réessayez dans %1$02d:%2$02d:%3$02d</string>
+    <string name="support_message_send_failed">Le message n’a pas pu être envoyé. Veuillez réessayer.</string>
     <string name="app_name">Stats - Suivi Tennis de Table</string>
     <string name="hello_blank_fragment">Bonjour, fragment vide</string>
     <string name="change_the_language">Changer la langue</string>

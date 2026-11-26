@@ -1,4 +1,9 @@
 <resources>
+    <string name="PrivacyOptions">隐私选项</string>
+    <string name="password_reset_email_not_registered">没有使用此电子邮件地址注册的账号。</string>
+    <string name="password_reset_cooldown">请在 %1$02d:%2$02d:%3$02d 后重试</string>
+    <string name="retry_in">请在 %1$02d:%2$02d:%3$02d 后重试</string>
+    <string name="support_message_send_failed">无法发送消息，请重试。</string>
     <string name="app_name">乒乓统计与追踪</string>
     <string name="hello_blank_fragment">你好，空白片段</string>
     <string name="change_the_language">更改语言</string>

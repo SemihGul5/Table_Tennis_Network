@@ -10,7 +10,9 @@ import android.widget.ArrayAdapter
 import androidx.appcompat.app.AlertDialog
 import androidx.navigation.Navigation
 import com.abrebo.tabletennishub.MainActivity
+import com.abrebo.tabletennishub.MainPageActivity
 import com.abrebo.tabletennishub.R
+import com.abrebo.tabletennishub.ads.AdsManager
 import com.abrebo.tabletennishub.databinding.FragmentSettingsBinding
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
@@ -36,6 +38,8 @@ return binding.root
         settingsList.add(requireContext().getString(R.string.SharetheApplication))
         settingsList.add(requireContext().getString(R.string.SupportandContact))
         settingsList.add(requireContext().getString(R.string.LogOut))
+        val hasPrivacyOptions = AdsManager.isPrivacyOptionsRequired
+        if (hasPrivacyOptions) settingsList.add(requireContext().getString(R.string.PrivacyOptions))
 
         val adapter=ArrayAdapter(requireContext(),android.R.layout.simple_list_item_1,settingsList)
         binding.settingListView.adapter=adapter
@@ -50,6 +54,11 @@ return binding.root
                     val intent = Intent(requireContext(), MainActivity::class.java)
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
                     startActivity(intent)
+                }
+                4->{
+                    if (hasPrivacyOptions) AdsManager.showPrivacyOptions(requireActivity()) {
+                        (activity as? MainPageActivity)?.onAdsConsentChanged()
+                    }
                 }
             }
         }

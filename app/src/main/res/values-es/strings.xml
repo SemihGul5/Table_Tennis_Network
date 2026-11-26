@@ -1,4 +1,9 @@
 <resources>
+    <string name="PrivacyOptions">Opciones de privacidad</string>
+    <string name="password_reset_email_not_registered">No hay ninguna cuenta registrada con esta dirección de correo electrónico.</string>
+    <string name="password_reset_cooldown">Vuelve a intentarlo en %1$02d:%2$02d:%3$02d</string>
+    <string name="retry_in">Vuelve a intentarlo en %1$02d:%2$02d:%3$02d</string>
+    <string name="support_message_send_failed">No se pudo enviar el mensaje. Inténtalo de nuevo.</string>
     <string name="app_name">Estadísticas y Tracker Tenis</string>
     <string name="hello_blank_fragment">Hola, fragmento en blanco</string>
     <string name="change_the_language">Cambiar el idioma</string>
