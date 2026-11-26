@@ -38,12 +38,12 @@ class UpdateMatchFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentUpdateMatchBinding.inflate(inflater, container, false)
-        AdsManager.preloadInterstitial(requireContext())
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        AdsManager.preloadInterstitial(requireContext())
 
         val match = UpdateMatchFragmentArgs.fromBundle(requireArguments()).match
         populateMatchData(match)
@@ -64,6 +64,11 @@ class UpdateMatchFragment : Fragment() {
             }
         }
 
+    }
+
+    override fun onDestroyView() {
+        AdsManager.cancelPendingInterstitialPreload()
+        super.onDestroyView()
     }
 
 

@@ -33,22 +33,13 @@ return binding.root
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val settingsList=ArrayList<String>()
-        settingsList.add(requireContext().getString(R.string.MyInformation))
-        settingsList.add(requireContext().getString(R.string.SharetheApplication))
-        settingsList.add(requireContext().getString(R.string.SupportandContact))
-        settingsList.add(requireContext().getString(R.string.LogOut))
-        val hasPrivacyOptions = AdsManager.isPrivacyOptionsRequired
-        if (hasPrivacyOptions) settingsList.add(requireContext().getString(R.string.PrivacyOptions))
+        refreshSettings()
 
-        val adapter=ArrayAdapter(requireContext(),android.R.layout.simple_list_item_1,settingsList)
-        binding.settingListView.adapter=adapter
-
-        binding.settingListView.setOnItemClickListener { adapterView, view, i, l ->
+        binding.settingListView.setOnItemClickListener { _, rowView, i, _ ->
             when(i){
-                0->{Navigation.findNavController(view).navigate(R.id.action_settingsFragment_to_myInformationFragment)}
+                0->{Navigation.findNavController(rowView).navigate(R.id.action_settingsFragment_to_myInformationFragment)}
                 1->{shareApp()}
-                2->{Navigation.findNavController(view).navigate(R.id.action_settingsFragment_to_supportAndContactFragment)}
+                2->{Navigation.findNavController(rowView).navigate(R.id.action_settingsFragment_to_supportAndContactFragment)}
                 3->{
                     FirebaseAuth.getInstance().signOut()
                     val intent = Intent(requireContext(), MainActivity::class.java)
@@ -56,12 +47,35 @@ return binding.root
                     startActivity(intent)
                 }
                 4->{
-                    if (hasPrivacyOptions) AdsManager.showPrivacyOptions(requireActivity()) {
+                    if (AdsManager.isPrivacyOptionsRequired) AdsManager.showPrivacyOptions(requireActivity()) {
                         (activity as? MainPageActivity)?.onAdsConsentChanged()
+                        refreshSettings()
                     }
                 }
             }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (::binding.isInitialized) refreshSettings()
+    }
+
+    private fun refreshSettings() {
+        val settingsList = arrayListOf(
+            getString(R.string.MyInformation),
+            getString(R.string.SharetheApplication),
+            getString(R.string.SupportandContact),
+            getString(R.string.LogOut)
+        )
+        if (AdsManager.isPrivacyOptionsRequired) {
+            settingsList.add(getString(R.string.PrivacyOptions))
+        }
+        binding.settingListView.adapter = ArrayAdapter(
+            requireContext(),
+            android.R.layout.simple_list_item_1,
+            settingsList
+        )
     }
     fun shareApp() {
         val shareIntent = Intent(Intent.ACTION_SEND)

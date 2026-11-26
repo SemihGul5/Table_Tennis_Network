@@ -19,3 +19,6 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+# Firestore creates these data models from document fields by reflection.
+-keep class com.abrebo.tabletennishub.data.model.** { *; }

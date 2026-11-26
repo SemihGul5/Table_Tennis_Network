@@ -9,7 +9,7 @@ import android.view.View
 import com.abrebo.tabletennishub.ads.AdsManager
 import com.abrebo.tabletennishub.databinding.ActivityMainPageBinding
 import com.abrebo.tabletennishub.utils.configureSystemBarInsets
-import com.google.android.gms.ads.AdView
+import com.google.android.libraries.ads.mobile.sdk.banner.AdView
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -17,6 +17,10 @@ class MainPageActivity : AppCompatActivity() {
     private lateinit var navController: NavController
     private lateinit var binding:ActivityMainPageBinding
     private var bannerAdView: AdView? = null
+    private var bannerLoadPending = false
+    private var bannerLoadAttempted = false
+    private var bannerLoadFailed = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding=ActivityMainPageBinding.inflate(layoutInflater)
@@ -39,13 +43,35 @@ class MainPageActivity : AppCompatActivity() {
 
     private fun updateBannerForDestination(destinationId: Int?) {
         val container = binding.adBanner
-        val showOnThisScreen = destinationId == R.id.mainFragment && AdsManager.isAdsReady
-        container.visibility = if (showOnThisScreen) View.VISIBLE else View.GONE
-        val existingBanner = bannerAdView
-        if (showOnThisScreen && existingBanner == null) {
-            bannerAdView = AdsManager.loadBanner(this, container)
+        val showOnThisScreen = destinationId == R.id.mainFragment &&
+            AdsManager.isAdsReady &&
+            lifecycle.currentState.isAtLeast(androidx.lifecycle.Lifecycle.State.RESUMED) &&
+            !isFinishing && !isDestroyed
+        container.visibility = if (showOnThisScreen && !bannerLoadFailed) View.VISIBLE else View.GONE
+        if (showOnThisScreen && bannerAdView == null && !bannerLoadAttempted && !bannerLoadPending) {
+            bannerLoadPending = true
+            container.post {
+                bannerLoadPending = false
+                if (isFinishing || isDestroyed ||
+                    navController.currentDestination?.id != R.id.mainFragment ||
+                    !AdsManager.isAdsReady ||
+                    !lifecycle.currentState.isAtLeast(androidx.lifecycle.Lifecycle.State.RESUMED)
+                ) return@post
+
+                bannerLoadAttempted = true
+                val adView = AdsManager.loadBanner(this, container) {
+                    bannerAdView = null
+                    bannerLoadFailed = true
+                    container.visibility = View.GONE
+                }
+                if (adView == null) {
+                    bannerLoadFailed = true
+                    container.visibility = View.GONE
+                } else {
+                    bannerAdView = adView
+                }
+            }
         }
-        if (showOnThisScreen) bannerAdView?.resume() else bannerAdView?.pause()
     }
 
     fun onAdsConsentChanged() {
@@ -53,25 +79,31 @@ class MainPageActivity : AppCompatActivity() {
             bannerAdView?.destroy()
             bannerAdView = null
             binding.adBanner.removeAllViews()
+            bannerLoadAttempted = false
+            bannerLoadFailed = false
+        } else if (bannerAdView == null) {
+            bannerLoadAttempted = false
+            bannerLoadFailed = false
         }
         updateBannerForDestination(navController.currentDestination?.id)
     }
 
     override fun onPause() {
         AdsManager.setForeground(false)
-        bannerAdView?.pause()
+        binding.adBanner.visibility = View.GONE
         super.onPause()
     }
 
     override fun onResume() {
         super.onResume()
         AdsManager.setForeground(true)
-        if (navController.currentDestination?.id == R.id.mainFragment) bannerAdView?.resume()
+        updateBannerForDestination(navController.currentDestination?.id)
     }
 
     override fun onDestroy() {
         bannerAdView?.destroy()
         bannerAdView = null
+        binding.adBanner.removeAllViews()
         super.onDestroy()
     }
 }

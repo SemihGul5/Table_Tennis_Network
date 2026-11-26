@@ -39,7 +39,6 @@ class AddMatchFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentAddMatchBinding.inflate(inflater, container, false)
         hideAllSets()
-        AdsManager.preloadInterstitial(requireContext())
         return binding.root
     }
 
@@ -52,6 +51,7 @@ class AddMatchFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        AdsManager.preloadInterstitial(requireContext())
 
 
         viewModel.friends.observe(viewLifecycleOwner) { friendList ->
@@ -117,6 +117,11 @@ class AddMatchFragment : Fragment() {
 
 
 
+    }
+
+    override fun onDestroyView() {
+        AdsManager.cancelPendingInterstitialPreload()
+        super.onDestroyView()
     }
     private fun submitMatch() {
         val opponentUserName = binding.autoCompleteTextView.text.toString()
